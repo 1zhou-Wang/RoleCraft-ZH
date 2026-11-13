@@ -1,0 +1,10 @@
+.env
+.venv/
+__pycache__/
+*.pyc
+logs/
+work/
+
+local/mock_data/
+local/smoke_out/
+

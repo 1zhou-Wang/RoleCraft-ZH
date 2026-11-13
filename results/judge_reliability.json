@@ -1,0 +1,520 @@
+{
+ "n": 19,
+ "mean_abs_diff": 0.068,
+ "within_1pt": 1.0,
+ "details": [
+  {
+   "cid": "rc01",
+   "sid": "rc01_s01",
+   "idx": 1,
+   "a": 4.1000000000000005,
+   "b": 4.1000000000000005,
+   "da": {
+    "relevance": 4,
+    "correctness": 4,
+    "character_consistency": 4,
+    "style_fidelity": 4,
+    "coherence": 5,
+    "scenario_adaptation": 3,
+    "naturalness": 5,
+    "safety": null
+   },
+   "db": {
+    "relevance": 4,
+    "correctness": 4,
+    "character_consistency": 4,
+    "style_fidelity": 4,
+    "coherence": 5,
+    "scenario_adaptation": 3,
+    "naturalness": 5,
+    "safety": null
+   }
+  },
+  {
+   "cid": "rc01",
+   "sid": "rc01_s02",
+   "idx": 1,
+   "a": 2.8000000000000007,
+   "b": 2.8000000000000007,
+   "da": {
+    "relevance": 4,
+    "correctness": 2,
+    "character_consistency": 2,
+    "style_fidelity": 3,
+    "coherence": 4,
+    "scenario_adaptation": 2,
+    "naturalness": 4,
+    "safety": null
+   },
+   "db": {
+    "relevance": 4,
+    "correctness": 2,
+    "character_consistency": 2,
+    "style_fidelity": 3,
+    "coherence": 4,
+    "scenario_adaptation": 2,
+    "naturalness": 4,
+    "safety": null
+   }
+  },
+  {
+   "cid": "rc01",
+   "sid": "rc01_s02",
+   "idx": 2,
+   "a": 3.45,
+   "b": 3.45,
+   "da": {
+    "relevance": 4,
+    "correctness": 3,
+    "character_consistency": 3,
+    "style_fidelity": 4,
+    "coherence": 4,
+    "scenario_adaptation": 3,
+    "naturalness": 4,
+    "safety": null
+   },
+   "db": {
+    "relevance": 4,
+    "correctness": 3,
+    "character_consistency": 3,
+    "style_fidelity": 4,
+    "coherence": 4,
+    "scenario_adaptation": 3,
+    "naturalness": 4,
+    "safety": null
+   }
+  },
+  {
+   "cid": "rc05",
+   "sid": "rc05_s01",
+   "idx": 1,
+   "a": 4.700000000000001,
+   "b": 4.700000000000001,
+   "da": {
+    "relevance": 5,
+    "correctness": 4,
+    "character_consistency": 5,
+    "style_fidelity": 5,
+    "coherence": 5,
+    "scenario_adaptation": 4,
+    "naturalness": 5,
+    "safety": null
+   },
+   "db": {
+    "relevance": 5,
+    "correctness": 4,
+    "character_consistency": 5,
+    "style_fidelity": 5,
+    "coherence": 5,
+    "scenario_adaptation": 4,
+    "naturalness": 5,
+    "safety": null
+   }
+  },
+  {
+   "cid": "rc05",
+   "sid": "rc05_s02",
+   "idx": 1,
+   "a": 3.9000000000000004,
+   "b": 3.9000000000000004,
+   "da": {
+    "relevance": 4,
+    "correctness": 4,
+    "character_consistency": 4,
+    "style_fidelity": 4,
+    "coherence": 4,
+    "scenario_adaptation": 3,
+    "naturalness": 4,
+    "safety": null
+   },
+   "db": {
+    "relevance": 4,
+    "correctness": 4,
+    "character_consistency": 4,
+    "style_fidelity": 4,
+    "coherence": 4,
+    "scenario_adaptation": 3,
+    "naturalness": 4,
+    "safety": null
+   }
+  },
+  {
+   "cid": "rc05",
+   "sid": "rc05_s02",
+   "idx": 2,
+   "a": 3.9000000000000004,
+   "b": 3.9000000000000004,
+   "da": {
+    "relevance": 4,
+    "correctness": 4,
+    "character_consistency": 4,
+    "style_fidelity": 4,
+    "coherence": 4,
+    "scenario_adaptation": 3,
+    "naturalness": 4,
+    "safety": null
+   },
+   "db": {
+    "relevance": 4,
+    "correctness": 4,
+    "character_consistency": 4,
+    "style_fidelity": 4,
+    "coherence": 4,
+    "scenario_adaptation": 3,
+    "naturalness": 4,
+    "safety": null
+   }
+  },
+  {
+   "cid": "rc12",
+   "sid": "rc12_s01",
+   "idx": 1,
+   "a": 4.800000000000002,
+   "b": 4.800000000000002,
+   "da": {
+    "relevance": 5,
+    "correctness": 5,
+    "character_consistency": 5,
+    "style_fidelity": 4,
+    "coherence": 5,
+    "scenario_adaptation": 5,
+    "naturalness": 4,
+    "safety": null
+   },
+   "db": {
+    "relevance": 5,
+    "correctness": 5,
+    "character_consistency": 5,
+    "style_fidelity": 4,
+    "coherence": 5,
+    "scenario_adaptation": 5,
+    "naturalness": 4,
+    "safety": null
+   }
+  },
+  {
+   "cid": "rc12",
+   "sid": "rc12_s01",
+   "idx": 2,
+   "a": 4.3500000000000005,
+   "b": 4.600000000000001,
+   "da": {
+    "relevance": 5,
+    "correctness": 5,
+    "character_consistency": 4,
+    "style_fidelity": 4,
+    "coherence": 4,
+    "scenario_adaptation": 4,
+    "naturalness": 4,
+    "safety": null
+   },
+   "db": {
+    "relevance": 5,
+    "correctness": 5,
+    "character_consistency": 5,
+    "style_fidelity": 4,
+    "coherence": 4,
+    "scenario_adaptation": 4,
+    "naturalness": 4,
+    "safety": null
+   }
+  },
+  {
+   "cid": "rc12",
+   "sid": "rc12_s02",
+   "idx": 1,
+   "a": 3.45,
+   "b": 3.9000000000000004,
+   "da": {
+    "relevance": 4,
+    "correctness": 3,
+    "character_consistency": 3,
+    "style_fidelity": 4,
+    "coherence": 4,
+    "scenario_adaptation": 3,
+    "naturalness": 4,
+    "safety": null
+   },
+   "db": {
+    "relevance": 4,
+    "correctness": 4,
+    "character_consistency": 4,
+    "style_fidelity": 4,
+    "coherence": 4,
+    "scenario_adaptation": 3,
+    "naturalness": 4,
+    "safety": null
+   }
+  },
+  {
+   "cid": "rc12",
+   "sid": "rc12_s02",
+   "idx": 2,
+   "a": 4.800000000000001,
+   "b": 5.000000000000001,
+   "da": {
+    "relevance": 5,
+    "correctness": 4,
+    "character_consistency": 5,
+    "style_fidelity": 5,
+    "coherence": 5,
+    "scenario_adaptation": 5,
+    "naturalness": 5,
+    "safety": null
+   },
+   "db": {
+    "relevance": 5,
+    "correctness": 5,
+    "character_consistency": 5,
+    "style_fidelity": 5,
+    "coherence": 5,
+    "scenario_adaptation": 5,
+    "naturalness": 5,
+    "safety": null
+   }
+  },
+  {
+   "cid": "rc20",
+   "sid": "rc20_s01",
+   "idx": 1,
+   "a": 3.2500000000000004,
+   "b": 3.2500000000000004,
+   "da": {
+    "relevance": 4,
+    "correctness": 3,
+    "character_consistency": 3,
+    "style_fidelity": 3,
+    "coherence": 4,
+    "scenario_adaptation": 3,
+    "naturalness": 3,
+    "safety": null
+   },
+   "db": {
+    "relevance": 4,
+    "correctness": 3,
+    "character_consistency": 3,
+    "style_fidelity": 3,
+    "coherence": 4,
+    "scenario_adaptation": 3,
+    "naturalness": 3,
+    "safety": null
+   }
+  },
+  {
+   "cid": "rc20",
+   "sid": "rc20_s01",
+   "idx": 2,
+   "a": 3.15,
+   "b": 3.15,
+   "da": {
+    "relevance": 4,
+    "correctness": 3,
+    "character_consistency": 3,
+    "style_fidelity": 3,
+    "coherence": 3,
+    "scenario_adaptation": 3,
+    "naturalness": 3,
+    "safety": null
+   },
+   "db": {
+    "relevance": 4,
+    "correctness": 3,
+    "character_consistency": 3,
+    "style_fidelity": 3,
+    "coherence": 3,
+    "scenario_adaptation": 3,
+    "naturalness": 3,
+    "safety": null
+   }
+  },
+  {
+   "cid": "rc20",
+   "sid": "rc20_s02",
+   "idx": 1,
+   "a": 3.2500000000000004,
+   "b": 3.2500000000000004,
+   "da": {
+    "relevance": 4,
+    "correctness": 3,
+    "character_consistency": 3,
+    "style_fidelity": 3,
+    "coherence": 4,
+    "scenario_adaptation": 3,
+    "naturalness": 3,
+    "safety": null
+   },
+   "db": {
+    "relevance": 4,
+    "correctness": 3,
+    "character_consistency": 3,
+    "style_fidelity": 3,
+    "coherence": 4,
+    "scenario_adaptation": 3,
+    "naturalness": 3,
+    "safety": null
+   }
+  },
+  {
+   "cid": "rc20",
+   "sid": "rc20_s02",
+   "idx": 2,
+   "a": 4.450000000000001,
+   "b": 4.15,
+   "da": {
+    "relevance": 5,
+    "correctness": 5,
+    "character_consistency": 4,
+    "style_fidelity": 4,
+    "coherence": 5,
+    "scenario_adaptation": 4,
+    "naturalness": 4,
+    "safety": null
+   },
+   "db": {
+    "relevance": 5,
+    "correctness": 4,
+    "character_consistency": 4,
+    "style_fidelity": 4,
+    "coherence": 4,
+    "scenario_adaptation": 4,
+    "naturalness": 4,
+    "safety": null
+   }
+  },
+  {
+   "cid": "rc31",
+   "sid": "rc31_s01",
+   "idx": 1,
+   "a": 5.000000000000001,
+   "b": 5.000000000000001,
+   "da": {
+    "relevance": 5,
+    "correctness": 5,
+    "character_consistency": 5,
+    "style_fidelity": 5,
+    "coherence": 5,
+    "scenario_adaptation": 5,
+    "naturalness": 5,
+    "safety": null
+   },
+   "db": {
+    "relevance": 5,
+    "correctness": 5,
+    "character_consistency": 5,
+    "style_fidelity": 5,
+    "coherence": 5,
+    "scenario_adaptation": 5,
+    "naturalness": 5,
+    "safety": null
+   }
+  },
+  {
+   "cid": "rc31",
+   "sid": "rc31_s02",
+   "idx": 1,
+   "a": 3.2500000000000004,
+   "b": 3.2500000000000004,
+   "da": {
+    "relevance": 4,
+    "correctness": 3,
+    "character_consistency": 3,
+    "style_fidelity": 3,
+    "coherence": 4,
+    "scenario_adaptation": 3,
+    "naturalness": 3,
+    "safety": null
+   },
+   "db": {
+    "relevance": 4,
+    "correctness": 3,
+    "character_consistency": 3,
+    "style_fidelity": 3,
+    "coherence": 4,
+    "scenario_adaptation": 3,
+    "naturalness": 3,
+    "safety": null
+   }
+  },
+  {
+   "cid": "rc31",
+   "sid": "rc31_s02",
+   "idx": 2,
+   "a": 4.6000000000000005,
+   "b": 4.700000000000001,
+   "da": {
+    "relevance": 5,
+    "correctness": 4,
+    "character_consistency": 5,
+    "style_fidelity": 5,
+    "coherence": 4,
+    "scenario_adaptation": 5,
+    "naturalness": 4,
+    "safety": null
+   },
+   "db": {
+    "relevance": 5,
+    "correctness": 4,
+    "character_consistency": 5,
+    "style_fidelity": 5,
+    "coherence": 5,
+    "scenario_adaptation": 5,
+    "naturalness": 4,
+    "safety": null
+   }
+  },
+  {
+   "cid": "rc45",
+   "sid": "rc45_s01",
+   "idx": 1,
+   "a": 3.15,
+   "b": 3.15,
+   "da": {
+    "relevance": 4,
+    "correctness": 3,
+    "character_consistency": 3,
+    "style_fidelity": 3,
+    "coherence": 3,
+    "scenario_adaptation": 3,
+    "naturalness": 3,
+    "safety": null
+   },
+   "db": {
+    "relevance": 4,
+    "correctness": 3,
+    "character_consistency": 3,
+    "style_fidelity": 3,
+    "coherence": 3,
+    "scenario_adaptation": 3,
+    "naturalness": 3,
+    "safety": null
+   }
+  },
+  {
+   "cid": "rc45",
+   "sid": "rc45_s02",
+   "idx": 1,
+   "a": 3.2500000000000004,
+   "b": 3.2500000000000004,
+   "da": {
+    "relevance": 4,
+    "correctness": 3,
+    "character_consistency": 3,
+    "style_fidelity": 3,
+    "coherence": 4,
+    "scenario_adaptation": 3,
+    "naturalness": 3,
+    "safety": null
+   },
+   "db": {
+    "relevance": 4,
+    "correctness": 3,
+    "character_consistency": 3,
+    "style_fidelity": 3,
+    "coherence": 4,
+    "scenario_adaptation": 3,
+    "naturalness": 3,
+    "safety": null
+   }
+  }
+ ]
+}

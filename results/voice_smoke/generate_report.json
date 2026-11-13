@@ -1,0 +1,59 @@
+[
+  {
+    "card_id": "rc01",
+    "scene_id": "rc01_s01",
+    "idx": 1,
+    "ok": true,
+    "status": 200,
+    "text": "我是罗小黑，一只猫妖，会御灵系和空间系，尾巴还能分裂成黑咻呢。",
+    "n_chunks": 7,
+    "elapsed_s": 1.78,
+    "mode": "omni_plus",
+    "saved": {
+      "ok": true,
+      "format": {
+        "format_name": "wav",
+        "duration": "6.640000"
+      },
+      "fixed_from_pcm": true
+    }
+  },
+  {
+    "card_id": "rc01",
+    "scene_id": "rc01_s10",
+    "idx": 1,
+    "ok": true,
+    "status": 200,
+    "text": "他是师父，教我好多东西，我信任他，一直跟着他旅行。",
+    "n_chunks": 5,
+    "elapsed_s": 1.35,
+    "mode": "omni_plus",
+    "saved": {
+      "ok": true,
+      "format": {
+        "format_name": "wav",
+        "duration": "4.320000"
+      },
+      "fixed_from_pcm": true
+    }
+  },
+  {
+    "card_id": "rc01",
+    "scene_id": "rc01_s26",
+    "idx": 1,
+    "ok": true,
+    "status": 200,
+    "text": "不要，我不",
+    "n_chunks": 4,
+    "elapsed_s": 1.05,
+    "mode": "omni_plus",
+    "saved": {
+      "ok": true,
+      "format": {
+        "format_name": "wav",
+        "duration": "2.320000"
+      },
+      "fixed_from_pcm": true
+    }
+  }
+]

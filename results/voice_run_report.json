@@ -1,0 +1,105 @@
+{
+  "track": "voice/tts",
+  "status": "completed",
+  "model_tts": "qwen-audio-3.1-tts-next",
+  "endpoint": "DASHSCOPE_WS_BASE /api/v1/services/audio/tts/SpeechSynthesizer",
+  "reference_voice": "data/voice/tester_voice_ref.wav (12.8s, 24kHz mono, young male)",
+  "selection": {
+    "cards": 50,
+    "scenes": 500,
+    "turns": 784
+  },
+  "synthesis": {
+    "ok": 784,
+    "failed": 0,
+    "skipped_prior": 6,
+    "total_audio_s": 2087.6,
+    "audio_min": 34.8,
+    "avg_mp3_kbps": 41.8,
+    "runtime_s": 1444.0,
+    "req_per_min": 32.3,
+    "workers": 16,
+    "started": "2026-11-14T00:22:45+08:00",
+    "finished": "2026-11-14T00:46:49+08:00"
+  },
+  "qa": {
+    "manifest_vs_selection": {
+      "expected": 784,
+      "records": 784,
+      "missing": 0,
+      "extra": 0,
+      "duplicates": 0,
+      "ok": true
+    },
+    "files": {
+      "checked": 784,
+      "bad": 0
+    },
+    "duration_stats": {
+      "min": 1.1,
+      "p50": 2.54,
+      "p95": 4.1,
+      "max": 7.22,
+      "mean": 2.66,
+      "under_0.8s": 0,
+      "over_25s": 0
+    },
+    "asr_sample": {
+      "requested": 10,
+      "ok": 10,
+      "fail": 0,
+      "exact_match": 9,
+      "exact_match_rate": 0.9,
+      "mean_char_recall": 0.98,
+      "male_voice": 10,
+      "background_music_true": 0,
+      "background_noise_true": 4,
+      "tone_targets": [
+        "调侃",
+        "疑惑",
+        "好奇",
+        "关切",
+        "疑惑",
+        "好奇",
+        "疲惫",
+        "好奇",
+        "疑惑",
+        "疑惑"
+      ],
+      "tone_heard": [
+        "中性",
+        "中性",
+        "中性",
+        "平静",
+        "质问、不解",
+        "中性",
+        "平静",
+        "平静",
+        "怀疑",
+        "平静"
+      ]
+    }
+  },
+  "known_limitations": [
+    "语气标签已写入 tts_prompt，但参考音色会拉平韵律：抽检 10 条中多数被判为中性/平静，强情绪(愤怒/温柔)仅在部分样本可辨。",
+    "qwen3.8-omni-flash 的 background_noise 标记在 4/10 样本为 true，但波形分析显示全部文件静音底噪=-63.5dBFS 数字静音、无真实噪声/BGM，判为 omni 误报。",
+    "ffprobe 对该服务 VBR mp3 的 format.duration 会高估 2-4 倍；校验需用 ffmpeg 解码时长（本报告已用解码时长）。"
+  ],
+  "scripts": [
+    "scripts/tts_voice.py",
+    "scripts/voice_judge.py"
+  ],
+  "judge_smoke": {
+    "candidate_model": "qwen3.5-omni-plus",
+    "judge_model": "qwen3.8-omni-flash",
+    "n": 3,
+    "overall_scores": [
+      4.2,
+      4.6,
+      5.0
+    ],
+    "flags": [],
+    "results": "work/voice/judge_smoke/judge_results.jsonl"
+  },
+  "generated_at": "2026-11-14T00:49:20+08:00"
+}

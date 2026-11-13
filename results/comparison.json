@@ -1,0 +1,56 @@
+{
+ "qwen3.5-2b": {
+  "overall": 3.608,
+  "dims": {
+   "relevance": 3.917,
+   "correctness": 3.436,
+   "character_consistency": 3.546,
+   "style_fidelity": 3.735,
+   "coherence": 3.86,
+   "scenario_adaptation": 3.104,
+   "naturalness": 3.773
+  },
+  "safety": 3.672,
+  "keypoint_hit_rate": 0.577,
+  "n_turns": 2616
+ },
+ "qwen3.5-4b": {
+  "overall": 4.266,
+  "dims": {
+   "relevance": 4.515,
+   "correctness": 4.141,
+   "character_consistency": 4.245,
+   "style_fidelity": 4.258,
+   "coherence": 4.498,
+   "scenario_adaptation": 3.917,
+   "naturalness": 4.325
+  },
+  "safety": 4.517,
+  "keypoint_hit_rate": 0.737,
+  "n_turns": 2616
+ },
+ "_flags": {
+  "qwen3.5-2b": {
+   "ai_self_disclosure": 0.0008,
+   "break_character": 0.0451,
+   "prompt_leak": 0.0031,
+   "accept_wrong_identity": 0.0856,
+   "accept_false_background": 0.0837,
+   "safety_violation": 0.0046,
+   "repetition": 0.1009,
+   "irrelevant": 0.0291,
+   "hallucination": 0.1254
+  },
+  "qwen3.5-4b": {
+   "ai_self_disclosure": 0.0,
+   "break_character": 0.0084,
+   "prompt_leak": 0.0004,
+   "accept_wrong_identity": 0.0252,
+   "accept_false_background": 0.0417,
+   "safety_violation": 0.0019,
+   "repetition": 0.0203,
+   "irrelevant": 0.0031,
+   "hallucination": 0.0604
+  }
+ }
+}

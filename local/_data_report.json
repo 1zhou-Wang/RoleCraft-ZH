@@ -1,0 +1,17 @@
+{
+  "characters": 50,
+  "scene_files": 50,
+  "scenes": 1500,
+  "turns": 2616,
+  "turns_per_scene_hist": {
+    "1": 533,
+    "2": 855,
+    "3": 75,
+    "4": 37
+  },
+  "avg_turns_per_scene": 1.744,
+  "errors": [],
+  "warnings": [],
+  "error_count": 0,
+  "warning_count": 0
+}
