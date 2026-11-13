@@ -82,3 +82,36 @@ $env:PYTHONIOENCODING='utf-8'
   `*_s28` 元对话场景里出现 "AI" 关键词的回答均为角色内否认（期望行为），非自曝
 - 校验/扫描脚本：`local/check_data.py`、`local/verify_baseline.py`、`local/anomaly_scan.py`
 
+## 6. 音频输入 track B1/B2 级联（2026-11-14）
+
+链路：`data/voice/audio/<scene_id>_<idx>.mp3`（用户 TTS，784 条）
+→ **Qwen3-ASR-0.6B** 转写 → **Qwen3.5-2B(:8088) / 4B(:8089)**（system prompt 与文字 track 完全相同，多轮带 history）
+→ TTS 渲染回复文本（本地 Qwen3-TTS 样本 + 云端 qwen-audio-3.1-tts-next 全量）。
+
+| 环节 | 脚本 | 产物 |
+|---|---|---|
+| ASR | `local/asr_transcribe.py` | `data/audio_track/asr_transcripts.jsonl`（784 行，含 char-level WER）、`asr_summary.json` |
+| LLM 级联 | `local/audio_cascade.py` | `baselines/audio_pipeline_qwen3.5-2b/`、`...4b/`（各 50 卡 × 10 场景 = 500 行 / 784 turn）+ `_manifest.json` |
+| 本地 TTS 样本 | `local/audio_pipeline/local_tts_samples.py` + `finalize_local_tts.py` | `audio/<scene_id>_<idx>.wav`（20 条，`tts_render="qwen3-tts-0.6b"`） |
+| 云端 TTS 全量 | `local/audio_pipeline/cloud_tts_render.py` | `audio_cloud/<scene_id>_<idx>.mp3`（1548 条，`tts_render="qwen-audio-3.1-tts-next"`） |
+| 异常清理/抽检/汇总 | `clean_bad_local_tts.py` / `check_cloud_audio.py` / `update_audio_summary.py` | `logs/audio_track/*.json`、`baselines/audio_pipeline_summary.json` |
+
+环境要点（全部装到项目 `vendor/`，不动 torch venv 的 transformers 5.19 / torch 2.14.1+cu130）：
+- `vendor/asr` = qwen-asr 0.0.6 + transformers 4.57.6（`--no-deps` 安装 + 手动补 tokenizers/huggingface_hub/accelerate/librosa/soundfile/sox/six 等；`kernels.py` 故意 raise ImportError 让 transformers 走 fallback；forced aligner 模块在脚本里用占位模块替换，避免拉 nagisa→dynet）
+- `vendor/tts` = qwen-tts 0.1.1 + transformers 4.57.3（同上策略，另装 onnxruntime/sox/torchaudio 2.11.1(cpu)/einops；`kernels.py` 同样 raise ImportError）
+- ASR mp3 解码走 ffmpeg 子进程（16k 单声道 float32），不依赖 librosa/av 解码
+- 两个 pipeline 的 `turns[].user_text` 是 **ASR 实际转写文本**，`user_text_gt` 是原始用户台词，便于音频判官/错误归因；`assistant_audio` 指向 wav/mp3 相对路径
+
+### 6.1 实测结果（2026-11-14）
+
+- **ASR**：784/784 条，mean WER **0.0376**、median 0、p90 0.143、exact match 80.5%，100 s（batch 16，~0.07 s/条）
+- **B1 级联（2B）**：500/500 场景、784/784 turn，299 s，turn 延迟 mean 1.51 s / p95 2.53 s
+- **B2 级联（4B）**：500/500 场景、784/784 turn，415 s，turn 延迟 mean 2.09 s / p95 3.00 s
+- **本地 Qwen3-TTS-0.6B 速度**：**无 GPU 竞争 ~20-30 s/条，RTF≈2**（音频均长 14.3 s，per-item 27.9 s）；EdgeInstant 占用 GPU 后 70-171 s/条 → 全量 1568 条需 ~8 h，不可接受，故只做链路验证样本
+- **本地样本**：保留 **20 条** wav（B1 15 / B2 5；覆盖安全拒绝/重复问答/元对话等类别），另 2 条在 GPU 竞争下产生的异常文件（静音 112 s / 超长 65.8 s）已清理并用云端重渲
+- **云端全量渲染**：**1548 条** mp3，4 次运行累计 2300 s（**40.4 条/分钟**，24 workers / 180 rpm），失败 **0**；音频均长 13.0 s、总计约 5.6 h，文件大小 6.4 KB~232 KB（均 85 KB）
+- **音频覆盖**：B1/B2 各 **784/784 turn 有 assistant_audio**，文件缺失 0
+- **已知异常**：2B 的 2 条 512 字复读退化回答（rc24_s26#1、rc10_s14#2）经云端 TTS 后音频时长明显短于文本期望（3.1 s / 18.4 s），判官可能按 asr_mismatch 暴露——这与该回答自身的 repetition 退化一致
+- 判官消费方式见 `scripts/audio_judge.py`（`assistant_audio` + 文本），音频目录相对 baseline 文件解析
+
+

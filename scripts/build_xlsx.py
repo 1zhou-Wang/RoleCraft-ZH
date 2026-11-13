@@ -81,7 +81,9 @@ def style_sheet(ws, df, widths=None, wrap_cols=None, freeze="A2"):
 
 def main():
     wb = Workbook()
-    cards = load_cards(); scenes = load_scenes(); refs = load_refs(); sums = load_summaries()
+    cards = load_cards(); scenes = load_scenes(); refs = load_refs(); sums_all = load_summaries()
+    # 文字 track 基线：排除音频输入 track 的 pipeline（它们单独在 11 表）
+    sums = {m: s for m, s in sums_all.items() if not m.startswith("audio_")}
     card_map = {c["card_id"]: c for c in cards}
 
     # 00 使用说明
@@ -215,6 +217,39 @@ def main():
     df = pd.DataFrame(rows)
     ws = wb.create_sheet("10_语音清单")
     style_sheet(ws, df, widths=[12, 18, 10, 6, 60, 10, 46, 8])
+
+    # 11 音频输入 track
+    ap = RES / "audio" / "report.json"
+    if ap.exists():
+        rep = json.loads(ap.read_text(encoding="utf-8"))
+        rows = []
+        asr = rep.get("asr", {})
+        rows.append({"项目": "ASR（Qwen3-ASR-0.6B）", "值": f"n={asr.get('n')} / char-WER={asr.get('wer_mean')} / 完全一致率={asr.get('exact_rate')}"})
+        for slug, r in rep.get("pipelines", {}).items():
+            tj = r.get("text_judge") or {}; aj = r.get("audio_judge") or {}
+            td = tj.get("dims", {}); ad = aj.get("dims", {})
+            tb = r.get("text_baseline_same_scenes") or {}
+            rows.append({"项目": f"{r.get('label', slug)} · 文本输入同场景", "值": f"总分={tb.get('overall')}"})
+            rows.append({"项目": f"{r.get('label', slug)} · 音频输入·文本判官",
+                         "值": f"总分={tj.get('overall')} / 相关性={td.get('relevance')} / 正确性={td.get('correctness')} / 角色一致性={td.get('character_consistency')} / 场景适配={td.get('scenario_adaptation')}"})
+            rows.append({"项目": f"{r.get('label', slug)} · 音频判官",
+                         "值": f"相关性={ad.get('relevance')} / 正确性={ad.get('correctness')} / 角色一致性={ad.get('character_consistency')} / 情感匹配={ad.get('emotion_match')} / 清晰度={ad.get('audio_clarity')}"})
+        df = pd.DataFrame(rows)
+        ws = wb.create_sheet("11_音频输入track")
+        style_sheet(ws, df, widths=[46, 130])
+
+    # 12 ASR 转写明细
+    asp = DATA / "audio_track" / "asr_transcripts.jsonl"
+    if asp.exists():
+        rows = []
+        for line in asp.read_text(encoding="utf-8").splitlines():
+            if not line.strip(): continue
+            r = json.loads(line)
+            rows.append({"card_id": r.get("card_id"), "scene_id": r.get("scene_id"), "轮次": r.get("idx"),
+                         "ASR文本": r.get("asr_text"), "原始文本": r.get("user_text_gt"), "WER": r.get("wer")})
+        df = pd.DataFrame(rows)
+        ws = wb.create_sheet("12_ASR转写")
+        style_sheet(ws, df, widths=[10, 16, 6, 60, 60, 8])
 
     wb.save(OUT)
     print("saved", OUT, "sheets:", len(wb.sheetnames))

@@ -96,3 +96,36 @@ relevance 相关性 / correctness 正确性（以人设卡为唯一依据）/ ch
 - 人设卡只写已核验事实；不确定则省略。
 - 场景必须能从人设卡推导出期望行为，不依赖卡外冷知识。
 - 安全场景只写"请求"，不写具体有害细节；回答期望为角色内拒绝。
+
+# 音频输入 track（v0.1，2026-11-14 新增）
+
+用户轮使用 `data/voice/audio/*.mp3`（500 场景 / 784 轮），模型回复可以是文本或语音。三条链路：
+- `audio_pipeline_qwen3.5-2b`：Qwen3-ASR-0.6B → Qwen3.5-2B → Qwen3-TTS-0.6B
+- `audio_pipeline_qwen3.5-4b`：Qwen3-ASR-0.6B → Qwen3.5-4B → Qwen3-TTS-0.6B
+- `audio_edgeinstant`：EdgeInstant-Omni-2B-1106-Preview（原生音频输入）
+
+## data/audio_track/asr_transcripts.jsonl
+```json
+{"card_id":"rc01","scene_id":"rc01_s01","idx":1,"user_audio":"data/voice/audio/rc01_s01_1.mp3",
+ "asr_text":"你是谁呀？","user_text_gt":"你是谁呀？","wer":0.0,"latency_s":0.42}
+```
+
+## baselines/audio_<slug>/<card_id>.jsonl（一行一场景）
+```json
+{"card_id":"rc01","scene_id":"rc01_s01","pipeline":"audio_pipeline_qwen3.5-2b",
+ "turns":[{"idx":1,"user_text":"你是谁呀？","user_text_gt":"你是谁呀？","user_asr_text":"你是谁呀？",
+           "assistant_text":"我是罗小黑呀…","assistant_audio":"baselines/audio_pipeline_qwen3.5-2b/audio/rc01_s01_1.wav",
+           "latency_s":0.9}]}
+```
+- `assistant_audio` 可选（EdgeInstant 若无原生语音可缺省，后续可用 Qwen3-TTS 补并标注）。
+- 文本判官直接复用 `scripts/judge_text.py --model <slug>`（要求 turns 有 user_text/assistant_text/idx）。
+- 语音判官：`scripts/audio_judge.py`，输出 `results/audio/<slug>/judge_audio/<card_id>.jsonl`。
+
+## results/audio/<slug>/judge_audio/<card_id>.jsonl
+```json
+{"card_id":"rc01","scene_id":"rc01_s01","slug":"audio_pipeline_qwen3.5-2b",
+ "turns":[{"idx":1,"audio_scored":true,"heard_transcript":"我是罗小黑…",
+           "scores":{"relevance":5,"correctness":5,"character_consistency":5,"emotion_match":4,"audio_clarity":5},
+           "flags":[],"evidence":{},"comment":"..."}]}
+```
+

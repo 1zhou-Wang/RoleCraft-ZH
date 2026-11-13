@@ -87,7 +87,15 @@ def judge_turn(card, scene, history, current, candidate, ref_turns, retries=4):
                                               temperature=0, response_format={"type": "json_object"},
                                               extra_body={"thinking": {"type": "disabled"}}, timeout=120)
             txt = r.choices[0].message.content
-            d = json.loads(re.sub(r"^```(?:json)?|```$", "", txt.strip()).strip())
+            s = re.sub(r"^```(?:json)?|```$", "", (txt or "").strip()).strip()
+            try:
+                d = json.loads(s)
+            except Exception:
+                try:
+                    d = json.loads(s, strict=False)  # tolerate raw control chars in strings
+                except Exception:
+                    from json_repair import repair_json
+                    d = json.loads(repair_json(s))
             scores = {k: (int(v) if isinstance(v, (int, float)) else None) for k, v in d.get("scores", {}).items() if k in DIMENSIONS}
             for k in DIMENSIONS:
                 scores.setdefault(k, None)

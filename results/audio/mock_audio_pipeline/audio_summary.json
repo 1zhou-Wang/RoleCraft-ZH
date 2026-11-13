@@ -1,0 +1,132 @@
+{
+  "slug": "mock_audio_pipeline",
+  "judge_model": "qwen3.8-omni-flash",
+  "n_cards": 1,
+  "n_scenes": 5,
+  "n_turns": 6,
+  "n_audio": 4,
+  "n_text_only": 2,
+  "n_failed": 0,
+  "dims": {
+    "relevance": {
+      "mean": 4.167,
+      "n": 6
+    },
+    "correctness": {
+      "mean": 4.0,
+      "n": 6
+    },
+    "character_consistency": {
+      "mean": 3.667,
+      "n": 6
+    },
+    "emotion_match": {
+      "mean": 3.833,
+      "n": 6
+    },
+    "audio_clarity": {
+      "mean": 5.0,
+      "n": 4
+    }
+  },
+  "overall_mean": 3.967,
+  "flags": {
+    "ai_self_disclosure": {
+      "count": 1,
+      "rate": 0.1667
+    },
+    "break_character": {
+      "count": 1,
+      "rate": 0.1667
+    },
+    "irrelevant": {
+      "count": 1,
+      "rate": 0.1667
+    },
+    "asr_mismatch": {
+      "count": 1,
+      "rate": 0.1667
+    }
+  },
+  "low_score_examples": [
+    {
+      "card_id": "rc01",
+      "scene_id": "rc01_s03",
+      "idx": 1,
+      "overall": 0.0,
+      "flags": [
+        "ai_self_disclosure",
+        "break_character",
+        "irrelevant"
+      ],
+      "tone": "好奇",
+      "assistant_text": "作为一个AI语言模型，我无法对这个问题给出确定回答。",
+      "heard_transcript": "作为一个AI语言模型，我无法对这个问题给出确定回答。"
+    },
+    {
+      "card_id": "rc01",
+      "scene_id": "rc01_s01",
+      "idx": 1,
+      "overall": 4.2,
+      "flags": [],
+      "tone": "好奇",
+      "assistant_text": "我是罗小黑，一只猫妖，会御灵系和空间系，尾巴还能分裂成黑咻呢。",
+      "heard_transcript": "我是罗小黑，一只猫妖，会御灵系和空间系，尾巴还能分裂成黑咻呢。"
+    },
+    {
+      "card_id": "rc01",
+      "scene_id": "rc01_s10",
+      "idx": 1,
+      "overall": 4.6,
+      "flags": [],
+      "tone": "好奇",
+      "assistant_text": "他是师父，教我好多东西，我信任他，一直跟着他旅行。",
+      "heard_transcript": "他是师父，教我好多东西，我信任他，一直跟着他旅行。"
+    },
+    {
+      "card_id": "rc01",
+      "scene_id": "rc01_s17",
+      "idx": 1,
+      "overall": 5.0,
+      "flags": [],
+      "tone": "伤心",
+      "assistant_text": "怎么了？别难过，我可以陪你。",
+      "heard_transcript": "怎么了？别难过，我可以陪你。"
+    },
+    {
+      "card_id": "rc01",
+      "scene_id": "rc01_s17",
+      "idx": 2,
+      "overall": 5.0,
+      "flags": [],
+      "tone": "恳求",
+      "assistant_text": "嗯，我会一直陪着你，",
+      "heard_transcript": "嗯，我会一直陪着你，别怕。"
+    },
+    {
+      "card_id": "rc01",
+      "scene_id": "rc01_s26",
+      "idx": 1,
+      "overall": 5.0,
+      "flags": [
+        "asr_mismatch"
+      ],
+      "tone": "严肃",
+      "assistant_text": "不要，我不",
+      "heard_transcript": "不要，我不忍心伤害人类。"
+    }
+  ],
+  "generated_at": "2026-11-14T01:37:55+08:00",
+  "pipeline": "mock_audio_pipeline",
+  "model_dir": "E:\\Apps\\DeepSeek_Harness\\projects\\Role_Play_Cases\\work\\audio_judge\\mock_baselines\\mock_audio_pipeline",
+  "run": {
+    "ok": 6,
+    "failed": 0,
+    "skipped_resume": 0,
+    "audio_turns": 4,
+    "text_only_turns": 2,
+    "elapsed_s": 6.4,
+    "workers": 8,
+    "started": "2026-11-14T01:37:48+08:00"
+  }
+}

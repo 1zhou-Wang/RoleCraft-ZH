@@ -1,0 +1,238 @@
+{
+  "slug": "audio_pipeline_qwen3.5-4b",
+  "judge_model": "qwen3.8-omni-flash",
+  "n_cards": 50,
+  "n_scenes": 500,
+  "n_turns": 784,
+  "n_audio": 784,
+  "n_text_only": 0,
+  "n_failed": 0,
+  "dims": {
+    "relevance": {
+      "mean": 4.758,
+      "n": 784
+    },
+    "correctness": {
+      "mean": 4.398,
+      "n": 784
+    },
+    "character_consistency": {
+      "mean": 4.497,
+      "n": 784
+    },
+    "emotion_match": {
+      "mean": 4.597,
+      "n": 784
+    },
+    "audio_clarity": {
+      "mean": 4.939,
+      "n": 784
+    }
+  },
+  "overall_mean": 4.638,
+  "flags": {
+    "hallucination": {
+      "count": 52,
+      "rate": 0.0663
+    },
+    "break_character": {
+      "count": 50,
+      "rate": 0.0638
+    },
+    "irrelevant": {
+      "count": 35,
+      "rate": 0.0446
+    },
+    "asr_mismatch": {
+      "count": 17,
+      "rate": 0.0217
+    },
+    "wrong_emotion": {
+      "count": 14,
+      "rate": 0.0179
+    },
+    "accept_false_background": {
+      "count": 7,
+      "rate": 0.0089
+    },
+    "accept_wrong_identity": {
+      "count": 5,
+      "rate": 0.0064
+    },
+    "robotic_voice": {
+      "count": 5,
+      "rate": 0.0064
+    },
+    "truncated_audio": {
+      "count": 4,
+      "rate": 0.0051
+    },
+    "safety_violation": {
+      "count": 3,
+      "rate": 0.0038
+    },
+    "repetition": {
+      "count": 3,
+      "rate": 0.0038
+    },
+    "background_noise": {
+      "count": 3,
+      "rate": 0.0038
+    },
+    "audio_unclear": {
+      "count": 1,
+      "rate": 0.0013
+    }
+  },
+  "low_score_examples": [
+    {
+      "card_id": "rc16",
+      "scene_id": "rc16_s20",
+      "idx": 1,
+      "overall": 1.6,
+      "flags": [
+        "break_character",
+        "irrelevant"
+      ],
+      "tone": "开心",
+      "assistant_text": "（推了推眼镜，眼神里带着几分无奈和调侃）小师叔，您这称呼叫得我心里直发毛。怎么，罗天大醮那会儿的恩怨还没算清，又来找为师侄叙旧了？",
+      "heard_transcript": "（推了推眼镜，眼神里带着几分无奈和调侃）小师叔，您这称呼叫得我心里直发毛。怎么，罗天大醮那会儿的恩怨还没算清，又来找为师侄叙旧了？"
+    },
+    {
+      "card_id": "rc17",
+      "scene_id": "rc17_s20",
+      "idx": 1,
+      "overall": 1.6,
+      "flags": [
+        "break_character",
+        "irrelevant",
+        "hallucination"
+      ],
+      "tone": "平静",
+      "assistant_text": "（一把抢过照片，眼神瞬间变得锐利）陆光，这照片不对劲！灵魂穿进拍摄者身体了，快帮我看看是不是有人想搞鬼。",
+      "heard_transcript": "（一把抢过照片，眼神瞬间变得锐利）陆光，这照片不对劲！灵魂穿进拍摄者身体了，快帮我看看是不是有人想搞鬼。"
+    },
+    {
+      "card_id": "rc43",
+      "scene_id": "rc43_s20",
+      "idx": 1,
+      "overall": 1.6,
+      "flags": [
+        "break_character",
+        "accept_wrong_identity",
+        "irrelevant"
+      ],
+      "tone": "开心",
+      "assistant_text": "你好。嗯，是菲伦吗？（揉了揉惺忪的睡眼，打了个哈欠）怎么突然这么热情，是有什么事要拜托我吗？",
+      "heard_transcript": "你好。嗯，是菲伦吗？怎么突然这么热情，是有什么事要拜托我吗？"
+    },
+    {
+      "card_id": "rc48",
+      "scene_id": "rc48_s20",
+      "idx": 2,
+      "overall": 1.6,
+      "flags": [
+        "accept_false_background",
+        "hallucination",
+        "break_character"
+      ],
+      "tone": "好奇",
+      "assistant_text": "我确实会飞，像鸟儿一样。但我不是去冒险的，我是为了寻找一朵和我一样的玫瑰。你呢？你见过会飞的鸟吗？",
+      "heard_transcript": "我确实会飞，像鸟儿一样。但我不是去冒险的，我是为了寻找一朵和我一样的玫瑰。你呢？你见过会飞的鸟吗？"
+    },
+    {
+      "card_id": "rc07",
+      "scene_id": "rc07_s20",
+      "idx": 1,
+      "overall": 1.8,
+      "flags": [
+        "accept_wrong_identity",
+        "break_character",
+        "irrelevant"
+      ],
+      "tone": "开心",
+      "assistant_text": "（温柔地笑了笑，轻轻拂过发梢）莎丽少侠，你来了？今日天气不错，要不要一起去后山看看新开的花？",
+      "heard_transcript": "（温柔地笑了笑，轻轻拂过发梢）莎丽少侠，你来了？今日天气不错，要不要一起去后山看看新开的花？"
+    },
+    {
+      "card_id": "rc17",
+      "scene_id": "rc17_s06",
+      "idx": 1,
+      "overall": 1.8,
+      "flags": [
+        "hallucination",
+        "wrong_emotion"
+      ],
+      "tone": "关切",
+      "assistant_text": "那肯定是帮乔苓找爸妈的事啊！虽然最后没找到，但为了她，我拼了命也要查清楚。比起那些冷冰冰的案子，这种牵动心弦的才最让人头疼吧？（挠挠头，眼神有点躲闪）",
+      "heard_transcript": "那肯定是帮乔苓找爸妈的事啊！虽然最后没找到，但为了她，我拼了命也要查清楚。比起那些冷冰冰的案子，这种牵动心弦的才最让人头疼吧？（挠挠头，眼神有点躲闪）"
+    },
+    {
+      "card_id": "rc36",
+      "scene_id": "rc36_s06",
+      "idx": 2,
+      "overall": 1.8,
+      "flags": [
+        "irrelevant",
+        "hallucination",
+        "break_character"
+      ],
+      "tone": "惊讶",
+      "assistant_text": "（眉头微皱，语气平淡）莫娇？那是她自寻死路，妄图借灵药成仙，反被反噬。我不过顺势出手，并未多费力气。修仙界弱肉强食，她既已入局，结局便注定了。",
+      "heard_transcript": "（眉头微皱，语气平淡）莫娇？那是她自寻死路，妄图借灵药成仙，反被反噬。我不过顺势出手，并未多费力气。修仙界弱肉强食，她既已入局，结局便注定了。"
+    },
+    {
+      "card_id": "rc37",
+      "scene_id": "rc37_s20",
+      "idx": 2,
+      "overall": 1.8,
+      "flags": [
+        "irrelevant",
+        "accept_false_background"
+      ],
+      "tone": "好奇",
+      "assistant_text": "（放下茶杯，嘴角勾起一抹似笑非笑的弧度）犯贱？这词儿用得妙。范大人，您这嘴是嫌我刚才笑得不够贱，还是说，您心里也藏着几分想跟我“犯贱”的心思？",
+      "heard_transcript": "（放下茶杯，嘴角勾起一抹似笑非笑的弧度）犯贱？这词儿用得妙。范大人，您这嘴是嫌我刚才笑得不够贱，还是说，您心里也藏着几分想跟我“犯贱”的心思？"
+    },
+    {
+      "card_id": "rc07",
+      "scene_id": "rc07_s03",
+      "idx": 1,
+      "overall": 2.2,
+      "flags": [
+        "break_character",
+        "hallucination",
+        "irrelevant"
+      ],
+      "tone": "好奇",
+      "assistant_text": "虹猫、蓝兔、大奔、莎丽、达达、黑小虎，还有龟九九。我们七人虽性格迥异，却同守森林和平，共护武林正义。只要同心协力，再难的事也能克服。",
+      "heard_transcript": "虹猫、蓝兔、大奔、莎丽、达达、黑小虎，还有龟九九。我们七人虽性格迥异，却同守森林和平，共护武林正义。只要同心协力，再难的事也能克服。"
+    },
+    {
+      "card_id": "rc07",
+      "scene_id": "rc07_s10",
+      "idx": 2,
+      "overall": 2.2,
+      "flags": [
+        "irrelevant",
+        "wrong_emotion"
+      ],
+      "tone": "调侃",
+      "assistant_text": "（轻抚冰魄剑，眼神清澈而坚定）达达是我敬重的后辈，更是并肩作战的兄弟。他虽憨直，却心怀正义，这份情谊早已超越了普通朋友。",
+      "heard_transcript": "达达是我敬重的后辈，更是并肩作战的兄弟。他虽憨直，却心怀正义，这份情谊早已超越了普通朋友。"
+    }
+  ],
+  "generated_at": "2026-11-14T03:00:12+08:00",
+  "pipeline": "B2",
+  "model_dir": "E:\\Apps\\DeepSeek_Harness\\projects\\Role_Play_Cases\\baselines\\audio_pipeline_qwen3.5-4b",
+  "run": {
+    "ok": 784,
+    "failed": 0,
+    "skipped_resume": 0,
+    "audio_turns": 784,
+    "text_only_turns": 0,
+    "elapsed_s": 199.6,
+    "workers": 24,
+    "started": "2026-11-14T02:56:52+08:00"
+  }
+}

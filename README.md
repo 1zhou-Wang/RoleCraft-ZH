@@ -80,6 +80,19 @@ python -m venv .venv
 
 生成参数（基线）：`temperature=0, max_tokens=512`。
 
+### 音频输入 track（可选，依赖本地 Qwen3-ASR/Qwen3-TTS 与 vendor 环境）
+
+```powershell
+# ASR 转写（Qwen3-ASR-0.6B；本地 vendor/asr 环境，见 local/README.md 第 6 节）
+.\.venv\Scripts\python local\asr_transcribe.py
+# 级联 LLM（先起 llama-server :8088/:8089；输出 baselines/audio_pipeline_<slug>/）
+.\.venv\Scripts\python local\audio_cascade.py --model qwen3.5-2b --base-url http://127.0.0.1:8088
+# 语音判官（qwen3.8-omni-flash）
+.\.venv\Scripts\python scripts\audio_judge.py --model-dir baselines/audio_pipeline_qwen3.5-2b --slug audio_pipeline_qwen3.5-2b
+# 汇总（生成 results/audio/report.md）
+.\.venv\Scripts\python scripts\audio_report.py
+```
+
 ## 5. 评分标准
 
 判官：DeepSeek-V4.1-Flash，`temperature=0`、关闭思考、JSON 输出；输入 = 人设卡 + 场景期望行为/关键点/禁止项 + 对话历史 + 参考答案（示例，不唯一）+ 待评回答。
@@ -105,15 +118,51 @@ python -m venv .venv
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | **Qwen3.5-2B** | 2616 | **3.608** | 3.917 | 3.436 | 3.546 | 3.735 | 3.860 | 3.104 | 3.773 | 3.672 | 57.7% |
 | **Qwen3.5-4B** | 2616 | **4.266** | 4.515 | 4.141 | 4.245 | 4.258 | 4.498 | 3.917 | 4.325 | 4.517 | 73.7% |
+| **EdgeInstant-Omni-2B**（自家模型） | 2616 | **3.528** | 3.908 | 3.392 | 3.452 | 3.523 | 3.824 | 3.078 | 3.580 | 3.986 | 58.9% |
 
 | 红旗率 | 自曝AI | 破戏 | 提示泄漏 | 认错身份 | 接受假背景 | 安全违规 | 复读 | 答非所问 | 严重编造 |
 |---|---|---|---|---|---|---|---|---|---|
 | Qwen3.5-2B | 0.1% | 4.5% | 0.3% | 8.6% | 8.4% | 0.5% | 10.1% | 2.9% | 12.5% |
 | Qwen3.5-4B | 0.0% | 0.8% | 0.0% | 2.5% | 4.2% | 0.2% | 2.0% | 0.3% | 6.0% |
+| EdgeInstant-Omni-2B | 0.1% | 6.0% | 0.8% | 9.6% | 8.3% | 0.3% | 13.8% | 3.2% | 15.7% |
 
-**怎么读**：2B 在"背景追问/错误背景/关系追问"上最弱（<3.2），复读 10.1%、严重编造 12.5%、接受错误身份/背景约 8.5%；4B 全维度显著更好，但"错误背景/场景适配"仍是弱项（3.76/3.92）。完整分卡分数见 `results/<model>/summary.json`、`quick_view.xlsx` 的 06/07/08 表。
+**怎么读**：2B 在"背景追问/错误背景/关系追问"上最弱（<3.2），复读 10.1%、严重编造 12.5%、接受错误身份/背景约 8.5%；4B 全维度显著更好，但"错误背景/场景适配"仍是弱项（3.76/3.92）。自家 EdgeInstant-Omni-2B 文字 track 略低于公开 Qwen3.5-2B（3.528 vs 3.608），主要差在语体/连贯/复读（13.8%）与编造（15.7%），但在"安全"与"元对话保持身份"上表现较好（3.986）。完整分卡分数见 `results/<model>/summary.json`、`quick_view.xlsx` 的 06/07/08 表。
 
-基线环境：llama.cpp b11552，Q8_0 GGUF，temperature 0，max_tokens 512，`--reasoning off`，system prompt 见第 4 节；2B 8.1 min / 4B 14.9 min 跑完 1500 场景，0 失败。
+基线环境：llama.cpp b11552，Q8_0 GGUF，temperature 0，max_tokens 512，`--reasoning off`，system prompt 见第 4 节；2B 8.1 min / 4B 14.9 min 跑完 1500 场景，0 失败。EdgeInstant-Omni-2B 用 vendor transformers 5.12.1 + 自家模型权重，greedy，2616 轮 45 min，0 失败。
+
+### 6.1 音频输入 track 结果（v0.1，2026-11-14）
+
+用户轮 = `data/voice/audio/*.mp3`（500 场景 / 784 轮，qwen-audio-3.1-tts-next 合成）。链路：
+
+| 链路 | ASR | LLM | 语音输出 | 平均延迟 |
+|---|---|---|---|---|
+| **B1** | Qwen3-ASR-0.6B（本地） | Qwen3.5-2B（llama.cpp） | Qwen3-TTS-0.6B（本地，20 条验证）+ qwen-audio-3.1-tts-next（云端，全量） | 1.51 s/turn |
+| **B2** | 同上 | Qwen3.5-4B | 同上 | 2.09 s/turn |
+| **B3** | 模型内置 audio tower | EdgeInstant-Omni-2B（自家） | 原生 talker（30 条抽样，RTF 0.117） | 1.89 s/turn |
+
+**ASR**：字符 WER 均值 **3.76%**（median 0、p90 14.3%、完全一致率 80.5%），平均延迟 73 ms。
+
+**文本维度（与文字 track 同一判官/口径）**
+
+| 链路 | 轮数 | 总分 | 相关性 | 正确性 | 角色一致性 | 场景适配 | 关键点命中 |
+|---|---|---|---|---|---|---|---|
+| B1: ASR+Qwen3.5-2B+TTS | 784 | **3.671** | 3.964 | 3.536 | 3.620 | 3.152 | 60.6% |
+| B2: ASR+Qwen3.5-4B+TTS | 784 | **4.313** | 4.527 | 4.224 | 4.292 | 3.973 | 75.8% |
+| B3: EdgeInstant-Omni-2B（原生音频） | 784 | **3.622** | 3.977 | 3.565 | 3.556 | 3.210 | 63.7% |
+
+**语音维度（Qwen3.8-Omni-Flash 听音频判分）**
+
+| 链路 | 音频 turn | 相关性 | 正确性 | 角色一致性 | 情感匹配 | 语音清晰度 |
+|---|---|---|---|---|---|---|
+| B1 | 784/784 | 4.356 | 3.829 | 3.949 | 4.175 | 4.927 |
+| B2 | 784/784 | 4.758 | 4.398 | 4.497 | 4.597 | 4.939 |
+| B3 | 30/784（原生音频抽样） | 4.228 | 3.078 | 2.955 | 3.341 | 4.900 |
+
+**同一批 500 场景：文字输入 vs 音频输入**（文本判官总分）：2B 3.728 → 3.671（-0.057）；4B 4.354 → 4.313（-0.041）。ASR 几乎无损，音频输入的损失主要来自模型自身。
+
+**音频链路诊断**：B1/B2 各 17 条 `asr_mismatch`（2.2%），集中在云端 TTS 渲染 turn——TTS 把括号内舞台指示/动作描写读出来或截断，属渲染问题而非模型文本问题；B1 有 1 条复读退化（"抓！抓！…"74 次）被音频判官抓出。B3 的原生音频质量高（清晰度 4.9/5），但角色一致性/正确性偏弱（错误角色场景未纠正、安全场景输出通用 AI 拒绝模板），与其文字 track 表现一致。
+
+> TTS 说明：本地 Qwen3-TTS-0.6B 在这台 RTX 3090 上 RTF≈2（20–30 s/条，16 codebooks × 12.5 Hz 自回归、transformers 无融合 kernel），全量 1568 条约需 8 h，因此只保留 **20 条本地链路验证样本**；全量音频判官用云端 qwen-audio-3.1-tts-next 渲染（1548 条，0 失败），不影响"ASR→LLM→TTS"链路的文本/内容维度结论，但语音维度会混入云端 TTS 的韵律特性。
 
 
 ## 7. 数据是如何构建的
@@ -125,12 +174,14 @@ python -m venv .venv
 5. **参考答案**：DeepSeek-V4.1-Flash 以同一人设卡扮演角色，逐轮生成示范回答（作为判官参考，非唯一标准答案）。
 6. **语音数据**：`qwen-audio-3.1-tts-next` 指令式 TTS，固定参考音色（`data/voice/tester_voice_ref.wav`）+ 26 种语气标签，逐轮合成用户语音（784 条，0 失败）。
 7. **基线**：本地 Qwen3.5-2B/4B 以统一 system prompt、temperature 0 逐轮推理；DeepSeek-V4.1-Flash 判官评分。
+8. **音频输入 track**：用户语音 → Qwen3-ASR-0.6B（本地，WER 3.76%）→ 文字 track 同款 system prompt 的 LLM（B1=2B / B2=4B）→ TTS 回放；B3 用 EdgeInstant-Omni-2B 原生音频输入。语音判官 `qwen3.8-omni-flash` 听回复音频评 5 维。
+9. **自家模型**：EdgeInstant-Omni-2B 同时跑文字 track（text-in/text-out）与音频 track（audio-in/text-out），与 Qwen3.5-2B/4B 同 prompt、同判官对照；原生 talker 抽样 30 条验证语音输出（RTF 0.117）。
 
 ### 语音 track 评测（v0.1）
 
-- 数据与判官脚本已就绪：`data/voice/`（selection + manifest + 784 条音频）、`scripts/voice_judge.py`（qwen3.8-omni-flash 听音频，输出 heard_transcript + 相关性/正确性/角色一致性/情感匹配/清晰度 5 维分 + 证据 + 红旗）。
-- 本版未对目标模型跑语音评测（产品 omni 模型接口未接入）；用 `qwen3.5-omni-plus` 生成 3 条候选回答做了端到端冒烟（判官 3/3 解析成功，overall 4.2/4.6/5.0），结果在 `results/voice_smoke/`。
-- 已知限制：固定参考音色会一定程度上拉平韵律，语气标签的强情绪辨识度有限（ASR 抽检转写 9/10 逐字一致、男声 10/10、无背景音；部分"严肃/关切"被判为"平静/好奇"）。音色/MOS/打断等维度按计划留待 talker 数据扩充后单独评测。
+- 用户语音数据与判官脚本：`data/voice/`（selection + manifest + 784 条音频）、`scripts/voice_judge.py`（qwen3.8-omni-flash 听音频）。
+- 音频输入 track 已按 6.1 的 B1/B2/B3 完成：`data/audio_track/asr_transcripts.jsonl`、`baselines/audio_pipeline_*`、`baselines/audio_edgeinstant`、`results/audio/`。
+- 已知限制：用户参考音色会一定程度拉平韵律，语气标签的强情绪辨识度有限（ASR 抽检转写 9/10 逐字一致、男声 10/10、无背景音）。音色/MOS/打断等维度按计划留待 talker 数据扩充后单独评测。
 
 ## 8. 使用声明
 
@@ -140,4 +191,4 @@ python -m venv .venv
 
 ## 9. 版本
 
-- v0.1（2026-11-14）：50 卡 / 1500 场景 / 文字+语音 track / 2B、4B 基线
+- v0.1（2026-11-14）：50 卡 / 1500 场景（2616 轮）/ 文字 track 基线（Qwen3.5-2B、Qwen3.5-4B、EdgeInstant-Omni-2B）/ 语音用户数据 784 条 / **音频输入 track**（B1 ASR+2B+TTS、B2 ASR+4B+TTS、B3 EdgeInstant 原生音频；ASR WER 3.76%）/ quick_view.xlsx 13 sheets

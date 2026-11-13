@@ -1,0 +1,401 @@
+{
+  "asr": {
+    "model": "E:\\RBM\\models\\Qwen3-ASR-0.6B",
+    "transcribed": 784,
+    "wer_mean": 0.0376,
+    "wer_median": 0.0,
+    "wer_p90": 0.1429,
+    "exact_match_rate": 0.8048,
+    "latency_s": {
+      "mean": 0.073,
+      "p50": 0.067,
+      "p95": 0.093
+    },
+    "elapsed_s": 99.9
+  },
+  "pipelines": [
+    {
+      "slug": "audio_pipeline_qwen3.5-2b",
+      "scenes_total_expected": 500,
+      "scenes_total_file": 500,
+      "scenes_complete": 500,
+      "scenes_with_error": 0,
+      "turns_total_expected": 784,
+      "turns_total_file": 784,
+      "turns_ok": 784,
+      "turn_latency_s": {
+        "mean": 1.514,
+        "p50": 1.389,
+        "p95": 2.525,
+        "max": 14.459
+      },
+      "scene_latency_s": {
+        "mean": 2.374,
+        "p50": 2.137,
+        "p95": 4.345
+      },
+      "tts": {
+        "qwen3-tts-0.6b": 15,
+        "qwen-audio-3.1-tts-next": 769,
+        "other": 0,
+        "none": 0
+      },
+      "audio_files_ok": 784,
+      "audio_files_missing": 0,
+      "errors": [],
+      "error_count": 0,
+      "pipeline": "B1",
+      "model": "qwen3.5-2b",
+      "cascade_elapsed_s": 299.16,
+      "cascade_turn_latency_s": {
+        "mean": 1.514,
+        "p50": 1.389,
+        "p95": 2.525,
+        "max": 14.459
+      }
+    },
+    {
+      "slug": "audio_pipeline_qwen3.5-4b",
+      "scenes_total_expected": 500,
+      "scenes_total_file": 500,
+      "scenes_complete": 500,
+      "scenes_with_error": 0,
+      "turns_total_expected": 784,
+      "turns_total_file": 784,
+      "turns_ok": 784,
+      "turn_latency_s": {
+        "mean": 2.087,
+        "p50": 2.041,
+        "p95": 2.999,
+        "max": 4.855
+      },
+      "scene_latency_s": {
+        "mean": 3.273,
+        "p50": 3.207,
+        "p95": 5.605
+      },
+      "tts": {
+        "qwen3-tts-0.6b": 5,
+        "qwen-audio-3.1-tts-next": 779,
+        "other": 0,
+        "none": 0
+      },
+      "audio_files_ok": 784,
+      "audio_files_missing": 0,
+      "errors": [],
+      "error_count": 0,
+      "pipeline": "B2",
+      "model": "qwen3.5-4b",
+      "cascade_elapsed_s": 415.09,
+      "cascade_turn_latency_s": {
+        "mean": 2.087,
+        "p50": 2.041,
+        "p95": 2.999,
+        "max": 4.855
+      }
+    }
+  ],
+  "tts_local": {
+    "model": "E:\\RBM\\models\\Qwen3-TTS-12Hz-0.6B-CustomVoice",
+    "count_ok": 22,
+    "count_failed": null,
+    "speed": {
+      "batch_samples": [
+        {
+          "done": 2,
+          "batch": 2,
+          "batch_s": 59.8,
+          "per_item_s": 29.9
+        },
+        {
+          "done": 4,
+          "batch": 2,
+          "batch_s": 57.5,
+          "per_item_s": 28.75
+        },
+        {
+          "done": 6,
+          "batch": 2,
+          "batch_s": 39.3,
+          "per_item_s": 19.67
+        },
+        {
+          "done": 8,
+          "batch": 2,
+          "batch_s": 66.8,
+          "per_item_s": 33.4
+        },
+        {
+          "done": 10,
+          "batch": 2,
+          "batch_s": 141.9,
+          "per_item_s": 70.95
+        },
+        {
+          "done": 12,
+          "batch": 2,
+          "batch_s": 342.0,
+          "per_item_s": 171.01
+        }
+      ],
+      "per_item_s_mean_uncontended": 27.93,
+      "per_item_s_all": 58.95,
+      "note": "后两批 >70s/item 是因为 EdgeInstant 开始占用 GPU（llama-server 停止后），按 lead 要求提前结束进程"
+    },
+    "elapsed_s": null,
+    "plan": null
+  },
+  "tts_cloud": {
+    "qwen3.5-2b": {
+      "model": "qwen-audio-3.1-tts-next",
+      "render": "qwen-audio-3.1-tts-next",
+      "format": "mp3",
+      "sample_rate": 24000,
+      "turns_total": 769,
+      "mp3_ok": 769,
+      "mp3_missing": 0,
+      "workers": 8,
+      "rpm_limit": 180.0,
+      "elapsed_s": 37.6,
+      "throughput_per_min": 3.2,
+      "request_latency_s": {
+        "mean": 33.133,
+        "p50": 37.35633009999947
+      },
+      "audio_duration_s": {
+        "mean": 14.84,
+        "total": 29.7
+      },
+      "aborted_by_time_budget": false,
+      "updated_at": "2026-11-14T02:50:13"
+    },
+    "qwen3.5-4b": {
+      "model": "qwen-audio-3.1-tts-next",
+      "render": "qwen-audio-3.1-tts-next",
+      "format": "mp3",
+      "sample_rate": 24000,
+      "turns_total": 779,
+      "mp3_ok": 779,
+      "mp3_missing": 0,
+      "workers": 8,
+      "rpm_limit": 180.0,
+      "elapsed_s": 37.6,
+      "throughput_per_min": 3.2,
+      "request_latency_s": {
+        "mean": 33.133,
+        "p50": 37.35633009999947
+      },
+      "audio_duration_s": {
+        "mean": 14.84,
+        "total": 29.7
+      },
+      "aborted_by_time_budget": false,
+      "updated_at": "2026-11-14T02:50:13"
+    }
+  },
+  "text_baseline_turn_latency_s": {
+    "qwen3.5-2b": {
+      "mean": 0.725,
+      "p50": 0.694,
+      "p95": 1.121,
+      "max": 7.093
+    },
+    "qwen3.5-4b": {
+      "mean": 1.341,
+      "p50": 1.322,
+      "p95": 1.874,
+      "max": 2.698
+    }
+  },
+  "tts": {
+    "local": {
+      "render": "qwen3-tts-0.6b",
+      "count": 20,
+      "count_total_wav": 20,
+      "speed": {
+        "batch_samples": [
+          {
+            "done": 2,
+            "batch": 2,
+            "batch_s": 59.8,
+            "per_item_s": 29.9
+          },
+          {
+            "done": 4,
+            "batch": 2,
+            "batch_s": 57.5,
+            "per_item_s": 28.75
+          },
+          {
+            "done": 6,
+            "batch": 2,
+            "batch_s": 39.3,
+            "per_item_s": 19.67
+          },
+          {
+            "done": 8,
+            "batch": 2,
+            "batch_s": 66.8,
+            "per_item_s": 33.4
+          },
+          {
+            "done": 10,
+            "batch": 2,
+            "batch_s": 141.9,
+            "per_item_s": 70.95
+          },
+          {
+            "done": 12,
+            "batch": 2,
+            "batch_s": 342.0,
+            "per_item_s": 171.01
+          }
+        ],
+        "per_item_s_mean_uncontended": 27.93,
+        "per_item_s_all": 58.95,
+        "note": "后两批 >70s/item 是因为 EdgeInstant 开始占用 GPU（llama-server 停止后），按 lead 要求提前结束进程"
+      },
+      "mean_audio_duration_s": 14.34,
+      "rtf_estimate": 1.95,
+      "cleaned_bad": 2,
+      "cleaned_bad_samples": [
+        {
+          "slug": "qwen3.5-2b",
+          "scene_id": "rc06_s28",
+          "idx": 1,
+          "wav": "baselines/audio_pipeline_qwen3.5-2b/audio/rc06_s28_1.wav",
+          "duration_s": 112.56,
+          "expected_s": 14.2,
+          "peak": 0.0,
+          "rms": 0.0001,
+          "reason": "silent(peak=0.000,rms=0.0001)"
+        },
+        {
+          "slug": "qwen3.5-4b",
+          "scene_id": "rc06_s28",
+          "idx": 1,
+          "wav": "baselines/audio_pipeline_qwen3.5-4b/audio/rc06_s28_1.wav",
+          "duration_s": 65.76,
+          "expected_s": 16.1,
+          "peak": 0.648,
+          "rms": 0.0299,
+          "reason": "too_long(dur=65.8s,exp=16.1s)"
+        }
+      ],
+      "model": "E:\\RBM\\models\\Qwen3-TTS-12Hz-0.6B-CustomVoice"
+    },
+    "cloud": {
+      "render": "qwen-audio-3.1-tts-next",
+      "count": 1548,
+      "runs": [
+        {
+          "rendered": 10,
+          "failures": 0,
+          "elapsed_s": 55.6,
+          "per_min": 10.8
+        },
+        {
+          "rendered": 20,
+          "failures": 0,
+          "elapsed_s": 48.7,
+          "per_min": 24.7
+        },
+        {
+          "rendered": 1516,
+          "failures": 0,
+          "elapsed_s": 2158.2,
+          "per_min": 42.1
+        },
+        {
+          "rendered": 2,
+          "failures": 0,
+          "elapsed_s": 37.6,
+          "per_min": 3.2
+        }
+      ],
+      "rendered_total": 1548,
+      "failures": 0,
+      "elapsed_s": 2300.1,
+      "throughput_per_min": 40.4,
+      "workers": 24,
+      "rpm_limit": 180,
+      "last_incremental_manifests": {
+        "qwen3.5-2b": {
+          "model": "qwen-audio-3.1-tts-next",
+          "render": "qwen-audio-3.1-tts-next",
+          "format": "mp3",
+          "sample_rate": 24000,
+          "turns_total": 769,
+          "mp3_ok": 769,
+          "mp3_missing": 0,
+          "workers": 8,
+          "rpm_limit": 180.0,
+          "elapsed_s": 37.6,
+          "throughput_per_min": 3.2,
+          "request_latency_s": {
+            "mean": 33.133,
+            "p50": 37.35633009999947
+          },
+          "audio_duration_s": {
+            "mean": 14.84,
+            "total": 29.7
+          },
+          "aborted_by_time_budget": false,
+          "updated_at": "2026-11-14T02:50:13"
+        },
+        "qwen3.5-4b": {
+          "model": "qwen-audio-3.1-tts-next",
+          "render": "qwen-audio-3.1-tts-next",
+          "format": "mp3",
+          "sample_rate": 24000,
+          "turns_total": 779,
+          "mp3_ok": 779,
+          "mp3_missing": 0,
+          "workers": 8,
+          "rpm_limit": 180.0,
+          "elapsed_s": 37.6,
+          "throughput_per_min": 3.2,
+          "request_latency_s": {
+            "mean": 33.133,
+            "p50": 37.35633009999947
+          },
+          "audio_duration_s": {
+            "mean": 14.84,
+            "total": 29.7
+          },
+          "aborted_by_time_budget": false,
+          "updated_at": "2026-11-14T02:50:13"
+        }
+      }
+    },
+    "other": 0,
+    "note": "本地 Qwen3-TTS-0.6B 在这台 RTX 3090 上 RTF≈2-3（无 GPU 竞争时 ~20-30 s/条音频；EdgeInstant 占用 GPU 后 70-170 s/条），全量 1568 条需 ~8 h，故仅保留 20 条本地链路验证样本（另 2 条 GPU 竞争下产生的异常样本已清理并改用云端），全量音频判官用云端 qwen-audio-3.1-tts-next 渲染。"
+  },
+  "coverage": {
+    "qwen3.5-2b": {
+      "turns_total": 784,
+      "turns_ok": 784,
+      "turns_with_audio": 784,
+      "missing_audio": 0,
+      "audio_files_ok": 784,
+      "audio_files_missing": 0
+    },
+    "qwen3.5-4b": {
+      "turns_total": 784,
+      "turns_ok": 784,
+      "turns_with_audio": 784,
+      "missing_audio": 0,
+      "audio_files_ok": 784,
+      "audio_files_missing": 0
+    }
+  },
+  "totals": {
+    "turns": 1568,
+    "turns_ok": 1568,
+    "turns_with_audio": 1568,
+    "no_audio": 0,
+    "tts_local": 20,
+    "tts_cloud": 1548
+  },
+  "generated_at": "2026-11-14T02:50:39"
+}

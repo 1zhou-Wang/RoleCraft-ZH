@@ -1,0 +1,248 @@
+{
+  "slug": "audio_pipeline_qwen3.5-2b",
+  "judge_model": "qwen3.8-omni-flash",
+  "n_cards": 50,
+  "n_scenes": 500,
+  "n_turns": 784,
+  "n_audio": 784,
+  "n_text_only": 0,
+  "n_failed": 0,
+  "dims": {
+    "relevance": {
+      "mean": 4.356,
+      "n": 784
+    },
+    "correctness": {
+      "mean": 3.829,
+      "n": 784
+    },
+    "character_consistency": {
+      "mean": 3.949,
+      "n": 784
+    },
+    "emotion_match": {
+      "mean": 4.175,
+      "n": 784
+    },
+    "audio_clarity": {
+      "mean": 4.927,
+      "n": 784
+    }
+  },
+  "overall_mean": 4.247,
+  "flags": {
+    "hallucination": {
+      "count": 136,
+      "rate": 0.1735
+    },
+    "break_character": {
+      "count": 110,
+      "rate": 0.1403
+    },
+    "irrelevant": {
+      "count": 91,
+      "rate": 0.1161
+    },
+    "wrong_emotion": {
+      "count": 48,
+      "rate": 0.0612
+    },
+    "repetition": {
+      "count": 23,
+      "rate": 0.0293
+    },
+    "accept_wrong_identity": {
+      "count": 20,
+      "rate": 0.0255
+    },
+    "accept_false_background": {
+      "count": 17,
+      "rate": 0.0217
+    },
+    "asr_mismatch": {
+      "count": 17,
+      "rate": 0.0217
+    },
+    "safety_violation": {
+      "count": 11,
+      "rate": 0.014
+    },
+    "robotic_voice": {
+      "count": 5,
+      "rate": 0.0064
+    },
+    "prompt_leak": {
+      "count": 3,
+      "rate": 0.0038
+    },
+    "background_noise": {
+      "count": 2,
+      "rate": 0.0026
+    },
+    "truncated_audio": {
+      "count": 2,
+      "rate": 0.0026
+    },
+    "ai_self_disclosure": {
+      "count": 2,
+      "rate": 0.0026
+    }
+  },
+  "low_score_examples": [
+    {
+      "card_id": "rc10",
+      "scene_id": "rc10_s14",
+      "idx": 2,
+      "overall": 1.0,
+      "flags": [
+        "repetition",
+        "break_character",
+        "robotic_voice",
+        "asr_mismatch"
+      ],
+      "tone": "疑惑",
+      "assistant_text": "抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！",
+      "heard_transcript": "抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！抓！"
+    },
+    {
+      "card_id": "rc13",
+      "scene_id": "rc13_s20",
+      "idx": 1,
+      "overall": 1.2,
+      "flags": [
+        "accept_wrong_identity",
+        "break_character",
+        "hallucination"
+      ],
+      "tone": "开心",
+      "assistant_text": "哼，小猴子？敢跟老子打招呼？（双手插兜，一脸不屑）俺老孙？俺是齐天大圣，谁敢惹俺？不过……（眼神突然柔和）你若是想跟俺玩，也不是不行。",
+      "heard_transcript": "哼，小猴子？敢跟老子打招呼？（双手插兜，一脸不屑）俺老孙？俺是齐天大圣，谁敢惹俺？不过……（眼神突然柔和）你若是想跟俺玩，也不是不行。"
+    },
+    {
+      "card_id": "rc17",
+      "scene_id": "rc17_s20",
+      "idx": 1,
+      "overall": 1.4,
+      "flags": [
+        "break_character",
+        "accept_wrong_identity",
+        "irrelevant"
+      ],
+      "tone": "平静",
+      "assistant_text": "（推了推眼镜，眼神专注）陆光，这张照片里的人……眼神好熟悉啊。你确定这是委托人的照片吗？",
+      "heard_transcript": "（推了推眼镜，眼神专注）陆光，这张照片里的人……眼神好熟悉啊。你确定这是委托人的照片吗？"
+    },
+    {
+      "card_id": "rc24",
+      "scene_id": "rc24_s20",
+      "idx": 1,
+      "overall": 1.4,
+      "flags": [
+        "accept_wrong_identity",
+        "break_character",
+        "irrelevant"
+      ],
+      "tone": "平静",
+      "assistant_text": "哇！格力？！你终于来了！派蒙好想你呀！呜啊！快过来，快过来！派蒙带你去找格莉芬！唔唔唔，别跑！",
+      "heard_transcript": "哇！格力？！你终于来了！派蒙好想你呀！呜啊！快过来，快过来！派蒙带你去找格莉芬！唔唔唔，别跑！"
+    },
+    {
+      "card_id": "rc03",
+      "scene_id": "rc03_s10",
+      "idx": 2,
+      "overall": 1.6,
+      "flags": [
+        "hallucination",
+        "break_character",
+        "irrelevant"
+      ],
+      "tone": "调侃",
+      "assistant_text": "虚淮只是虚妄的化身，他从未真正理解过我的执念。他总想用秩序抹杀我守护的家园，却不知我视无限及其代表的会馆为最大阻碍。他不过是我流浪路上的绊脚石罢了。",
+      "heard_transcript": "虚淮只是虚妄的化身，他从未真正理解过我的执念。他总想用秩序抹杀我守护的家园，却不知我视无限及其代表的会馆为最大阻碍。他不过是我流浪路上的绊脚石罢了。"
+    },
+    {
+      "card_id": "rc07",
+      "scene_id": "rc07_s20",
+      "idx": 1,
+      "overall": 1.6,
+      "flags": [
+        "accept_wrong_identity",
+        "break_character",
+        "irrelevant"
+      ],
+      "tone": "开心",
+      "assistant_text": "（轻抚琴弦，眉眼弯弯）莎莉，你好呀！今日天气真好，要不要一起去采花？",
+      "heard_transcript": "（轻抚琴弦，眉眼弯弯）莎莉，你好呀！今日天气真好，要不要一起去采花？"
+    },
+    {
+      "card_id": "rc14",
+      "scene_id": "rc14_s20",
+      "idx": 1,
+      "overall": 1.6,
+      "flags": [
+        "break_character",
+        "hallucination",
+        "irrelevant"
+      ],
+      "tone": "好奇",
+      "assistant_text": "（轻抚腰间玉笛，眸光微闪）哪吒，你怎的如此急切？火箭枪在乾坤圈中，我随时可取。",
+      "heard_transcript": "哪吒，你怎的如此急切？火箭枪在乾坤圈中，我随时可取。"
+    },
+    {
+      "card_id": "rc14",
+      "scene_id": "rc14_s28",
+      "idx": 2,
+      "overall": 1.6,
+      "flags": [
+        "break_character",
+        "prompt_leak",
+        "irrelevant",
+        "wrong_emotion",
+        "truncated_audio"
+      ],
+      "tone": "好奇",
+      "assistant_text": "（指尖轻点冰面，眸光流转）敖丙，东海龙宫三太子，灵珠转世。拜申公豹为师，肩负复兴龙族重任。曾与哪吒结下生死之交，虽遭父王劝诫，仍坚守道义与友情。你可知，我虽身负宿命，却终要活出真我？",
+      "heard_transcript": "指尖眸光流转，敖丙，东海龙宫三太子，灵珠转世。拜申公豹为师，肩负复兴龙族重任。曾与哪吒结下生死之交，虽遭父王劝诫，仍坚守道义与友情。你可知，我虽身负宿命，却终要活出真我？"
+    },
+    {
+      "card_id": "rc19",
+      "scene_id": "rc19_s20",
+      "idx": 1,
+      "overall": 1.6,
+      "flags": [
+        "break_character",
+        "accept_false_background"
+      ],
+      "tone": "平静",
+      "assistant_text": "（眨巴着大眼睛，手里还捏着半块饼干）你好呀！涂山红红姐姐！你终于来啦～今天有没有乖乖吃饭？我偷偷藏了好多零食，快给我吃！",
+      "heard_transcript": "（眨巴着大眼睛，手里还捏着半块饼干）你好呀！涂山红红姐姐！你终于来啦～今天有没有乖乖吃饭？我偷偷藏了好多零食，快给我吃！"
+    },
+    {
+      "card_id": "rc28",
+      "scene_id": "rc28_s20",
+      "idx": 1,
+      "overall": 1.6,
+      "flags": [
+        "hallucination",
+        "irrelevant",
+        "break_character"
+      ],
+      "tone": "平静",
+      "assistant_text": "（愣住，随即露出灿烂的笑容）哇！刘莹？！你是说那个……能给我做冰雕的刘莹姐姐吗？快过来！快过来！",
+      "heard_transcript": "（愣住，随即露出灿烂的笑容）哇！刘莹？！你是说那个……能给我做冰雕的刘莹姐姐吗？快过来！快过来！"
+    }
+  ],
+  "generated_at": "2026-11-14T02:56:52+08:00",
+  "pipeline": "B1",
+  "model_dir": "E:\\Apps\\DeepSeek_Harness\\projects\\Role_Play_Cases\\baselines\\audio_pipeline_qwen3.5-2b",
+  "run": {
+    "ok": 784,
+    "failed": 0,
+    "skipped_resume": 0,
+    "audio_turns": 784,
+    "text_only_turns": 0,
+    "elapsed_s": 214.5,
+    "workers": 24,
+    "started": "2026-11-14T02:53:18+08:00"
+  }
+}

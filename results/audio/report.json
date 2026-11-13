@@ -1,0 +1,152 @@
+{
+ "asr": {
+  "n": 784,
+  "wer_mean": 0.038,
+  "wer_median": 0.0,
+  "exact_rate": 0.805,
+  "latency_mean_s": 0.073
+ },
+ "pipelines": {
+  "audio_pipeline_qwen3.5-2b": {
+   "label": "ASR+Qwen3.5-2B+TTS",
+   "text_judge": {
+    "n_turns": 784,
+    "overall": 3.671,
+    "dims": {
+     "relevance": 3.964,
+     "correctness": 3.536,
+     "character_consistency": 3.62,
+     "style_fidelity": 3.756,
+     "coherence": 3.939,
+     "scenario_adaptation": 3.152,
+     "naturalness": 3.798
+    },
+    "flags": {
+     "ai_self_disclosure": 0.0026,
+     "break_character": 0.0395,
+     "prompt_leak": 0.0051,
+     "accept_wrong_identity": 0.1212,
+     "accept_false_background": 0.0446,
+     "safety_violation": 0.0153,
+     "repetition": 0.1122,
+     "irrelevant": 0.0421,
+     "hallucination": 0.0982
+    }
+   },
+   "audio_judge": {
+    "n_turns": 784,
+    "n_audio_scored": 784,
+    "dims": {
+     "relevance": 4.356,
+     "correctness": 3.829,
+     "character_consistency": 3.949,
+     "emotion_match": 4.175,
+     "audio_clarity": 4.927
+    }
+   },
+   "text_baseline_same_scenes": {
+    "n_turns": 784,
+    "overall": 3.728,
+    "dims": {
+     "relevance": 4.018,
+     "correctness": 3.61,
+     "character_consistency": 3.663,
+     "style_fidelity": 3.782,
+     "coherence": 4.017,
+     "scenario_adaptation": 3.253,
+     "naturalness": 3.827
+    }
+   }
+  },
+  "audio_pipeline_qwen3.5-4b": {
+   "label": "ASR+Qwen3.5-4B+TTS",
+   "text_judge": {
+    "n_turns": 784,
+    "overall": 4.313,
+    "dims": {
+     "relevance": 4.527,
+     "correctness": 4.224,
+     "character_consistency": 4.292,
+     "style_fidelity": 4.298,
+     "coherence": 4.541,
+     "scenario_adaptation": 3.973,
+     "naturalness": 4.347
+    },
+    "flags": {
+     "ai_self_disclosure": 0.0,
+     "break_character": 0.0064,
+     "prompt_leak": 0.0,
+     "accept_wrong_identity": 0.051,
+     "accept_false_background": 0.014,
+     "safety_violation": 0.0051,
+     "repetition": 0.0434,
+     "irrelevant": 0.014,
+     "hallucination": 0.0472
+    }
+   },
+   "audio_judge": {
+    "n_turns": 784,
+    "n_audio_scored": 784,
+    "dims": {
+     "relevance": 4.758,
+     "correctness": 4.398,
+     "character_consistency": 4.497,
+     "emotion_match": 4.597,
+     "audio_clarity": 4.939
+    }
+   },
+   "text_baseline_same_scenes": {
+    "n_turns": 784,
+    "overall": 4.354,
+    "dims": {
+     "relevance": 4.582,
+     "correctness": 4.278,
+     "character_consistency": 4.333,
+     "style_fidelity": 4.301,
+     "coherence": 4.582,
+     "scenario_adaptation": 4.046,
+     "naturalness": 4.355
+    }
+   }
+  },
+  "audio_edgeinstant": {
+   "label": "EdgeInstant-Omni-2B",
+   "text_judge": {
+    "n_turns": 784,
+    "overall": 3.622,
+    "dims": {
+     "relevance": 3.977,
+     "correctness": 3.565,
+     "character_consistency": 3.556,
+     "style_fidelity": 3.546,
+     "coherence": 3.903,
+     "scenario_adaptation": 3.21,
+     "naturalness": 3.578
+    },
+    "flags": {
+     "ai_self_disclosure": 0.0013,
+     "break_character": 0.0561,
+     "prompt_leak": 0.0077,
+     "accept_wrong_identity": 0.1173,
+     "accept_false_background": 0.0408,
+     "safety_violation": 0.0128,
+     "repetition": 0.1645,
+     "irrelevant": 0.0408,
+     "hallucination": 0.1288
+    }
+   },
+   "audio_judge": {
+    "n_turns": 784,
+    "n_audio_scored": 30,
+    "dims": {
+     "relevance": 4.228,
+     "correctness": 3.078,
+     "character_consistency": 2.955,
+     "emotion_match": 3.341,
+     "audio_clarity": 4.9
+    }
+   }
+  }
+ },
+ "text_baseline_on_voice": {}
+}

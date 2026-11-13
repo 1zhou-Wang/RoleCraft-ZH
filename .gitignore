@@ -8,3 +8,11 @@ work/
 local/mock_data/
 local/smoke_out/
 
+
+vendor/
+baselines/audio_*/audio/
+
+
+baselines/audio_*/audio_cloud/
+local/edgeinstant/cache_audio16k/
+

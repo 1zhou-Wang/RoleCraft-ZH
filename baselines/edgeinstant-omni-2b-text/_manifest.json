@@ -1,0 +1,36 @@
+{
+  "model": "edgeinstant-omni-2b",
+  "pipeline": "edgeinstant-omni-2b-text",
+  "mode": "text-only",
+  "model_path": "E:\\RBM\\models\\EdgeInstant-Omni-2B-1106-Preview",
+  "transformers": "5.12.1",
+  "torch": "2.14.1+cu130",
+  "cards": 50,
+  "scenes_total": 1500,
+  "turns_total_planned": 2616,
+  "scenes_run_ok": 1495,
+  "scenes_run_failed": 0,
+  "turns_run_ok": 2610,
+  "turns_run_failed": 0,
+  "elapsed_s": 2707.03,
+  "avg_turn_latency_s": 1.035,
+  "turn_latency_p50_s": 0.952,
+  "turn_latency_p95_s": 1.782,
+  "turns_per_min": 57.8,
+  "generation": {
+    "temperature": 0.0,
+    "max_tokens": 512,
+    "do_sample": false
+  },
+  "started_at": "2026-11-14T03:03:38",
+  "cards_errors": [],
+  "log_file": "E:\\Apps\\DeepSeek_Harness\\projects\\Role_Play_Cases\\logs\\edgeinstant\\text_run_20261114_021821.log",
+  "scenes_total_completed": 1500,
+  "turns_total_completed": 2616,
+  "note": "本次全量进程运行 1495 场景/2610 轮；另有 5 场景/6 轮在同配置测速阶段（vendor 5.12.1）完成，合计 1500/2616 全部完成",
+  "speed_test_phase": {
+    "scenes": 5,
+    "turns": 6,
+    "avg_latency_s": 1.0
+  }
+}

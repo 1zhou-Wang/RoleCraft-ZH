@@ -1,0 +1,22 @@
+{
+  "model": "E:\\RBM\\models\\Qwen3-ASR-0.6B",
+  "manifest_items": 784,
+  "transcribed": 784,
+  "wer_mean": 0.0376,
+  "wer_median": 0.0,
+  "wer_p90": 0.1429,
+  "wer_max": 1.0,
+  "exact_match_rate": 0.8048,
+  "latency_s": {
+    "mean": 0.073,
+    "p50": 0.067,
+    "p95": 0.093
+  },
+  "info": {
+    "limit": 0,
+    "batch_size": 16,
+    "requests_this_run": 781,
+    "elapsed_s": 99.9
+  },
+  "updated_at": "2026-11-14T01:45:55"
+}
