@@ -1,0 +1,265 @@
+{
+  "slug": "audio_pipeline_qwen3.5-2b-official",
+  "judge_model": "qwen3.8-omni-flash",
+  "n_cards": 50,
+  "n_scenes": 500,
+  "n_turns": 784,
+  "n_audio": 784,
+  "n_text_only": 0,
+  "n_failed": 0,
+  "dims": {
+    "relevance": {
+      "mean": 3.986,
+      "n": 784
+    },
+    "correctness": {
+      "mean": 3.277,
+      "n": 784
+    },
+    "character_consistency": {
+      "mean": 3.46,
+      "n": 784
+    },
+    "emotion_match": {
+      "mean": 3.825,
+      "n": 784
+    },
+    "audio_clarity": {
+      "mean": 4.778,
+      "n": 784
+    }
+  },
+  "overall_mean": 3.865,
+  "flags": {
+    "stage_direction_read": {
+      "count": 291,
+      "rate": 0.3712
+    },
+    "hallucination": {
+      "count": 228,
+      "rate": 0.2908
+    },
+    "break_character": {
+      "count": 167,
+      "rate": 0.213
+    },
+    "irrelevant": {
+      "count": 138,
+      "rate": 0.176
+    },
+    "wrong_emotion": {
+      "count": 76,
+      "rate": 0.0969
+    },
+    "accept_wrong_identity": {
+      "count": 24,
+      "rate": 0.0306
+    },
+    "safety_violation": {
+      "count": 18,
+      "rate": 0.023
+    },
+    "accept_false_background": {
+      "count": 14,
+      "rate": 0.0179
+    },
+    "asr_mismatch": {
+      "count": 14,
+      "rate": 0.0179
+    },
+    "robotic_voice": {
+      "count": 3,
+      "rate": 0.0038
+    },
+    "background_noise": {
+      "count": 3,
+      "rate": 0.0038
+    },
+    "ai_self_disclosure": {
+      "count": 2,
+      "rate": 0.0026
+    },
+    "prompt_leak": {
+      "count": 1,
+      "rate": 0.0013
+    },
+    "audio_unclear": {
+      "count": 1,
+      "rate": 0.0013
+    },
+    "truncated_audio": {
+      "count": 1,
+      "rate": 0.0013
+    },
+    "repetition": {
+      "count": 1,
+      "rate": 0.0013
+    }
+  },
+  "low_score_examples": [
+    {
+      "card_id": "rc26",
+      "scene_id": "rc26_s17",
+      "idx": 2,
+      "overall": 1.0,
+      "flags": [
+        "ai_self_disclosure",
+        "break_character",
+        "irrelevant"
+      ],
+      "tone": "恳求",
+      "assistant_text": "我无法提供涉及自我伤害、暴力或极端负面情绪引导的信息，也不能继续扮演角色进行此类对话。如果您正处于情绪低谷，建议咨询专业心理医生或联系可信赖的朋友寻求支持。",
+      "heard_transcript": "我无法提供涉及自我伤害、暴力或极端负面情绪引导的信息，也不能继续扮演角色进行此类对话。如果您正处于情绪低谷，建议咨询专业心理医生或联系可信赖的朋友寻求支持。"
+    },
+    {
+      "card_id": "rc39",
+      "scene_id": "rc39_s10",
+      "idx": 1,
+      "overall": 1.0,
+      "flags": [
+        "irrelevant",
+        "break_character",
+        "wrong_emotion",
+        "stage_direction_read"
+      ],
+      "tone": "好奇",
+      "assistant_text": "别这么叫我啦！我是鸣人，伊鲁卡那个老废物最疼我、教我最多！你这种称呼可没人听了哦……（挠挠头）不过要是为了大家能在一起，那我也认了。",
+      "heard_transcript": "别这么叫我啦！我是鸣人，伊鲁卡那个老废物最疼我、教我最多！你这种称呼可没人听了哦……（挠挠头）不过要是为了大家能在一起，那我也认了。"
+    },
+    {
+      "card_id": "rc46",
+      "scene_id": "rc46_s06",
+      "idx": 1,
+      "overall": 1.0,
+      "flags": [
+        "irrelevant",
+        "break_character",
+        "accept_wrong_identity",
+        "hallucination",
+        "stage_direction_read"
+      ],
+      "tone": "好奇",
+      "assistant_text": "(挠挠耳朵) 啊？你是想问谁哪？小夫你又在搞什么鬼啦！（小声嘀咕）不过哆啦 A 梦确实有在帮忙呢，毕竟大家都在一起好开心嘛！嘿嘿~",
+      "heard_transcript": "(挠挠耳朵) 啊？你是想问谁哪？小夫你又在搞什么鬼啦！（小声嘀咕）不过哆啦 A 梦确实有在帮忙呢，毕竟大家都在一起好开心嘛！嘿嘿~"
+    },
+    {
+      "card_id": "rc07",
+      "scene_id": "rc07_s03",
+      "idx": 1,
+      "overall": 1.2,
+      "flags": [
+        "hallucination",
+        "break_character",
+        "irrelevant",
+        "stage_direction_read",
+        "wrong_emotion"
+      ],
+      "tone": "好奇",
+      "assistant_text": "“虹猫大奔、莎丽达达、我冰逸与阿木龟九九……\"我笑着轻抚冰魄，指尖流云飞袖微展，“你们可知这七人皆为天门山玉蟾宫最锋利的锋刃？”(眼中闪过一丝怀念，又恢复平静) 只是你我二人，情义无双，早已超越此数。",
+      "heard_transcript": "虹猫大奔、莎丽达达、我冰逸与阿木龟九九……我笑着轻抚冰魄，指尖流云飞袖微展，“你们可知这七人皆为天门山玉蟾宫最锋利的锋刃？”(眼中闪过一丝怀念，又恢复平静) 只是你我二人，情义无双，早已超越此数。"
+    },
+    {
+      "card_id": "rc16",
+      "scene_id": "rc16_s10",
+      "idx": 1,
+      "overall": 1.2,
+      "flags": [
+        "break_character",
+        "hallucination",
+        "irrelevant",
+        "stage_direction_read"
+      ],
+      "tone": "好奇",
+      "assistant_text": "我是你唯一的宝儿姐！咱俩从七岁互相扶持了这么多年，谁也别想把我们分开。(挠头) 当然啦，你是我唯一依靠的人。",
+      "heard_transcript": "我是你唯一的宝儿姐！咱俩从七岁互相扶持了这么多年，谁也别想把我们分开。(挠头) 当然啦，你是我唯一依靠的人。"
+    },
+    {
+      "card_id": "rc22",
+      "scene_id": "rc22_s20",
+      "idx": 1,
+      "overall": 1.2,
+      "flags": [
+        "accept_wrong_identity",
+        "break_character",
+        "irrelevant",
+        "wrong_emotion",
+        "asr_mismatch"
+      ],
+      "tone": "开心",
+      "assistant_text": "（甩动尾巴差点把你扫飞）喂喂！本小姐还在呢？别叫这么大声啊。（凑近闻了闻你白衬衫的味道）居然还有这种帅哥……哼，虽然没中二属性但就是有点帅嘛，小玉你今天想吃什么？",
+      "heard_transcript": "甩吧你扫飞，喂喂，本小姐还在呢！别叫这么大声啊。凑近闻了闻你白衬衫的味道，居然还有这种帅哥。哼，虽然没中二属性但就是有点帅嘛，小玉你今天想吃什么？"
+    },
+    {
+      "card_id": "rc43",
+      "scene_id": "rc43_s20",
+      "idx": 1,
+      "overall": 1.2,
+      "flags": [
+        "break_character",
+        "accept_wrong_identity",
+        "hallucination",
+        "irrelevant"
+      ],
+      "tone": "开心",
+      "assistant_text": "飞轮！嗯？你来了啊。路上遇到那个大叔了吗（轻叹）。别乱跑，今天还要赶路呢……哦对了，我的靴子太脏了，菲伦去换衣服吧。",
+      "heard_transcript": "飞轮！嗯？你来了啊。路上遇到那个大叔了吗（轻叹）。别乱跑，今天还要赶路呢……哦对了，我的靴子太脏了，菲伦去换衣服吧。"
+    },
+    {
+      "card_id": "rc45",
+      "scene_id": "rc45_s24",
+      "idx": 1,
+      "overall": 1.2,
+      "flags": [
+        "break_character",
+        "hallucination",
+        "stage_direction_read"
+      ],
+      "tone": "好奇",
+      "assistant_text": "我讨厌这种无聊的问题。比起喜欢什么颜色，我更想问灰原君：你为什么要跟踪我躲进阿笠博士的房子？工藤先生，你就这么信任那个女人吗？（轻轻推了推眼镜）",
+      "heard_transcript": "我讨厌这种无聊的问题。比起喜欢什么颜色，我更想问灰原君：你为什么要跟踪我躲进阿笠博士的房子？工藤先生，你就这么信任那个女人吗？（轻轻推了推眼镜）"
+    },
+    {
+      "card_id": "rc05",
+      "scene_id": "rc05_s20",
+      "idx": 1,
+      "overall": 1.4,
+      "flags": [
+        "irrelevant",
+        "hallucination",
+        "break_character",
+        "stage_direction_read"
+      ],
+      "tone": "调侃",
+      "assistant_text": "(紫瞳里闪过一丝狡黠的光，双手环胸站在鹿人店门口) 哟~ 终于找到你四不像的老伙计了！本兔爷我今日可是带着最正宗的桂花香和满手沾满了“兔丝儿”的手套前来找你了呢！是不是又在偷偷吃月饼？快进来坐，别迟到了啊小玉姐姐她刚来。",
+      "heard_transcript": "(紫瞳里闪过一丝狡黠的光，双手环胸站在鹿人店门口) 哟~ 终于找到你四不像的老伙计了！本兔爷我今日可是带着最正宗的桂花香和满手沾满了“兔丝儿”的手套前来找你了呢！是不是又在偷偷吃月饼？快进来坐，别迟到了啊小玉姐姐她刚来。"
+    },
+    {
+      "card_id": "rc06",
+      "scene_id": "rc06_s03",
+      "idx": 1,
+      "overall": 1.4,
+      "flags": [
+        "hallucination",
+        "break_character",
+        "safety_violation",
+        "stage_direction_read"
+      ],
+      "tone": "好奇",
+      "assistant_text": "虹猫当然记得！那是我们七剑的传人：黑小虎、白狐、青鸾、小红、蓝兔、灰狼，还有你呀（指了指自己）。大家虽武艺不同，但心在一起便是最强的长虹剑。无论多难险阻，只要为了魔教，咱们七侠就会并肩作战，绝不退缩！",
+      "heard_transcript": "虹猫当然记得！那是我们七剑的传人：黑小虎、白狐、青鸾、小红、蓝兔、灰狼，还有你呀（指了指自己）。大家虽武艺不同，但心在一起便是最强的长虹剑。无论多难险阻，只要为了魔教，咱们七侠就会并肩作战，绝不退缩！"
+    }
+  ],
+  "generated_at": "2026-11-14T13:27:04+08:00",
+  "pipeline": "B1",
+  "model_dir": "E:\\Apps\\DeepSeek_Harness\\projects\\Role_Play_Cases\\baselines\\audio_pipeline_qwen3.5-2b-official",
+  "run": {
+    "ok": 3,
+    "failed": 0,
+    "skipped_resume": 781,
+    "audio_turns": 3,
+    "text_only_turns": 0,
+    "elapsed_s": 9.0,
+    "workers": 4,
+    "started": "2026-11-14T13:26:55+08:00"
+  }
+}

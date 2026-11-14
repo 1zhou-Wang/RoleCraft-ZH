@@ -114,4 +114,16 @@ $env:PYTHONIOENCODING='utf-8'
 - **已知异常**：2B 的 2 条 512 字复读退化回答（rc24_s26#1、rc10_s14#2）经云端 TTS 后音频时长明显短于文本期望（3.1 s / 18.4 s），判官可能按 asr_mismatch 暴露——这与该回答自身的 repetition 退化一致
 - 判官消费方式见 `scripts/audio_judge.py`（`assistant_audio` + 文本），音频目录相对 baseline 文件解析
 
+## 7. v0.2 官方解码配置（Plan A）重测（2026-11-14）
+
+- 背景：Qwen3.5 README 非思考文本推荐 `temperature=1.0, top_p=1.0, top_k=20, min_p=0.0, presence_penalty=2.0`（注意是 presence_penalty，非 repetition_penalty），固定 `seed=42`；v0.1 用 greedy 无惩罚，部分复读 badcase 由解码配置导致。**v0.1 全部目录与 results 保持不动**。
+- 服务：`local/serve.ps1 -Action start -Official`（脚本新增 `-Official` 开关，追加 `--temp 1.0 --top-k 20 --top-p 1.0 --min-p 0.0 --presence-penalty 2.0 --seed 42`）；`/props` 已确认 server 默认采样生效；同 prompt 两次 temp=1 请求输出逐字一致（seed 可复现），temp=0 覆盖请求输出不同。
+- 文字 track：`baselines/qwen3.5-2b-official/`、`baselines/qwen3.5-4b-official/`（各 1500 场景 / 2616 turn / 0 失败；588.2 s / 954.6 s）；`local/run_baseline.py --sampling official`
+- 音频级联：`baselines/audio_pipeline_qwen3.5-2b-official/`、`...-4b-official/`（各 500 场景 / 784 turn / 0 失败；179.9 s / 325.9 s；ASR 转写复用 v0.1）；`local/audio_cascade.py --sampling official`
+- TTS：1568 条回复全部云端 `qwen-audio-3.1-tts-next` 渲染为 mp3（`audio_cloud/`，24 kHz mono），回填 `assistant_audio` + `tts_render`；共 20 pilot + 1547 + 1 retry = 1568 条，累计 2720 s（34.6 条/分钟），最终 0 失败（1 条 B2 rc29_s03#2 被内容审核拒绝，换 seed=43 重试成功）
+- **复读退化对比（v0.1 greedy → v0.2 official）**：文字 2B 0.19%→**0%**、4B 0.04%→**0%**；级联 B1 0.38%→**0%**、B2 0%→**0%**；回复均长 +10-12%（2B 65.9→76.8、4B 70.5→78.8）
+- 汇总：`baselines/audio_pipeline_summary_official.json`；对比明细 `logs/audio_track/official_vs_greedy_compare.json`
+- 新增/复用脚本：`local/run_baseline.py --sampling official`、`local/audio_cascade.py --sampling official`、`local/compare_official_vs_greedy.py`、`local/audio_pipeline/update_audio_summary_official.py`、`local/audio_pipeline/local_tts_fallback.py`（云端审核拒绝时的本地兜底）
+- 服务保持运行：2B :8088 / 4B :8089（官方采样 flag），供判官/补跑使用
+
 

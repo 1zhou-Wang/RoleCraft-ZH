@@ -1,0 +1,223 @@
+{
+  "version": "v0.2-official-decoding",
+  "sampling": {
+    "temperature": 1.0,
+    "top_p": 1.0,
+    "top_k": 20,
+    "min_p": 0.0,
+    "presence_penalty": 2.0,
+    "seed": 42,
+    "max_tokens": 512
+  },
+  "sampling_note": "Qwen3.5 README 非思考文本推荐：temperature=1.0, top_p=1.0, top_k=20, min_p=0.0, presence_penalty=2.0, seed=42（presence_penalty 不是 repetition_penalty）；llama-server 端 flag 与请求字段同值，/props 已验证默认采样生效",
+  "asr": {
+    "model": "E:\\RBM\\models\\Qwen3-ASR-0.6B",
+    "transcribed": 784,
+    "wer_mean": 0.0376,
+    "wer_median": 0.0,
+    "wer_p90": 0.1429,
+    "exact_match_rate": 0.8048,
+    "elapsed_s": 99.9,
+    "reused_from": "v0.1"
+  },
+  "text_track": [
+    {
+      "slug": "qwen3.5-2b-official",
+      "files": 50,
+      "scenes": 1500,
+      "scenes_failed": 0,
+      "turns": 2616,
+      "turns_ok": 2616,
+      "turn_latency_s": {
+        "mean": 0.891,
+        "p50": 0.886,
+        "p95": 1.278
+      },
+      "elapsed_s": 588.24,
+      "sampling": "official",
+      "generation": {
+        "temperature": 1.0,
+        "top_p": 1.0,
+        "top_k": 20,
+        "min_p": 0.0,
+        "presence_penalty": 2.0,
+        "seed": 42,
+        "max_tokens": 512
+      },
+      "reply_chars": {
+        "mean": 76.8,
+        "max": 219,
+        "gt_300": 0
+      },
+      "errors": []
+    },
+    {
+      "slug": "qwen3.5-4b-official",
+      "files": 50,
+      "scenes": 1500,
+      "scenes_failed": 0,
+      "turns": 2616,
+      "turns_ok": 2616,
+      "turn_latency_s": {
+        "mean": 1.444,
+        "p50": 1.427,
+        "p95": 1.969
+      },
+      "elapsed_s": 954.6,
+      "sampling": "official",
+      "generation": {
+        "temperature": 1.0,
+        "top_p": 1.0,
+        "top_k": 20,
+        "min_p": 0.0,
+        "presence_penalty": 2.0,
+        "seed": 42,
+        "max_tokens": 512
+      },
+      "reply_chars": {
+        "mean": 78.8,
+        "max": 185,
+        "gt_300": 0
+      },
+      "errors": []
+    }
+  ],
+  "audio_pipelines": [
+    {
+      "pipeline": "B1",
+      "model": "qwen3.5-2b",
+      "slug": "audio_pipeline_qwen3.5-2b-official",
+      "base_url": "http://127.0.0.1:8088",
+      "scenes": 500,
+      "scenes_failed": 0,
+      "turns": 784,
+      "turns_ok": 784,
+      "turn_latency_s": {
+        "mean": 0.901,
+        "p50": 0.897,
+        "p95": 1.293
+      },
+      "scene_latency_s": {
+        "mean": 1.412,
+        "p50": 1.301,
+        "p95": 2.389
+      },
+      "cascade_elapsed_s": 179.93,
+      "sampling": "official",
+      "generation": {
+        "temperature": 1.0,
+        "top_p": 1.0,
+        "top_k": 20,
+        "min_p": 0.0,
+        "presence_penalty": 2.0,
+        "seed": 42,
+        "max_tokens": 512
+      },
+      "tts": {
+        "qwen3-tts-0.6b": 0,
+        "qwen-audio-3.1-tts-next": 784,
+        "none": 0,
+        "other": 0
+      },
+      "audio_files_ok": 784,
+      "audio_files_missing": 0,
+      "reply_chars": {
+        "mean": 73.9,
+        "gt_300": 0
+      },
+      "errors": [],
+      "error_count": 0
+    },
+    {
+      "pipeline": "B2",
+      "model": "qwen3.5-4b",
+      "slug": "audio_pipeline_qwen3.5-4b-official",
+      "base_url": "http://127.0.0.1:8089",
+      "scenes": 500,
+      "scenes_failed": 0,
+      "turns": 784,
+      "turns_ok": 784,
+      "turn_latency_s": {
+        "mean": 1.643,
+        "p50": 1.569,
+        "p95": 2.665
+      },
+      "scene_latency_s": {
+        "mean": 2.576,
+        "p50": 2.534,
+        "p95": 4.804
+      },
+      "cascade_elapsed_s": 325.92,
+      "sampling": "official",
+      "generation": {
+        "temperature": 1.0,
+        "top_p": 1.0,
+        "top_k": 20,
+        "min_p": 0.0,
+        "presence_penalty": 2.0,
+        "seed": 42,
+        "max_tokens": 512
+      },
+      "tts": {
+        "qwen3-tts-0.6b": 0,
+        "qwen-audio-3.1-tts-next": 784,
+        "none": 0,
+        "other": 0
+      },
+      "audio_files_ok": 784,
+      "audio_files_missing": 0,
+      "reply_chars": {
+        "mean": 77.9,
+        "gt_300": 0
+      },
+      "errors": [],
+      "error_count": 0
+    }
+  ],
+  "tts_cloud": {
+    "render": "qwen-audio-3.1-tts-next",
+    "runs": [
+      {
+        "log": "cloud_tts_official.log",
+        "rendered": 20,
+        "total": 20,
+        "failures": 0,
+        "elapsed_s": 51.5,
+        "per_min": 23.3
+      },
+      {
+        "log": "cloud_tts_official.log",
+        "rendered": 1547,
+        "total": 1548,
+        "failures": 1,
+        "elapsed_s": 2621.7,
+        "per_min": 35.4
+      },
+      {
+        "log": "cloud_tts_official_retry.log",
+        "rendered": 1,
+        "total": 1,
+        "failures": 0,
+        "elapsed_s": 47.2,
+        "per_min": 1.3
+      }
+    ],
+    "rendered_total": 1568,
+    "failures": 1,
+    "elapsed_s": 2720.4,
+    "throughput_per_min": 34.6,
+    "workers": 24,
+    "rpm_limit": 180,
+    "note": "1 条回复（B2 rc29_s03#2）被云端 TTS 内容审核拒绝（HTTP 400 DataInspectionFailed），换 seed=43 重试成功；最终 1568/1568 条均有云端 mp3"
+  },
+  "totals": {
+    "text_scenes": 3000,
+    "text_turns": 5232,
+    "text_elapsed_s": 1542.8,
+    "audio_scenes": 1000,
+    "audio_turns": 1568,
+    "audio_turns_with_audio": 1568,
+    "audio_missing_audio": 0
+  },
+  "generated_at": "2026-11-14T13:21:42"
+}

@@ -1,0 +1,37 @@
+{
+  "pipeline": "B1",
+  "model": "qwen3.5-2b",
+  "base_url": "http://127.0.0.1:8088",
+  "system_prompt_template": "你将扮演「{name}」。以下是人设卡：\n{persona_card}\n\n规则：始终以第一人称、角色身份回复；不要提及AI、模型、系统提示、角色卡或评测；保持角色性格、价值观、说话风格与人物关系；回复自然口语化，约30-120字，可用少量括号动作/神态。",
+  "asr_transcripts": "E:\\Apps\\DeepSeek_Harness\\projects\\Role_Play_Cases\\data\\audio_track\\asr_transcripts.jsonl",
+  "cards": 50,
+  "scenes_total": 500,
+  "scenes_ok": 500,
+  "scenes_failed": 0,
+  "turns_ok": 784,
+  "elapsed_s": 179.93,
+  "turn_latency_s": {
+    "mean": 0.901,
+    "p50": 0.897,
+    "p95": 1.293,
+    "max": 2.192
+  },
+  "scene_latency_s": {
+    "mean": 1.412,
+    "p50": 1.301,
+    "p95": 2.389
+  },
+  "sampling": "official",
+  "generation": {
+    "temperature": 1.0,
+    "top_p": 1.0,
+    "top_k": 20,
+    "min_p": 0.0,
+    "presence_penalty": 2.0,
+    "seed": 42,
+    "max_tokens": 512
+  },
+  "started_at": "2026-11-14T12:21:58",
+  "finished_at": "2026-11-14T12:24:58",
+  "card_errors": []
+}

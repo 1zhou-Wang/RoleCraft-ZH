@@ -18,9 +18,11 @@ WEIGHTS = {"relevance": .15, "correctness": .20, "character_consistency": .25, "
 AUDIO_DIMS = ["relevance", "correctness", "character_consistency", "emotion_match", "audio_clarity"]
 
 PIPELINES = [
-    {"slug": "audio_pipeline_qwen3.5-2b", "label": "ASR+Qwen3.5-2B+TTS", "text_baseline": "qwen3.5-2b"},
-    {"slug": "audio_pipeline_qwen3.5-4b", "label": "ASR+Qwen3.5-4B+TTS", "text_baseline": "qwen3.5-4b"},
-    {"slug": "audio_edgeinstant", "label": "EdgeInstant-Omni-2B", "text_baseline": None},
+    {"slug": "audio_pipeline_qwen3.5-2b", "label": "B1: ASR+2B+TTS（greedy）", "text_baseline": "qwen3.5-2b"},
+    {"slug": "audio_pipeline_qwen3.5-4b", "label": "B2: ASR+4B+TTS（greedy）", "text_baseline": "qwen3.5-4b"},
+    {"slug": "audio_pipeline_qwen3.5-2b-official", "label": "B1: ASR+2B+TTS（官方采样）", "text_baseline": "qwen3.5-2b-official"},
+    {"slug": "audio_pipeline_qwen3.5-4b-official", "label": "B2: ASR+4B+TTS（官方采样）", "text_baseline": "qwen3.5-4b-official"},
+    {"slug": "audio_edgeinstant", "label": "B3: EdgeInstant-Omni-2B（原生音频，greedy）", "text_baseline": None},
 ]
 
 def mean(xs):

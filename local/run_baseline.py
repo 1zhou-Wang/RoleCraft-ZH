@@ -53,6 +53,17 @@ SYSTEM_PROMPT_TEMPLATE = (
 
 log = logging.getLogger("run_baseline")
 
+# v0.2 官方解码配置（Qwen3.5 README 非思考文本推荐；注意是 presence_penalty 而非 repetition_penalty）
+OFFICIAL_SAMPLING = {
+    "temperature": 1.0,
+    "top_p": 1.0,
+    "top_k": 20,
+    "min_p": 0.0,
+    "presence_penalty": 2.0,
+    "seed": 42,
+}
+
+
 
 # --------------------------------------------------------------------------- #
 # HTTP helpers
@@ -98,6 +109,7 @@ def chat_completion(
     temperature: float,
     timeout: float,
     retries: int = 3,
+    sampling: dict | None = None,
 ) -> tuple[str, float]:
     """返回 (assistant_text, latency_s)。失败重试 retries 次。"""
     payload = {
@@ -107,6 +119,8 @@ def chat_completion(
         "max_tokens": max_tokens,
         "stream": False,
     }
+    if sampling:
+        payload.update(sampling)
     last_err: Exception | None = None
     for attempt in range(1, retries + 1):
         started = time.perf_counter()
@@ -278,6 +292,7 @@ def run_one_card(
                     temperature=args.temperature,
                     timeout=args.timeout,
                     retries=args.retries,
+                    sampling=args.sampling_payload,
                 )
                 messages.append({"role": "assistant", "content": reply})
                 turns_out.append(
@@ -303,7 +318,7 @@ def run_one_card(
             "card_id": card_id,
             "scene_id": sid,
             "model": args.model_slug,
-            "generation": {"temperature": args.temperature, "max_tokens": args.max_tokens},
+            "generation": dict(args.generation),
             "turns": turns_out,
             "latency_s": scene_latency,
         }
@@ -341,6 +356,9 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--concurrency", type=int, default=4, help="并发角色卡数（≈ llama-server -np）")
     parser.add_argument("--max-tokens", type=int, default=512)
     parser.add_argument("--temperature", type=float, default=0.0)
+    parser.add_argument("--sampling", choices=["greedy", "official"], default="greedy",
+                        help="解码配置：greedy=v0.1 贪心；official=Qwen3.5 官方非思考推荐"
+                             "(temperature=1.0/top_p=1.0/top_k=20/min_p=0.0/presence_penalty=2.0/seed=42)")
     parser.add_argument("--timeout", type=float, default=300.0, help="单请求超时秒")
     parser.add_argument("--retries", type=int, default=3, help="单请求失败重试次数")
     parser.add_argument("--wait-server", type=float, default=60.0, help="启动前等待 /health 的秒数（0=不等待）")
@@ -356,6 +374,14 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
             args.out_dir = str(MOCK_DATA_DIR / "baselines")
     if args.model_name is None:
         args.model_name = args.model_slug
+    if args.sampling == "official":
+        args.temperature = OFFICIAL_SAMPLING["temperature"]
+        # 显式带上官方采样字段（llama-server 支持这些 OAI 字段；server 端 flag 也设了同值兜底）
+        args.sampling_payload = {k: v for k, v in OFFICIAL_SAMPLING.items() if k != "temperature"}
+        args.generation = {**OFFICIAL_SAMPLING, "max_tokens": args.max_tokens}
+    else:
+        args.sampling_payload = None
+        args.generation = {"temperature": args.temperature, "max_tokens": args.max_tokens}
     return args
 
 
@@ -378,9 +404,9 @@ def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
     setup_logging(args)
 
-    characters_dir = Path(args.characters_dir)
-    scenes_dir = Path(args.scenes_dir)
-    out_dir = Path(args.out_dir)
+    characters_dir = Path(args.characters_dir).resolve()
+    scenes_dir = Path(args.scenes_dir).resolve()
+    out_dir = Path(args.out_dir).resolve()
     if not characters_dir.is_dir():
         log.error("characters 目录不存在: %s", characters_dir)
         return 2
@@ -424,8 +450,9 @@ def main(argv: list[str] | None = None) -> int:
             continue
         total_scenes += n
     log.info(
-        "=%s | 卡 %d 张 | 场景 %d 个 | server %s | concurrency=%d | 输出 %s",
-        args.model_slug, len(card_paths), total_scenes, args.base_url, args.concurrency, out_dir / args.model_slug,
+        "=%s | 卡 %d 张 | 场景 %d 个 | server %s | sampling=%s | concurrency=%d | 输出 %s",
+        args.model_slug, len(card_paths), total_scenes, args.base_url, args.sampling, args.concurrency,
+        out_dir / args.model_slug,
     )
 
     if args.dry_run:
@@ -500,11 +527,16 @@ def main(argv: list[str] | None = None) -> int:
         "scene_latency_s": _stats(lat),
         "turn_latency_s": _stats(tlat),
         "avg_turn_latency_s": round(sum(tlat) / len(tlat), 3) if tlat else 0.0,
-        "generation": {"temperature": args.temperature, "max_tokens": args.max_tokens},
+        "manifest": "",
+        "sampling": args.sampling,
+        "generation": dict(args.generation),
         "started_at": started_at.isoformat(timespec="seconds"),
         "finished_at": finished_at.isoformat(timespec="seconds"),
         "cards_errors": stats["cards_errors"],
     }
+    manifest["manifest"] = str((out_dir / args.model_slug / "_manifest.json").relative_to(PROJECT_ROOT)) \
+        if (out_dir / args.model_slug / "_manifest.json").is_relative_to(PROJECT_ROOT) \
+        else str(out_dir / args.model_slug / "_manifest.json")
     manifest_path = out_dir / args.model_slug / "_manifest.json"
     manifest_path.parent.mkdir(parents=True, exist_ok=True)
     with manifest_path.open("w", encoding="utf-8") as f:

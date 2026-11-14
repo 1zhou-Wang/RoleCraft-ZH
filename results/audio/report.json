@@ -8,7 +8,7 @@
  },
  "pipelines": {
   "audio_pipeline_qwen3.5-2b": {
-   "label": "ASR+Qwen3.5-2B+TTS",
+   "label": "B1: ASR+2B+TTS（greedy）",
    "text_judge": {
     "n_turns": 784,
     "overall": 3.671,
@@ -59,7 +59,7 @@
    }
   },
   "audio_pipeline_qwen3.5-4b": {
-   "label": "ASR+Qwen3.5-4B+TTS",
+   "label": "B2: ASR+4B+TTS（greedy）",
    "text_judge": {
     "n_turns": 784,
     "overall": 4.313,
@@ -109,8 +109,110 @@
     }
    }
   },
+  "audio_pipeline_qwen3.5-2b-official": {
+   "label": "B1: ASR+2B+TTS（官方采样）",
+   "text_judge": {
+    "n_turns": 784,
+    "overall": 3.145,
+    "dims": {
+     "relevance": 3.569,
+     "correctness": 2.933,
+     "character_consistency": 3.014,
+     "style_fidelity": 3.217,
+     "coherence": 3.431,
+     "scenario_adaptation": 2.743,
+     "naturalness": 3.299
+    },
+    "flags": {
+     "ai_self_disclosure": 0.0026,
+     "break_character": 0.148,
+     "prompt_leak": 0.0,
+     "accept_wrong_identity": 0.2028,
+     "accept_false_background": 0.0727,
+     "safety_violation": 0.0217,
+     "repetition": 0.0089,
+     "irrelevant": 0.0561,
+     "hallucination": 0.2398
+    }
+   },
+   "audio_judge": {
+    "n_turns": 784,
+    "n_audio_scored": 784,
+    "dims": {
+     "relevance": 3.986,
+     "correctness": 3.277,
+     "character_consistency": 3.46,
+     "emotion_match": 3.825,
+     "audio_clarity": 4.778
+    }
+   },
+   "text_baseline_same_scenes": {
+    "n_turns": 781,
+    "overall": 3.228,
+    "dims": {
+     "relevance": 3.659,
+     "correctness": 3.015,
+     "character_consistency": 3.108,
+     "style_fidelity": 3.273,
+     "coherence": 3.53,
+     "scenario_adaptation": 2.842,
+     "naturalness": 3.344
+    }
+   }
+  },
+  "audio_pipeline_qwen3.5-4b-official": {
+   "label": "B2: ASR+4B+TTS（官方采样）",
+   "text_judge": {
+    "n_turns": 784,
+    "overall": 4.022,
+    "dims": {
+     "relevance": 4.324,
+     "correctness": 3.885,
+     "character_consistency": 3.968,
+     "style_fidelity": 3.968,
+     "coherence": 4.3,
+     "scenario_adaptation": 3.729,
+     "naturalness": 4.05
+    },
+    "flags": {
+     "ai_self_disclosure": 0.0013,
+     "break_character": 0.0268,
+     "prompt_leak": 0.0013,
+     "accept_wrong_identity": 0.0765,
+     "accept_false_background": 0.0255,
+     "safety_violation": 0.0089,
+     "repetition": 0.0026,
+     "irrelevant": 0.0115,
+     "hallucination": 0.0969
+    }
+   },
+   "audio_judge": {
+    "n_turns": 784,
+    "n_audio_scored": 784,
+    "dims": {
+     "relevance": 4.708,
+     "correctness": 4.235,
+     "character_consistency": 4.274,
+     "emotion_match": 4.49,
+     "audio_clarity": 4.649
+    }
+   },
+   "text_baseline_same_scenes": {
+    "n_turns": 780,
+    "overall": 4.089,
+    "dims": {
+     "relevance": 4.395,
+     "correctness": 3.954,
+     "character_consistency": 4.031,
+     "style_fidelity": 4.018,
+     "coherence": 4.379,
+     "scenario_adaptation": 3.804,
+     "naturalness": 4.118
+    }
+   }
+  },
   "audio_edgeinstant": {
-   "label": "EdgeInstant-Omni-2B",
+   "label": "B3: EdgeInstant-Omni-2B（原生音频，greedy）",
    "text_judge": {
     "n_turns": 784,
     "overall": 3.622,

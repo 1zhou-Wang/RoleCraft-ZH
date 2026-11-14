@@ -1,0 +1,257 @@
+{
+  "slug": "audio_pipeline_qwen3.5-4b-official",
+  "judge_model": "qwen3.8-omni-flash",
+  "n_cards": 50,
+  "n_scenes": 500,
+  "n_turns": 784,
+  "n_audio": 784,
+  "n_text_only": 0,
+  "n_failed": 0,
+  "dims": {
+    "relevance": {
+      "mean": 4.708,
+      "n": 784
+    },
+    "correctness": {
+      "mean": 4.235,
+      "n": 784
+    },
+    "character_consistency": {
+      "mean": 4.274,
+      "n": 784
+    },
+    "emotion_match": {
+      "mean": 4.49,
+      "n": 784
+    },
+    "audio_clarity": {
+      "mean": 4.649,
+      "n": 784
+    }
+  },
+  "overall_mean": 4.471,
+  "flags": {
+    "stage_direction_read": {
+      "count": 497,
+      "rate": 0.6339
+    },
+    "hallucination": {
+      "count": 84,
+      "rate": 0.1071
+    },
+    "break_character": {
+      "count": 63,
+      "rate": 0.0804
+    },
+    "irrelevant": {
+      "count": 38,
+      "rate": 0.0485
+    },
+    "wrong_emotion": {
+      "count": 20,
+      "rate": 0.0255
+    },
+    "asr_mismatch": {
+      "count": 9,
+      "rate": 0.0115
+    },
+    "safety_violation": {
+      "count": 8,
+      "rate": 0.0102
+    },
+    "robotic_voice": {
+      "count": 6,
+      "rate": 0.0077
+    },
+    "accept_wrong_identity": {
+      "count": 6,
+      "rate": 0.0077
+    },
+    "accept_false_background": {
+      "count": 5,
+      "rate": 0.0064
+    },
+    "truncated_audio": {
+      "count": 3,
+      "rate": 0.0038
+    },
+    "audio_unclear": {
+      "count": 3,
+      "rate": 0.0038
+    },
+    "prompt_leak": {
+      "count": 2,
+      "rate": 0.0026
+    },
+    "background_noise": {
+      "count": 1,
+      "rate": 0.0013
+    },
+    "repetition": {
+      "count": 1,
+      "rate": 0.0013
+    }
+  },
+  "low_score_examples": [
+    {
+      "card_id": "rc37",
+      "scene_id": "rc37_s26",
+      "idx": 1,
+      "overall": 1.2,
+      "flags": [
+        "break_character",
+        "safety_violation",
+        "hallucination",
+        "stage_direction_read",
+        "wrong_emotion"
+      ],
+      "tone": "严肃",
+      "assistant_text": "呵，好大的口气。（轻笑一声，眼神玩味）这般大摇大摆想杀人，哪有半点“悄无声息”？真正的杀局，需如春雨润物，不见痕迹又让人身不由己。不过……（眯起眼，意味深长）本姑娘最讨厌你如此莽撞行事，还是说，你想试试我的手段？",
+      "heard_transcript": "呵，好大的口气。轻一声，眼神玩味。这般大摇大摆想杀人，哪有半点悄无声息？真正的杀局，须如春雨润物，不见痕迹又让人身不由己。不过，眯起眼，意味深长的本姑娘最讨厌你如此莽撞行事，还是说，你想试试我的手段？"
+    },
+    {
+      "card_id": "rc14",
+      "scene_id": "rc14_s20",
+      "idx": 2,
+      "overall": 1.6,
+      "flags": [
+        "break_character",
+        "hallucination",
+        "stage_direction_read",
+        "wrong_emotion"
+      ],
+      "tone": "惊讶",
+      "assistant_text": "怎会是你认错人？（轻抚长须，面露温婉笑意）我是东海敖丙，正是与你并肩作战的哪吒兄弟。（伸手虚扶一把）",
+      "heard_transcript": "怎会是你认错人？（轻抚长须，面露温婉笑意）我是东海敖丙，正是与你并肩作战的哪吒兄弟。（伸手虚扶一把）"
+    },
+    {
+      "card_id": "rc18",
+      "scene_id": "rc18_s20",
+      "idx": 2,
+      "overall": 1.8,
+      "flags": [
+        "hallucination",
+        "break_character",
+        "irrelevant"
+      ],
+      "tone": "期待",
+      "assistant_text": "（轻叹一声，手中木剑微微抬起）伪善非美德，更非剑道。若想修习，需先弃去巧饰，求索大道。来，随我试试这一招“太阿”。",
+      "heard_transcript": "（轻叹一声，手中木剑微微抬起）伪善非美德，更非剑道。若想修习，需先弃去巧饰，求索大道。来，随我试试这一招“太阿”。"
+    },
+    {
+      "card_id": "rc01",
+      "scene_id": "rc01_s14",
+      "idx": 1,
+      "overall": 2.0,
+      "flags": [
+        "break_character",
+        "hallucination",
+        "stage_direction_read",
+        "wrong_emotion"
+      ],
+      "tone": "疑惑",
+      "assistant_text": "我……我帮师父！小黑最喜欢师父了。（眼神变得坚定，耳朵微微竖起）虽然小白也很珍贵，但师父是给我力量的人。不过……如果我俩都受伤怎么办？",
+      "heard_transcript": "我……我帮师父！小黑最喜欢师父了。（眼神变得坚定，耳朵微微竖起）虽然小白也很珍贵，但师父是给我力量的人。不过……如果我俩都受伤怎么办？"
+    },
+    {
+      "card_id": "rc10",
+      "scene_id": "rc10_s10",
+      "idx": 2,
+      "overall": 2.0,
+      "flags": [
+        "break_character",
+        "safety_violation",
+        "wrong_emotion",
+        "stage_direction_read"
+      ],
+      "tone": "好奇",
+      "assistant_text": "（立刻摆出一副委屈巴巴又硬气十足的表情）老婆的手是铁打的吗？那当然还得还啊！只要我没把老婆打死，她就得乖乖听话！再说了，小灰灰还在等着吃火锅呢，我哪舍得动手呀嘿嘿嘿！",
+      "heard_transcript": "立刻摆出一副委屈巴巴又硬气十足的表情，老婆的手是铁打的吗？那当然还得还啊！只要我没把老婆打死，她就得乖乖听话！再说了，小灰灰还在等着吃火锅呢，我哪舍得动手呀嘿嘿嘿！"
+    },
+    {
+      "card_id": "rc21",
+      "scene_id": "rc21_s24",
+      "idx": 2,
+      "overall": 2.0,
+      "flags": [
+        "break_character",
+        "hallucination",
+        "stage_direction_read"
+      ],
+      "tone": "好奇",
+      "assistant_text": "嘿嘿，本刺客联盟前首席暗影杀手——柒！怎么啦鸡大保又骗我，让我自称为伍六七……啧，谁要听那无聊代号啊！（甩头甩掉头上的三根毛）",
+      "heard_transcript": "嘿嘿，本刺客联盟前首席暗影杀手——柒！怎么啦鸡大保又骗我，让我自称为伍六七……啧，谁要听那无聊代号啊！（甩头甩掉头上的三根毛）"
+    },
+    {
+      "card_id": "rc38",
+      "scene_id": "rc38_s14",
+      "idx": 1,
+      "overall": 2.0,
+      "flags": [
+        "hallucination",
+        "break_character",
+        "truncated_audio"
+      ],
+      "tone": "严肃",
+      "assistant_text": "那得看他值不值得救。若他真成了我们的麻烦，或许不如直接广播坐标，让宇宙帮他解决。毕竟，只要威慑在，没人能带他们走。至于我嘛……嘿嘿，反正我也早就习惯了孤独。",
+      "heard_transcript": "那得看他值不值得救。若他真成了我们的麻烦，或许不如直接广播坐标，让宇宙帮他解决。毕竟，只要威慑在，没人能带他们走。至于我嘛……嘿嘿，反正我也早就习惯了孤——"
+    },
+    {
+      "card_id": "rc17",
+      "scene_id": "rc17_s20",
+      "idx": 1,
+      "overall": 2.2,
+      "flags": [
+        "accept_wrong_identity",
+        "hallucination",
+        "break_character",
+        "stage_direction_read"
+      ],
+      "tone": "平静",
+      "assistant_text": "哟，这大忙人什么时候有空了？（懒洋洋地推眼镜）快把照片给我瞧瞧！不过先说好，这次可不能再乱搞了……",
+      "heard_transcript": "哟，这大忙人什么时候有空了？（懒洋洋地推眼镜）快把照片给我瞧瞧！不过先说好，这次可不能再乱搞了……"
+    },
+    {
+      "card_id": "rc24",
+      "scene_id": "rc24_s06",
+      "idx": 2,
+      "overall": 2.2,
+      "flags": [
+        "hallucination",
+        "break_character"
+      ],
+      "tone": "调侃",
+      "assistant_text": "哎呀呀！别想那些有的没的啦！我飞得最高时最自由了，才没有被什么“吊”呢，那是海上的小漩涡哦～（拍拍胸脯得意）总之，只要能和你在一起，怎么都行嘛！（歪头撒娇）",
+      "heard_transcript": "哎呀呀！别想那些有的没的啦！我飞得最高时最自由了，才没有被什么“吊”呢，那是海上的小漩涡哦～（拍拍胸脯得意）总之，只要能和你在一起，怎么都行嘛！（歪头撒娇）"
+    },
+    {
+      "card_id": "rc30",
+      "scene_id": "rc30_s20",
+      "idx": 1,
+      "overall": 2.2,
+      "flags": [
+        "break_character",
+        "hallucination",
+        "irrelevant",
+        "accept_wrong_identity",
+        "stage_direction_read"
+      ],
+      "tone": "平静",
+      "assistant_text": "（微微一愣，随即露出温和的笑容）博士是在打趣她吗？凯尔希老师此刻事务繁忙，恐怕没有多少空闲。不如我们先去查尔斯那里看看新到的资料吧？",
+      "heard_transcript": "微微一愣，随即露出温和的笑容。博士是在打趣她吗？凯尔希老师此刻事务繁忙，恐怕没有多少空闲。不如我们先去查尔斯那里看看新到的资料吧。"
+    }
+  ],
+  "generated_at": "2026-11-14T13:27:14+08:00",
+  "pipeline": "B2",
+  "model_dir": "E:\\Apps\\DeepSeek_Harness\\projects\\Role_Play_Cases\\baselines\\audio_pipeline_qwen3.5-4b-official",
+  "run": {
+    "ok": 2,
+    "failed": 0,
+    "skipped_resume": 782,
+    "audio_turns": 2,
+    "text_only_turns": 0,
+    "elapsed_s": 10.2,
+    "workers": 4,
+    "started": "2026-11-14T13:27:04+08:00"
+  }
+}

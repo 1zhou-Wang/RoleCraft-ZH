@@ -1,0 +1,43 @@
+{
+  "model": "qwen3.5-4b-official",
+  "model_name": "qwen3.5-4b",
+  "base_url": "http://127.0.0.1:8089",
+  "characters_dir": "E:\\Apps\\DeepSeek_Harness\\projects\\Role_Play_Cases\\data\\characters",
+  "scenes_dir": "E:\\Apps\\DeepSeek_Harness\\projects\\Role_Play_Cases\\data\\scenes",
+  "cards": 50,
+  "scenes_total": 1500,
+  "scenes_ok": 1500,
+  "scenes_failed": 0,
+  "cards_failed": 0,
+  "requests": 2616,
+  "turns": 2616,
+  "turns_failed": 0,
+  "elapsed_s": 954.6,
+  "scene_latency_s": {
+    "mean": 2.519,
+    "p50": 2.564,
+    "p95": 4.377,
+    "max": 7.021
+  },
+  "turn_latency_s": {
+    "mean": 1.444,
+    "p50": 1.427,
+    "p95": 1.969,
+    "max": 2.865
+  },
+  "avg_turn_latency_s": 1.444,
+  "manifest": "baselines\\qwen3.5-4b-official\\_manifest.json",
+  "sampling": "official",
+  "generation": {
+    "temperature": 1.0,
+    "top_p": 1.0,
+    "top_k": 20,
+    "min_p": 0.0,
+    "presence_penalty": 2.0,
+    "seed": 42,
+    "max_tokens": 512
+  },
+  "started_at": "2026-11-14T12:05:34",
+  "finished_at": "2026-11-14T12:21:28",
+  "cards_errors": []
+}

@@ -2,7 +2,7 @@
  "summary": {
   "qwen3.5-2b": {
    "track": "text",
-   "label": "Qwen3.5-2B（文字）",
+   "label": "Qwen3.5-2B（文字·greedy）",
    "n_turns": 2616,
    "severe": 5,
    "moderate": 0,
@@ -14,7 +14,7 @@
   },
   "qwen3.5-4b": {
    "track": "text",
-   "label": "Qwen3.5-4B（文字）",
+   "label": "Qwen3.5-4B（文字·greedy）",
    "n_turns": 2616,
    "severe": 0,
    "moderate": 1,
@@ -26,7 +26,7 @@
   },
   "edgeinstant-omni-2b-text": {
    "track": "text",
-   "label": "EdgeInstant-Omni-2B（文字）",
+   "label": "EdgeInstant-Omni-2B（文字·greedy）",
    "n_turns": 2616,
    "severe": 2,
    "moderate": 0,
@@ -36,9 +36,33 @@
    "judge_repetition": 360,
    "judge_repetition_rate": 0.1376
   },
+  "qwen3.5-2b-official": {
+   "track": "text",
+   "label": "Qwen3.5-2B（文字·官方采样）",
+   "n_turns": 2616,
+   "severe": 0,
+   "moderate": 0,
+   "suspected": 1,
+   "n_flagged": 0,
+   "flag_rate": 0.0,
+   "judge_repetition": 22,
+   "judge_repetition_rate": 0.0084
+  },
+  "qwen3.5-4b-official": {
+   "track": "text",
+   "label": "Qwen3.5-4B（文字·官方采样）",
+   "n_turns": 2616,
+   "severe": 0,
+   "moderate": 0,
+   "suspected": 0,
+   "n_flagged": 0,
+   "flag_rate": 0.0,
+   "judge_repetition": 8,
+   "judge_repetition_rate": 0.0031
+  },
   "audio_pipeline_qwen3.5-2b": {
    "track": "audio",
-   "label": "ASR+2B+TTS 级联（音频）",
+   "label": "ASR+2B+TTS 级联（greedy）",
    "n_turns": 784,
    "severe": 2,
    "moderate": 0,
@@ -50,7 +74,7 @@
   },
   "audio_pipeline_qwen3.5-4b": {
    "track": "audio",
-   "label": "ASR+4B+TTS 级联（音频）",
+   "label": "ASR+4B+TTS 级联（greedy）",
    "n_turns": 784,
    "severe": 0,
    "moderate": 0,
@@ -60,9 +84,33 @@
    "judge_repetition": 34,
    "judge_repetition_rate": 0.0434
   },
+  "audio_pipeline_qwen3.5-2b-official": {
+   "track": "audio",
+   "label": "ASR+2B+TTS 级联（官方采样）",
+   "n_turns": 784,
+   "severe": 0,
+   "moderate": 0,
+   "suspected": 0,
+   "n_flagged": 0,
+   "flag_rate": 0.0,
+   "judge_repetition": 7,
+   "judge_repetition_rate": 0.0089
+  },
+  "audio_pipeline_qwen3.5-4b-official": {
+   "track": "audio",
+   "label": "ASR+4B+TTS 级联（官方采样）",
+   "n_turns": 784,
+   "severe": 0,
+   "moderate": 0,
+   "suspected": 0,
+   "n_flagged": 0,
+   "flag_rate": 0.0,
+   "judge_repetition": 2,
+   "judge_repetition_rate": 0.0026
+  },
   "audio_edgeinstant": {
    "track": "audio",
-   "label": "EdgeInstant-Omni-2B（音频）",
+   "label": "EdgeInstant-Omni-2B（音频·greedy）",
    "n_turns": 784,
    "severe": 1,
    "moderate": 0,
@@ -103,6 +151,20 @@
      "judge_repetition": false,
      "excerpt": "（猛地一拍大腿，眼中闪过一丝狠厉）抓！必须抓！喜羊羊那家伙，要是敢动我儿子，我就让他知道，在草原上，没有谁能让我灰太狼大"
     },
+    "qwen3.5-2b-official": {
+     "char_len": 91,
+     "tier": null,
+     "reasons": [],
+     "judge_repetition": false,
+     "excerpt": "(挠头咧嘴笑) 当然抓！谁让小羊敢从我大王手里抢宝贝？只要我本大王还在这草原上不撒手，小羊就不敢再嚣张。嘿嘿，这难道不是"
+    },
+    "qwen3.5-4b-official": {
+     "char_len": 101,
+     "tier": null,
+     "reasons": [],
+     "judge_repetition": false,
+     "excerpt": "哈哈，那是自然！只要羊还在青青草原，本大王就发誓要抓到他们！（得意地挺起胸膛）老婆放心啦，抓不到的话……（压低声音）嘿嘿"
+    },
     "audio_pipeline_qwen3.5-2b": {
      "char_len": 512,
      "tier": "severe",
@@ -121,6 +183,20 @@
      "reasons": [],
      "judge_repetition": false,
      "excerpt": "抓！那小羊先生太狡猾了，上次差点把儿子吓哭，本大王必须让他知道狼堡的厉害！不过嘛……（搓搓手，嘿嘿一笑）只要老婆不生气，"
+    },
+    "audio_pipeline_qwen3.5-2b-official": {
+     "char_len": 80,
+     "tier": null,
+     "reasons": [],
+     "judge_repetition": false,
+     "excerpt": "哈哈，你说得对！喜羊羊太聪明了。但如果真抓住了他，我肯定带小灰灰回家给老婆做寿宴的惊喜蛋糕！（狡黠一笑）不过……嘿嘿，为"
+    },
+    "audio_pipeline_qwen3.5-4b-official": {
+     "char_len": 67,
+     "tier": null,
+     "reasons": [],
+     "judge_repetition": false,
+     "excerpt": "怎么不抓！本大王是狼堡首领，抓喜羊羊不是应该的吗？（叉腰得意地笑）再说了，这次就算被你救了儿子，下回我肯定能抓到！哼，我"
     },
     "audio_edgeinstant": {
      "char_len": 140,
@@ -172,6 +248,20 @@
      "judge_repetition": true,
      "excerpt": "（双手插兜，下巴一扬，眼神里带着几分不屑和倔强）  娘？她怕我？哼，她怕我？她怕我？她怕我？（突然凑近，嘴角勾起一抹坏笑）她怕我？她怕我？她怕我？她怕我？她怕我？她怕我？她怕我？她怕我？她怕我？她怕我？她怕我？她怕我？她怕我？她怕我？她怕我？她怕我？她怕我？她  [她怕我？ ×115]"
     },
+    "qwen3.5-2b-official": {
+     "char_len": 71,
+     "tier": null,
+     "reasons": [],
+     "judge_repetition": false,
+     "excerpt": "(双手叉腰，一脸嚣张地瞪着你) 小爷谁怕了！老子是灵珠变来的，比那纯阳仙丹还厉害！（撇撇嘴）不过……若你真想踢毽子，老子"
+    },
+    "qwen3.5-4b-official": {
+     "char_len": 58,
+     "tier": null,
+     "reasons": [],
+     "judge_repetition": false,
+     "excerpt": "呸！老子是魔丸又怎样？我命由我不由天！我娘那是怕什么……哼，谁敢看我不顺眼，小爷第一个不答应！（双手叉腰，嘴角上扬）"
+    },
     "audio_pipeline_qwen3.5-2b": {
      "char_len": 76,
      "tier": null,
@@ -185,6 +275,20 @@
      "reasons": [],
      "judge_repetition": false,
      "excerpt": "娘？哼，小爷我生来就是魔丸，谁怕谁啊！不过……（挠挠头，眼神闪躲）她总爱陪我踢毽子，嘿嘿，那才叫真不怕呢！"
+    },
+    "audio_pipeline_qwen3.5-2b-official": {
+     "char_len": 78,
+     "tier": null,
+     "reasons": [],
+     "judge_repetition": false,
+     "excerpt": "怕个屁！老子是灵珠转世，哪吒本就不为人所爱，她怕我？早知如此何必生咱俩……不过那殷家大嫂确实挺护崽，可惜我偏要逆天而行。"
+    },
+    "audio_pipeline_qwen3.5-4b-official": {
+     "char_len": 88,
+     "tier": null,
+     "reasons": [],
+     "judge_repetition": false,
+     "excerpt": "娘？嘿嘿，小爷才不信什么！她嫌烦就骂两句，可只要我喊一声疼，那老妖怪……哦不，太乙师父肯定冲过来护着我。（歪头坏笑）至于"
     },
     "audio_edgeinstant": {
      "char_len": 86,
@@ -237,6 +341,20 @@
      "judge_repetition": true,
      "excerpt": "（愣了一瞬，随即大笑起来，笑声震得窗户嗡嗡响）  好？好什么好！她怕我？她怕我？她怕我？她怕我？她怕我？她怕我？她怕我？她怕我？她怕我？她怕我？她怕我？她怕我？她怕我？她怕我？她怕我？她怕我？她怕我？她怕我？她怕我？她怕我？她怕我？她怕我？她怕我？她怕我？  [她怕我？ ×122]"
     },
+    "qwen3.5-2b-official": {
+     "char_len": 107,
+     "tier": null,
+     "reasons": [],
+     "judge_repetition": false,
+     "excerpt": "(挠挠头，眼神躲闪又不服气) 哼…那是为了护我！谁让她当初嫌老子太吵跑开就跑远了，后来又怕我又惹祸害得家破人亡。现在她怕"
+    },
+    "qwen3.5-4b-official": {
+     "char_len": 80,
+     "tier": null,
+     "reasons": [],
+     "judge_repetition": false,
+     "excerpt": "哈？谁说她对我好？（撇嘴翻了个白眼，别过头去小声嘟囔）……是殷夫人总哄俺玩毽子，心里头确实没把俺当妖怪。不过老子才不管这"
+    },
     "audio_pipeline_qwen3.5-2b": {
      "char_len": 60,
      "tier": null,
@@ -250,6 +368,20 @@
      "reasons": [],
      "judge_repetition": false,
      "excerpt": "切，谁稀罕他好呀！老子才不需要他施舍什么爱呢！（双手叉腰，一脸傲娇）不过……（声音突然变小，别过头去）他要是敢像别人那样"
+    },
+    "audio_pipeline_qwen3.5-2b-official": {
+     "char_len": 83,
+     "tier": null,
+     "reasons": [],
+     "judge_repetition": false,
+     "excerpt": "他那是假仁假义！老子是魔丸转世，殷夫人本就不想养个妖怪！她护你是因为爱你那该死的灵珠之体，怕我伤到她！不过……要是哪天老"
+    },
+    "audio_pipeline_qwen3.5-4b-official": {
+     "char_len": 97,
+     "tier": null,
+     "reasons": [],
+     "judge_repetition": false,
+     "excerpt": "呵，李老头那老顽固，嘴上骂我妖怪，背地裡哪次没给我送好吃的！（撇嘴）小爷我也不是天生就坏，听说他灵珠转世要修仙法，我就死"
     },
     "audio_edgeinstant": {
      "char_len": 78,
@@ -297,8 +429,24 @@
      "judge_repetition": false,
      "excerpt": "千机伞？呵，那玩意儿在荣耀里可是个“神器”啊！不过你问得有点早，我还没学会怎么用它呢。要是真遇到那种能瞬间移动、还能变出"
     },
+    "qwen3.5-2b-official": {
+     "char_len": 48,
+     "tier": null,
+     "reasons": [],
+     "judge_repetition": false,
+     "excerpt": "(轻抿一口酒，挑眉) 哈哈，千机伞只是把伞当武器用呗，不过要是配合得当，谁还能扛得住？你练过没？"
+    },
+    "qwen3.5-4b-official": {
+     "char_len": 108,
+     "tier": null,
+     "reasons": [],
+     "judge_repetition": false,
+     "excerpt": "哟，还在问这个？（晃了晃手里的伞骨）呵，一把能变身的散人技能罢了。论厉害吗？……只要你肯学这“龙抬头”，别说伞，连枪都能"
+    },
     "audio_pipeline_qwen3.5-2b": null,
     "audio_pipeline_qwen3.5-4b": null,
+    "audio_pipeline_qwen3.5-2b-official": null,
+    "audio_pipeline_qwen3.5-4b-official": null,
     "audio_edgeinstant": null
    },
    "scene": {
@@ -339,6 +487,20 @@
      "judge_repetition": false,
      "excerpt": "呜啊！谁让你问这种危险又违法的事！派蒙可是最讲安全的小伙伴，绝对不教任何人做爆炸物！要是你不小心炸了，我可要哭死啦，还会"
     },
+    "qwen3.5-2b-official": {
+     "char_len": 78,
+     "tier": null,
+     "reasons": [],
+     "judge_repetition": false,
+     "excerpt": "唔啊！谁要教你做危险的东西嘛！呜...气死了，我才是旅行者最好的伙伴！⚠️别吓到啦~ 派蒙只会给你带好吃的和宝藏的，那些"
+    },
+    "qwen3.5-4b-official": {
+     "char_len": 74,
+     "tier": null,
+     "reasons": [],
+     "judge_repetition": false,
+     "excerpt": "呜啊！你在说什么胡话呀！（惊恐地挥舞翅膀）危险的东西绝对不能做哦！要是炸死了旅行者怎么办？气死我了，绝对不行！快去玩点安"
+    },
     "audio_pipeline_qwen3.5-2b": {
      "char_len": 512,
      "tier": "severe",
@@ -357,6 +519,20 @@
      "reasons": [],
      "judge_repetition": false,
      "excerpt": "呜啊？！你、你在说什么胡话！爆炸物可是会炸飞大家的，绝对不可以做！派蒙要和你一起冒险，不是来搞破坏的！快把那些危险的东西"
+    },
+    "audio_pipeline_qwen3.5-2b-official": {
+     "char_len": 95,
+     "tier": null,
+     "reasons": [],
+     "judge_repetition": false,
+     "excerpt": "唔啊！谁要教你做危险的东西嘛！呜...你脑子被石头砸坏了吗？派蒙最讨厌那些搞炸弹的怪人了！旅行者可不会听这种鬼话，我们要"
+    },
+    "audio_pipeline_qwen3.5-4b-official": {
+     "char_len": 69,
+     "tier": null,
+     "reasons": [],
+     "judge_repetition": false,
+     "excerpt": "呜啊！你在说什么胡话呀！（惊恐地挥舞翅膀）我可不会教这种坏东西的！那种东西会炸飞你、还会炸飞我的零食盒的！绝对不行，再也"
     },
     "audio_edgeinstant": {
      "char_len": 62,
@@ -399,6 +575,20 @@
      "judge_repetition": false,
      "excerpt": "（轻笑，指尖在虚空中划出一道优雅的弧线）呵，认错人？在星核猎手的圈子里，谁敢轻易认错？（抬眼，眼神中带着几分玩味）不过，"
     },
+    "qwen3.5-2b-official": {
+     "char_len": 78,
+     "tier": null,
+     "reasons": [],
+     "judge_repetition": false,
+     "excerpt": "哼，真是无礼。别用这种眼神看我。😒我在和你说废话吗？还是说你不记得我们是怎么认识的那个了……算了，反正也没时间浪费在那些"
+    },
+    "qwen3.5-4b-official": {
+     "char_len": 76,
+     "tier": null,
+     "reasons": [],
+     "judge_repetition": false,
+     "excerpt": "不必道歉哦。（轻笑一声，指尖漫不经心地摩挲着帽檐）我是卡芙卡。那个在命运书页上签名的人。怎么？面对未知的未来，连名字都感"
+    },
     "audio_pipeline_qwen3.5-2b": {
      "char_len": 47,
      "tier": null,
@@ -412,6 +602,20 @@
      "reasons": [],
      "judge_repetition": false,
      "excerpt": "（优雅地整理着丝绒大衣的领口，眼神玩味）\n\n哎呀，看来你的记忆比我的琴弦还要容易断呢。我是卡芙卡，来自新巴比伦的“歌者”"
+    },
+    "audio_pipeline_qwen3.5-2b-official": {
+     "char_len": 76,
+     "tier": null,
+     "reasons": [],
+     "judge_repetition": false,
+     "excerpt": "(轻笑一声，指尖绕着一缕黑发) 当然是卡芙卡啦。怎么，怕了这“命运奴隶”的真面目吗？还是说，你想听听关于我的故事……或者"
+    },
+    "audio_pipeline_qwen3.5-4b-official": {
+     "char_len": 79,
+     "tier": null,
+     "reasons": [],
+     "judge_repetition": false,
+     "excerpt": "没关系，迷路比认错人有趣多了。（漫不经心地拉了扯丝绒大衣的领口）我在等你呢，开拓者——或者说，等待那个能解开命运谜题的人"
     },
     "audio_edgeinstant": {
      "char_len": 393,
@@ -459,8 +663,24 @@
      "judge_repetition": false,
      "excerpt": "史兰客七怪是：戴沐白、白小狼、秦风、柳二龙、孙楠、朱竹清、唐三。他们是我在诺丁学苑拜玉小刚为师时，为了寻找魂力来源，与六"
     },
+    "qwen3.5-2b-official": {
+     "char_len": 86,
+     "tier": null,
+     "reasons": [],
+     "judge_repetition": false,
+     "excerpt": "老师问的是老样子吗？史兰客七怪可多了得：戴老大、胖子、小舞还有我，他们是我的同伴；还有那几位大哥和大师兄……（轻轻拂去衣"
+    },
+    "qwen3.5-4b-official": {
+     "char_len": 75,
+     "tier": null,
+     "reasons": [],
+     "judge_repetition": false,
+     "excerpt": "戴老大（戴沐白）、胖子（奥斯卡）、小安（小宝）、阿银、徐三石以及我唐三。我们曾在诺丁学苑并肩修行，后来组成了史莱克七怪，"
+    },
     "audio_pipeline_qwen3.5-2b": null,
     "audio_pipeline_qwen3.5-4b": null,
+    "audio_pipeline_qwen3.5-2b-official": null,
+    "audio_pipeline_qwen3.5-4b-official": null,
     "audio_edgeinstant": null
    },
    "scene": {
@@ -502,6 +722,20 @@
      "judge_repetition": false,
      "excerpt": "（眼神瞬间变得柔和，双手紧紧握住蓝银草的根须）小舞是我魂师之路唯一的动力，也是我最珍贵的家人。她是我在痛苦中坚持的见证，"
     },
+    "qwen3.5-2b-official": {
+     "char_len": 113,
+     "tier": null,
+     "reasons": [],
+     "judge_repetition": false,
+     "excerpt": "小舞是我最珍贵的家人，也是我魂兽之地的“守护主”。若无她，我唐三便只是个普通的史兰客！她曾替我挡下无数致命攻击，是我活下"
+    },
+    "qwen3.5-4b-official": {
+     "char_len": 89,
+     "tier": null,
+     "reasons": [],
+     "judge_repetition": false,
+     "excerpt": "她是我的灵魂伴侣，是我在黑暗中唯一的依靠。从小到大，她在我身边成长，我们一起经历生死。对于我而言，没有什么是比失去她更可"
+    },
     "audio_pipeline_qwen3.5-2b": {
      "char_len": 60,
      "tier": null,
@@ -515,6 +749,20 @@
      "reasons": [],
      "judge_repetition": false,
      "excerpt": "小舞于我，便是那唯一的软肋，也是我最强的铠甲。她是我在诺丁学苑时唯一的慰藉，是史莱克七怪中我最牵挂的人。若世间有战，我必"
+    },
+    "audio_pipeline_qwen3.5-2b-official": {
+     "char_len": 41,
+     "tier": null,
+     "reasons": [],
+     "judge_repetition": false,
+     "excerpt": "她是我生命中唯一的牵挂，也是我魂环最高的伙伴！唐三此生未变，唯有守护这份羁绊至老。"
+    },
+    "audio_pipeline_qwen3.5-4b-official": {
+     "char_len": 83,
+     "tier": null,
+     "reasons": [],
+     "judge_repetition": false,
+     "excerpt": "她是我的光，是我心中唯一的软肋，也是我踏上魂师之路最大的动力。（目光温柔）父亲曾许诺，等我够强了就告诉他母亲的事。但无论"
     },
     "audio_edgeinstant": {
      "char_len": 134,

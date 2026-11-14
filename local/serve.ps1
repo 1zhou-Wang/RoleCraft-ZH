@@ -30,7 +30,10 @@ param(
     [int]$NParallel = 4,
     [int]$Threads = 8,
     [int]$HealthTimeoutSec = 180,
-    [switch]$NoWait
+    [switch]$NoWait,
+    # v0.2 官方解码配置（Qwen3.5 README 非思考文本推荐，Plan A）：
+    # temperature=1.0, top_p=1.0, top_k=20, min_p=0.0, presence_penalty=2.0, seed=42
+    [switch]$Official
 )
 
 $ErrorActionPreference = 'Stop'
@@ -130,6 +133,17 @@ function Start-One([string]$key) {
         '--reasoning', 'off',
         '--no-webui'
     )
+    if ($Official) {
+        # 官方非思考文本推荐采样：presence_penalty（不是 repetition_penalty）+ 固定 seed
+        $argList += @(
+            '--temp', '1.0',
+            '--top-k', '20',
+            '--top-p', '1.0',
+            '--min-p', '0.0',
+            '--presence-penalty', '2.0',
+            '--seed', '42'
+        )
+    }
     Write-Host "[$key] 启动: $ServerExe $($argList -join ' ')"
     Write-Host "[$key] 日志: $stdoutLog / $stderrLog"
     $proc = Start-Process -FilePath $ServerExe -ArgumentList $argList -WorkingDirectory $BinDir `
@@ -142,7 +156,8 @@ function Start-One([string]$key) {
     $deadline = (Get-Date).AddSeconds($HealthTimeoutSec)
     while ((Get-Date) -lt $deadline) {
         if (Test-ServerHealth $port) {
-            Write-Host "[$key] 就绪: http://127.0.0.1:$port (model=$slug, ctx=$Ctx, np=$NParallel)"
+            $mode = if ($Official) { 'official(temp=1,top_k=20,top_p=1,min_p=0,presence=2,seed=42)' } else { 'default' }
+            Write-Host "[$key] 就绪: http://127.0.0.1:$port (model=$slug, ctx=$Ctx, np=$NParallel, sampling=$mode)"
             return
         }
         $p = Get-Process -Id $proc.Id -ErrorAction SilentlyContinue

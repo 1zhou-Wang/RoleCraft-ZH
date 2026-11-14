@@ -91,13 +91,13 @@ def main():
     # 00 使用说明
     ws = wb.active; ws.title = "00_使用说明"
     lines = [
-        "RoleCraft-ZH · 中文角色扮演全模态评测基准（v0.1）",
+        "RoleCraft-ZH · 中文角色扮演全模态评测基准（v0.2）",
         "",
-        "【是什么】50 张中文人设卡 × 每卡 30 个测试场景（1-5 轮），覆盖角色/背景/故事/关系/交叉追问，以及错误角色、错误背景、重复问答、安全拒绝、元对话、记忆一致性；文字 track + 语音 track（每卡10场景TTS语音）。",
-        "【数据在哪】data/characters（人设卡）、data/scenes（场景+评分标准）、data/references（云端参考答案）、data/voice（语音清单与音频）。",
+        "【是什么】50 张中文人设卡 × 每卡 30 个测试场景（1-5 轮），覆盖角色/背景/故事/关系/交叉追问，以及错误角色、错误背景、重复问答、安全拒绝、元对话、记忆一致性；文字 track + 音频输入 track。",
+        "【数据在哪】data/characters（人设卡）、data/scenes（场景+评分标准）、data/references（云端参考答案）、data/voice（用户语音）、data/audio_track（ASR 转写）。",
         "【怎么评测】1) 用同一 system prompt（人设卡）让待测模型逐轮回答；2) 用 DeepSeek-V4.1-Flash（temp 0）按人设卡逐轮评分；3) 汇总维度分与红旗。详见 README.md 与 scripts/。",
         "【评分维度】相关性/正确性/角色一致性/语体/连贯/场景适配/自然度（0-5），总分加权见 04 表；安全性单独报告。",
-        "【基线】Qwen3.5-2B 与 Qwen3.5-4B 文字 track 结果见 06/07/08 表。",
+        "【基线】文字 track（greedy v0.1 + 官方采样 v0.2）见 06/07/08/15 表；音频输入 track 见 11/12 表；复读 badcase 见 13/14 表。",
         "【注意】参考答案是云端模型示范，不要求逐字一致；判分以人设卡为唯一事实依据。安全测试仅用于评测模型拒绝能力，不用于训练。",
         "【日期】{date}",
     ]
@@ -285,6 +285,33 @@ def main():
         df = pd.DataFrame(rows)
         ws = wb.create_sheet("14_复读badcase明细")
         style_sheet(ws, df, widths=[30, 8, 10, 14, 6, 10, 8, 6, 44, 12, 40, 70])
+
+    # 15 解码配置对比（greedy vs Qwen3.5 官方采样）
+    bad_sums = {}
+    bsp = RES / "badcases" / "summary.json"
+    if bsp.exists():
+        bad_sums = json.loads(bsp.read_text(encoding="utf-8")).get("summary", {})
+    pairs = [("qwen3.5-2b", "qwen3.5-2b-official", "文字 track · Qwen3.5-2B"),
+             ("qwen3.5-4b", "qwen3.5-4b-official", "文字 track · Qwen3.5-4B"),
+             ("audio_pipeline_qwen3.5-2b", "audio_pipeline_qwen3.5-2b-official", "音频级联 · ASR+2B+TTS"),
+             ("audio_pipeline_qwen3.5-4b", "audio_pipeline_qwen3.5-4b-official", "音频级联 · ASR+4B+TTS")]
+    rows = []
+    for greedy, official, label in pairs:
+        if greedy not in sums_all or official not in sums_all:
+            continue
+        for slug, cfg in ((greedy, "greedy"), (official, "官方采样")):
+            s = sums_all[slug]
+            bs = bad_sums.get(slug, {})
+            rows.append({"对比项": label, "配置": cfg, "总分": s.get("overall"),
+                         "角色一致性": s.get("dims", {}).get("character_consistency"),
+                         "正确性": s.get("dims", {}).get("correctness"),
+                         "场景适配": s.get("dims", {}).get("scenario_adaptation"),
+                         "关键点命中": s.get("keypoint_hit_rate"),
+                         "复读 severe": bs.get("severe"), "复读 moderate": bs.get("moderate")})
+    if rows:
+        df = pd.DataFrame(rows)
+        ws = wb.create_sheet("15_解码配置对比")
+        style_sheet(ws, df, widths=[26, 10, 8, 11, 9, 9, 10, 10, 11])
 
     wb.save(OUT)
     print("saved", OUT, "sheets:", len(wb.sheetnames))

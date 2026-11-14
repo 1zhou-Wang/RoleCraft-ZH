@@ -671,6 +671,19 @@ def main(argv=None) -> int:
         audio_scored = item["audio"] is not None
         parsed, rid, elapsed = judge.ask(prompt, item["audio"], log, f"{cid}/{sid}#{idx}")
         scores = normalise_scores(parsed, audio_scored)
+        # The omni judge occasionally returns audio_clarity=null even though audio was
+        # attached; ask once more with an explicit reminder before failing the turn.
+        if audio_scored and scores.get("audio_clarity") is None:
+            reminder = (prompt + "\n\n【重要修正】本轮消息已附带回答音频，"
+                        "scores.audio_clarity 必须给出 0-5 的整数分，不能为 null。"
+                        "请重新输出完整 JSON（heard_transcript/scores/evidence/flags/comment）。")
+            log(f"  [retry] {cid}/{sid}#{idx} audio_clarity=null, re-asking with reminder")
+            parsed2, rid2, elapsed2 = judge.ask(
+                reminder, item["audio"], log, f"{cid}/{sid}#{idx}-clarity")
+            scores2 = normalise_scores(parsed2, audio_scored)
+            if valid_scores(scores2, audio_scored):
+                parsed, rid, scores = parsed2, rid2, scores2
+                elapsed = round(elapsed + elapsed2, 2)
         if not valid_scores(scores, audio_scored):
             raise JudgeError(f"invalid_scores: {scores}", retryable=False,
                              detail=str(parsed)[:1000])

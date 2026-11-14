@@ -26,17 +26,25 @@ MODELS = [
     ("text", "qwen3.5-2b", BASE / "qwen3.5-2b", RES / "qwen3.5-2b" / "judge"),
     ("text", "qwen3.5-4b", BASE / "qwen3.5-4b", RES / "qwen3.5-4b" / "judge"),
     ("text", "edgeinstant-omni-2b-text", BASE / "edgeinstant-omni-2b-text", RES / "edgeinstant-omni-2b-text" / "judge"),
+    ("text", "qwen3.5-2b-official", BASE / "qwen3.5-2b-official", RES / "qwen3.5-2b-official" / "judge"),
+    ("text", "qwen3.5-4b-official", BASE / "qwen3.5-4b-official", RES / "qwen3.5-4b-official" / "judge"),
     ("audio", "audio_pipeline_qwen3.5-2b", BASE / "audio_pipeline_qwen3.5-2b", RES / "audio_pipeline_qwen3.5-2b" / "judge"),
     ("audio", "audio_pipeline_qwen3.5-4b", BASE / "audio_pipeline_qwen3.5-4b", RES / "audio_pipeline_qwen3.5-4b" / "judge"),
+    ("audio", "audio_pipeline_qwen3.5-2b-official", BASE / "audio_pipeline_qwen3.5-2b-official", RES / "audio_pipeline_qwen3.5-2b-official" / "judge"),
+    ("audio", "audio_pipeline_qwen3.5-4b-official", BASE / "audio_pipeline_qwen3.5-4b-official", RES / "audio_pipeline_qwen3.5-4b-official" / "judge"),
     ("audio", "audio_edgeinstant", BASE / "audio_edgeinstant", RES / "audio_edgeinstant" / "judge"),
 ]
 LABEL = {
-    "qwen3.5-2b": "Qwen3.5-2B（文字）",
-    "qwen3.5-4b": "Qwen3.5-4B（文字）",
-    "edgeinstant-omni-2b-text": "EdgeInstant-Omni-2B（文字）",
-    "audio_pipeline_qwen3.5-2b": "ASR+2B+TTS 级联（音频）",
-    "audio_pipeline_qwen3.5-4b": "ASR+4B+TTS 级联（音频）",
-    "audio_edgeinstant": "EdgeInstant-Omni-2B（音频）",
+    "qwen3.5-2b": "Qwen3.5-2B（文字·greedy）",
+    "qwen3.5-4b": "Qwen3.5-4B（文字·greedy）",
+    "edgeinstant-omni-2b-text": "EdgeInstant-Omni-2B（文字·greedy）",
+    "qwen3.5-2b-official": "Qwen3.5-2B（文字·官方采样）",
+    "qwen3.5-4b-official": "Qwen3.5-4B（文字·官方采样）",
+    "audio_pipeline_qwen3.5-2b": "ASR+2B+TTS 级联（greedy）",
+    "audio_pipeline_qwen3.5-4b": "ASR+4B+TTS 级联（greedy）",
+    "audio_pipeline_qwen3.5-2b-official": "ASR+2B+TTS 级联（官方采样）",
+    "audio_pipeline_qwen3.5-4b-official": "ASR+4B+TTS 级联（官方采样）",
+    "audio_edgeinstant": "EdgeInstant-Omni-2B（音频·greedy）",
 }
 LAUGH = set("哈呵嘿嘻嗯啊哦噢额唔呀吧呢吗啦哇咦嗷么嘛咯嘞")
 SENT_SPLIT = re.compile(r"[。！？!?；;\n]+")

@@ -37,6 +37,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 sys.path.insert(0, str(ROOT))
 
 from run_baseline import (  # noqa: E402  复用文字 track 的 prompt 模板与 HTTP 工具
+    OFFICIAL_SAMPLING,
     SYSTEM_PROMPT_TEMPLATE,
     build_system_prompt,
     chat_completion,
@@ -129,7 +130,7 @@ def run_one_card(
     stats: dict,
     stats_lock: threading.Lock,
 ) -> dict:
-    out_path = OUT_ROOT / f"audio_pipeline_{pipeline['slug']}" / f"{card_id}.jsonl"
+    out_path = OUT_ROOT / f"audio_pipeline_{pipeline['slug']}{args.out_suffix}" / f"{card_id}.jsonl"
     result = {"card_id": card_id, "scenes_total": 0, "scenes_done": 0, "scenes_failed": 0, "turns_done": 0}
     try:
         system_prompt = build_system_prompt(card)
@@ -173,6 +174,7 @@ def run_one_card(
                     pipeline["base_url"], pipeline["slug"], messages,
                     max_tokens=args.max_tokens, temperature=args.temperature,
                     timeout=args.timeout, retries=args.retries,
+                    sampling=args.sampling_payload,
                 )
                 messages.append({"role": "assistant", "content": reply})
                 turns_out.append({
@@ -196,7 +198,7 @@ def run_one_card(
             "scene_id": sid,
             "pipeline": pipeline["pipeline"],
             "model": pipeline["slug"],
-            "generation": {"temperature": args.temperature, "max_tokens": args.max_tokens},
+            "generation": dict(args.generation),
             "turns": turns_out,
             "latency_s": scene_latency,
         }
@@ -230,7 +232,7 @@ def pct(values: list[float], p: float) -> float:
 def run_pipeline(args: argparse.Namespace, key: str) -> dict:
     pipeline = PIPELINES[key]
     slug = pipeline["slug"]
-    out_dir = OUT_ROOT / f"audio_pipeline_{slug}"
+    out_dir = OUT_ROOT / f"audio_pipeline_{slug}{args.out_suffix}"
     out_dir.mkdir(parents=True, exist_ok=True)
 
     selection = load_selection()
@@ -259,9 +261,9 @@ def run_pipeline(args: argparse.Namespace, key: str) -> dict:
     for cid, sids in tasks:
         for sid in sids:
             total_turns += len(all_scenes.get(cid, {}).get(sid, {}).get("turns") or [])
-    log.info("=%s [%s] | 卡 %d | 场景 %d | turn %d | server %s | concurrency=%d",
+    log.info("=%s [%s] | 卡 %d | 场景 %d | turn %d | server %s | sampling=%s | concurrency=%d",
              slug, pipeline["pipeline"], len(tasks), sum(len(t[1]) for t in tasks), total_turns,
-             pipeline["base_url"], args.concurrency)
+             pipeline["base_url"], args.sampling, args.concurrency)
 
     if args.dry_run:
         for cid, sids in tasks:
@@ -314,7 +316,8 @@ def run_pipeline(args: argparse.Namespace, key: str) -> dict:
                            "p50": pct(tlat, 50), "p95": pct(tlat, 95), "max": tlat[-1] if tlat else 0.0},
         "scene_latency_s": {"mean": round(sum(slat) / len(slat), 3) if slat else 0.0,
                             "p50": pct(slat, 50), "p95": pct(slat, 95)},
-        "generation": {"temperature": args.temperature, "max_tokens": args.max_tokens},
+        "sampling": args.sampling,
+        "generation": dict(args.generation),
         "started_at": started_at.isoformat(timespec="seconds"),
         "finished_at": datetime.now().isoformat(timespec="seconds"),
         "card_errors": stats.get("card_errors", []),
@@ -336,12 +339,24 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--concurrency", type=int, default=4)
     ap.add_argument("--max-tokens", type=int, default=512)
     ap.add_argument("--temperature", type=float, default=0.0)
+    ap.add_argument("--sampling", choices=["greedy", "official"], default="greedy",
+                    help="解码配置：greedy=v0.1；official=官方非思考推荐配置（输出目录自动加 -official 后缀）")
+    ap.add_argument("--out-suffix", default="", help="输出目录后缀（official 模式自动设为 -official）")
     ap.add_argument("--timeout", type=float, default=300.0)
     ap.add_argument("--retries", type=int, default=3)
     ap.add_argument("--wait-server", type=float, default=30.0)
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--log-file", default=str(LOG_DIR / "audio_cascade.log"))
     a = ap.parse_args(argv)
+    if a.sampling == "official":
+        a.temperature = OFFICIAL_SAMPLING["temperature"]
+        a.sampling_payload = {k: v for k, v in OFFICIAL_SAMPLING.items() if k != "temperature"}
+        a.generation = {**OFFICIAL_SAMPLING, "max_tokens": a.max_tokens}
+        if not a.out_suffix:
+            a.out_suffix = "-official"
+    else:
+        a.sampling_payload = None
+        a.generation = {"temperature": a.temperature, "max_tokens": a.max_tokens}
 
     LOG_DIR.mkdir(parents=True, exist_ok=True)
     logging.basicConfig(
@@ -364,9 +379,13 @@ def main(argv: list[str] | None = None) -> int:
         if not a.dry_run and (summary.get("scenes_failed") or summary.get("card_errors")):
             rc = 1
     if not a.dry_run:
-        summary_path = OUT_ROOT / "audio_pipeline_summary.json"
+        summary_name = "audio_pipeline_summary_official.json" if a.sampling == "official" \
+            else "audio_pipeline_summary.json"
+        summary_path = OUT_ROOT / summary_name
         summary_path.write_text(json.dumps({
             "generated_at": datetime.now().isoformat(timespec="seconds"),
+            "sampling": a.sampling,
+            "generation": dict(a.generation),
             "pipelines": summaries,
         }, ensure_ascii=False, indent=2), encoding="utf-8")
         log.info("summary -> %s", summary_path)

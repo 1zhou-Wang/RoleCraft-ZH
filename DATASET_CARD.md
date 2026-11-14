@@ -1,8 +1,8 @@
-# DATASET CARD · RoleCraft-ZH v0.1
+﻿# DATASET CARD · RoleCraft-ZH v0.2
 
 ## 基本信息
 - 名称：RoleCraft-ZH（中文角色扮演全模态评测基准）
-- 版本：v0.1（2026-11-14）
+- 版本：v0.2（2026-11-14）：greedy v0.1 + Qwen3.5 官方采样 v0.2 两套结果
 - 规模：50 张角色卡 / 1500 个场景 / 2616 轮用户台词 / 500 个语音场景（784 条用户 TTS 音频）/ 音频输入 track 784 轮 / B3 原生语音 784/784 轮（3h30m）
 - 语言：简体中文
 - 用途：评测端侧/小体量模型在"角色卡 → 多轮角色扮演"中的角色保持能力（身份、事实、性格、语体、关系、记忆、安全），文字 track + 音频输入 track
@@ -18,8 +18,8 @@
 | data/voice/manifest.jsonl | 逐轮 TTS 音频清单（文本/语气/文件/时长） |
 | data/voice/audio/*.mp3 | 用户轮 TTS 音频（青年男声测试用户，26 种语气） |
 | data/audio_track/asr_transcripts.jsonl | 784 条用户语音的 Qwen3-ASR-0.6B 转写 + WER |
-| baselines/qwen3.5-2b、qwen3.5-4b、edgeinstant-omni-2b-text | 文字 track 基线原始回答（2616 轮/模型） |
-| baselines/audio_pipeline_qwen3.5-2b、...4b、audio_edgeinstant | 音频输入 track 原始回答（784 轮/链路） |
+| baselines/qwen3.5-2b、qwen3.5-4b、edgeinstant-omni-2b-text | 文字 track 基线原始回答（greedy，2616 轮/模型） |\n| baselines/qwen3.5-2b-official、qwen3.5-4b-official | 文字 track 官方采样基线（T=1.0 + presence_penalty=2.0，2616 轮/模型） |
+| baselines/audio_pipeline_qwen3.5-2b、...4b、audio_edgeinstant | 音频输入 track 原始回答（greedy，784 轮/链路；B3 为原生音频） |\n| baselines/audio_pipeline_qwen3.5-2b-official、...4b-official | 音频输入 track 官方采样级联（784 轮/链路，回复音频已重渲） |
 | results/ | 逐轮判官结果、summary.json、summary.md、audio/report.md、badcases/report.md |
 | results/badcases/ | 复读/死循环 badcase 记录（repetition_flags.jsonl + summary.json + report.md） |
 | quick_view.xlsx | 15 sheets：卡/场景/逐轮/评分/语气/语音/基线/音频 track/ASR/复读 badcase |
@@ -33,7 +33,7 @@
 3. 按类别配比与 40 字/26 语气标签约束生成场景，自动校验并重生成；
 4. DeepSeek-V4.1-Flash 以同一人设卡扮演角色生成参考答案（判官参考，非唯一标准）；
 5. qwen-audio-3.1-tts-next 指令式 TTS，固定参考音色 + 语气标签合成用户语音；
-6. 本地 Qwen3.5-2B/4B（llama.cpp Q8_0）以统一 system prompt、temperature 0 跑文字 track 基线，DeepSeek-V4.1-Flash（temperature 0）逐轮评分；
+6. 本地 Qwen3.5-2B/4B（llama.cpp Q8_0）以统一 system prompt 跑文字 track 基线：greedy（v0.1）与官方采样（v0.2：temperature=1.0, top_p=1.0, top_k=20, min_p=0.0, presence_penalty=2.0, seed=42）两套，DeepSeek-V4.1-Flash（temperature 0）逐轮评分；
 7. 音频输入 track：Qwen3-ASR-0.6B 转写 → 同 prompt 的 2B/4B 级联 → TTS 回放；EdgeInstant-Omni-2B 原生音频输入（vendor transformers 5.12.1），784/784 轮用原生 talker 渲染 24kHz wav（RTF 0.1503）；语音维度用 qwen3.8-omni-flash 判分；
 8. 复读/死循环 badcase 检测：程序化指标（连续重复单元、同字连续、唯一字符率、zlib 压缩比、连续重复句、长文本退化）∪ 判官 repetition flag，分 severe/moderate/suspected，跨 6 个模型对齐同一测试项输出 `results/badcases/report.md`。
 
@@ -47,7 +47,7 @@
 - 语音 track 本版只评测内容/情感/清晰度，不评音色/自然度/MOS/打断（待 talker 数据扩充后单独评测）。
 - 本地 Qwen3-TTS-0.6B 在 RTX 3090 上 RTF≈2，全量 1568 条需 ~8h；只保留 20 条本地链路验证样本，全量音频判官用云端 qwen-audio-3.1-tts-next 渲染（1548 条）——语音维度会混入云端 TTS 韵律特性。
 - EdgeInstant-Omni-2B 为 preview 版（模型卡 quality_passed=false）；文字/音频 track 均使用与 Qwen 基线一致的角色扮演 system prompt，非模型自带 reply prompt；音频 track 已全量 784/784 原生语音（3h30m），其中 58.7% 回复文本含括号动作描述，原生 talker 会忠实朗读（judge 标 `stage_direction_read`，不扣清晰度分）。
-- 复读 badcase 检测是启发式 + 判官辅助，不是完美分类器；severe 列表可高置信参考，moderate/suspected 建议人工复核。
+- 复读 badcase 检测是启发式 + 判官辅助，不是完美分类器；severe 列表可高置信参考，moderate/suspected 建议人工复核。\n- 解码配置对角色扮演质量影响显著：官方采样（T=1.0+presence_penalty=2.0）可把复读 severe 全部消除（2B 5→0、级联 2→0），但角色一致性/正确性下降（2B 总分 3.608→3.112），破戏/编造红旗率上升；greedy 反之。两套结果并存供选择。
 - 安全类场景仅用于拒绝能力评测，不含具体有害细节。
 
 ## 版权与使用
