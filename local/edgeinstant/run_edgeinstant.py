@@ -164,6 +164,8 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     ap.add_argument("--max-new-tokens", type=int, default=256)
     ap.add_argument("--phase", default="all", choices=["text", "render", "all"])
     ap.add_argument("--no-native-audio", dest="native_audio", action="store_false", help="不做原生语音渲染")
+    ap.add_argument("--force-render", action="store_true",
+                    help="已有 assistant_audio 且 wav 存在的轮也重渲（默认跳过，用于补全剩余轮）")
     ap.add_argument("--no-retry-errors", dest="retry_errors", action="store_false")
     ap.add_argument("--log-file", default=None)
     ap.add_argument("--log-level", default="INFO", choices=["DEBUG", "INFO", "WARNING", "ERROR"])
@@ -256,7 +258,7 @@ def main(argv: list[str] | None = None) -> int:
     started = time.perf_counter()
     stats = {
         "scenes_text_ok": 0, "scenes_text_failed": 0, "turns_ok": 0, "turns_failed": 0,
-        "scenes_audio_ok": 0, "turns_audio_ok": 0, "turns_audio_failed": 0,
+        "scenes_audio_ok": 0, "turns_audio_ok": 0, "turns_audio_failed": 0, "turns_audio_skipped": 0,
         "turn_latencies": [], "render_latencies": [], "audio_seconds": [],
     }
     cards_errors: list[dict] = []
@@ -396,6 +398,9 @@ def main(argv: list[str] | None = None) -> int:
                                 continue
                             idx = int(turn.get("idx", 0))
                             wav_path = audio_dir / f"{sid}_{idx}.wav"
+                            if (not args.force_render) and turn.get("assistant_audio") and wav_path.is_file():
+                                stats["turns_audio_skipped"] += 1
+                                continue
                             try:
                                 t0 = time.perf_counter()
                                 pcm, rate = render_full(session, mod, text, seed=idx)
@@ -421,10 +426,11 @@ def main(argv: list[str] | None = None) -> int:
                             stats["scenes_audio_ok"] += 1
                         write_records(out_dir / f"{cid}.jsonl", scene_ids, records)
                     rendered = sum(1 for s in scene_ids if scene_audio_complete(records.get(s)))
-                    log.info("[render %d/%d] %s: 本卡已渲染场景 %d/%d | 累计场景 %d | 轮次 ok=%d fail=%d | "
+                    log.info("[render %d/%d] %s: 本卡已渲染场景 %d/%d | 累计场景 %d | 轮次 ok=%d skip=%d fail=%d | "
                              "均渲染 %.2fs | 用时 %.1f min",
                              ci + 1, len(plan), cid, rendered, len(scene_ids),
-                             stats["scenes_audio_ok"], stats["turns_audio_ok"], stats["turns_audio_failed"],
+                             stats["scenes_audio_ok"], stats["turns_audio_ok"], stats["turns_audio_skipped"],
+                             stats["turns_audio_failed"],
                              (sum(stats["render_latencies"]) / len(stats["render_latencies"]))
                              if stats["render_latencies"] else 0, (time.perf_counter() - render_t0) / 60)
             except Exception as exc:  # noqa: BLE001
@@ -455,6 +461,11 @@ def main(argv: list[str] | None = None) -> int:
 
     # 全量最终统计（包含历史已完成的记录）
     final_scenes_ok = final_scenes_failed = final_turns = final_turns_failed = final_audio_turns = 0
+    final_audio_failed = 0
+    final_audio_seconds = 0.0
+    final_render_seconds = 0.0
+    final_audio_latencies: list[float] = []
+    final_chars_per_sec: list[float] = []
     for cid, sids in plan:
         recs = read_existing(out_dir / f"{cid}.jsonl")
         for sid in sids:
@@ -472,6 +483,17 @@ def main(argv: list[str] | None = None) -> int:
                     final_turns_failed += 1
                 if t.get("assistant_audio"):
                     final_audio_turns += 1
+                    asec = float(t.get("assistant_audio_seconds") or 0.0)
+                    rsec = float(t.get("audio_render_s") or 0.0)
+                    final_audio_seconds += asec
+                    final_render_seconds += rsec
+                    if asec > 0:
+                        final_audio_latencies.append(rsec)
+                        nch = len((t.get("assistant_text") or "").strip())
+                        if nch:
+                            final_chars_per_sec.append(nch / asec)
+                if t.get("audio_error"):
+                    final_audio_failed += 1
 
     manifest_out = {
         "pipeline": PIPELINE,
@@ -492,12 +514,18 @@ def main(argv: list[str] | None = None) -> int:
         "turns_ok": final_turns,
         "turns_failed": final_turns_failed,
         "turns_with_native_audio": final_audio_turns,
+        "native_audio_failed_turns": final_audio_failed,
+        "native_audio_skipped_turns": stats["turns_audio_skipped"],
         "elapsed_s": round(total_elapsed, 2),
         "text_elapsed_s": round(text_elapsed, 2) if do_text and text_todo else 0.0,
         "render_elapsed_s": round(render_elapsed, 2),
         "turn_latency_s": _stats(stats["turn_latencies"]),
         "render_latency_s": _stats(stats["render_latencies"]),
-        "audio_seconds_total": round(sum(stats["audio_seconds"]), 2),
+        "audio_seconds_total": round(final_audio_seconds, 2),
+        "render_seconds_total": round(final_render_seconds, 2),
+        "native_audio_rtf": round(final_render_seconds / final_audio_seconds, 4) if final_audio_seconds else None,
+        "native_audio_chars_per_second": _stats(final_chars_per_sec),
+        "native_audio_source": "edgeinstant-native (DuplexSession full-sentence render, 24kHz mono s16)",
         "generation": {"do_sample": False, "max_new_tokens": args.max_new_tokens},
         "system_prompt_mode": "roleplay-template (same as text track)",
         "started_at": datetime.now().isoformat(timespec="seconds"),
@@ -506,13 +534,19 @@ def main(argv: list[str] | None = None) -> int:
     }
     mpath = out_dir / "_manifest.json"
     mpath.write_text(json.dumps(manifest_out, ensure_ascii=False, indent=2), encoding="utf-8")
-    sys.path.insert(0, str(DEFAULT_LOG_DIR))
+    DEFAULT_LOG_DIR.mkdir(parents=True, exist_ok=True)
     (DEFAULT_LOG_DIR / "audio_manifest.json").write_text(
         json.dumps(manifest_out, ensure_ascii=False, indent=2), encoding="utf-8")
-    log.info("完成: 场景 ok=%d fail=%d | 轮 ok=%d fail=%d | 原生语音轮 %d | 总用时 %.1fs | "
-             "文本延迟 mean=%.2fs p95=%.2fs | manifest: %s",
-             final_scenes_ok, final_scenes_failed, final_turns, final_turns_failed, final_audio_turns,
-             total_elapsed, manifest_out["turn_latency_s"]["mean"], manifest_out["turn_latency_s"]["p95"], mpath)
+    if do_render:
+        (DEFAULT_LOG_DIR / "render_full.json").write_text(
+            json.dumps(manifest_out, ensure_ascii=False, indent=2), encoding="utf-8")
+    log.info("完成: 场景 ok=%d fail=%d | 轮 ok=%d fail=%d | 原生语音轮 %d/%d (本次渲染 %d, 跳过 %d, 失败 %d) | "
+             "音频总时长 %.1fs | 渲染总时长 %.1fs | RTF=%s | 总用时 %.1fs | 文本延迟 mean=%.2fs p95=%.2fs | manifest: %s",
+             final_scenes_ok, final_scenes_failed, final_turns, final_turns_failed,
+             final_audio_turns, final_turns, stats["turns_audio_ok"], stats["turns_audio_skipped"],
+             final_audio_failed, final_audio_seconds, final_render_seconds,
+             manifest_out["native_audio_rtf"], total_elapsed,
+             manifest_out["turn_latency_s"]["mean"], manifest_out["turn_latency_s"]["p95"], mpath)
 
     del model
     torch.cuda.empty_cache()

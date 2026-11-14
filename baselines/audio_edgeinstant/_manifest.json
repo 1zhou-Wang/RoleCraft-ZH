@@ -10,16 +10,18 @@
   "cards": 50,
   "scenes_total": 500,
   "turns_total": 784,
-  "phase": "text",
+  "phase": "render",
   "native_audio_requested": true,
   "scenes_ok": 500,
   "scenes_failed": 0,
   "turns_ok": 784,
   "turns_failed": 0,
-  "turns_with_native_audio": 30,
-  "elapsed_s": 1531.97,
+  "turns_with_native_audio": 784,
+  "native_audio_failed_turns": 0,
+  "native_audio_skipped_turns": 18,
+  "elapsed_s": 1845.95,
   "text_elapsed_s": 1531.97,
-  "render_elapsed_s": 0.0,
+  "render_elapsed_s": 1845.92,
   "turn_latency_s": {
     "mean": 1.891,
     "p50": 1.723,
@@ -27,29 +29,70 @@
     "max": 8.286
   },
   "render_latency_s": {
-    "mean": 0.0,
-    "p50": 0.0,
-    "p95": 0.0,
-    "max": 0.0
+    "mean": 2.428,
+    "p50": 2.284,
+    "p95": 4.184,
+    "max": 9.46
   },
-  "audio_seconds_total": 0,
+  "audio_seconds_total": 12614.8,
+  "render_seconds_total": 1896.62,
+  "native_audio_rtf": 0.1503,
+  "native_audio_chars_per_second": {
+    "mean": 5.359,
+    "p50": 5.361,
+    "p95": 5.916,
+    "max": 6.572
+  },
+  "native_audio_source": "edgeinstant-native (DuplexSession full-sentence render, 24kHz mono s16)",
   "generation": {
     "do_sample": false,
     "max_new_tokens": 256
   },
   "system_prompt_mode": "roleplay-template (same as text track)",
-  "started_at": "2026-11-14T02:11:34",
+  "started_at": "2026-11-14T10:50:47",
   "cards_errors": [],
-  "log_file": "E:\\Apps\\DeepSeek_Harness\\projects\\Role_Play_Cases\\logs\\edgeinstant\\audio_run_20261114_014547.log",
+  "log_file": "E:\\Apps\\DeepSeek_Harness\\projects\\Role_Play_Cases\\logs\\edgeinstant\\audio_run_20261114_101919.log",
+  "text_generation": {
+    "phase_completed_at": "2026-11-14T02:11:34",
+    "scenes_ok": 500,
+    "scenes_failed": 0,
+    "turns_ok": 784,
+    "turns_failed": 0,
+    "elapsed_s": 1531.97,
+    "turn_latency_s": {
+      "mean": 1.891,
+      "p50": 1.723,
+      "p95": 3.703,
+      "max": 8.286
+    },
+    "generation": {
+      "do_sample": false,
+      "max_new_tokens": 256
+    }
+  },
   "native_audio": {
-    "requested": true,
-    "strategy": "30 sampled turns across 10 cards (long replies / safety-refusal / meta scenes)",
-    "turns_with_native_audio": 30,
+    "source": "edgeinstant-native (DuplexSession full-sentence render, 24kHz mono s16)",
+    "rendered_turns": 784,
+    "turns_with_native_audio": 784,
     "failed": 0,
+    "preexisting_turns_preserved": 30,
+    "newly_rendered_turns": 754,
+    "skipped_preexisting_turns_in_partial_scenes": 18,
+    "audio_seconds_total": 12614.8,
+    "render_seconds_total": 1896.62,
+    "render_elapsed_s_this_run": 1845.92,
+    "rtf": 0.1503,
+    "sample_rate": 24000,
+    "channels": 1,
+    "sample_width_bytes": 2,
+    "chars_per_second": {
+      "mean": 5.359,
+      "p50": 5.361,
+      "p95": 5.916,
+      "max": 6.572
+    },
     "wav_dir": "baselines/audio_edgeinstant/audio/",
-    "audio_seconds_total": 559.28,
-    "render_seconds_total": 65.71,
-    "avg_rtf": 0.117,
-    "source_field": "audio_source=edgeinstant-native"
+    "wav_files": 784,
+    "wav_total_mb": 605.5
   }
 }

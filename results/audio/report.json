@@ -137,13 +137,13 @@
    },
    "audio_judge": {
     "n_turns": 784,
-    "n_audio_scored": 30,
+    "n_audio_scored": 784,
     "dims": {
-     "relevance": 4.228,
-     "correctness": 3.078,
-     "character_consistency": 2.955,
-     "emotion_match": 3.341,
-     "audio_clarity": 4.9
+     "relevance": 4.426,
+     "correctness": 3.737,
+     "character_consistency": 3.718,
+     "emotion_match": 3.932,
+     "audio_clarity": 4.946
     }
    }
   }

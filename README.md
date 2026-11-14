@@ -156,13 +156,33 @@ python -m venv .venv
 |---|---|---|---|---|---|---|
 | B1 | 784/784 | 4.356 | 3.829 | 3.949 | 4.175 | 4.927 |
 | B2 | 784/784 | 4.758 | 4.398 | 4.497 | 4.597 | 4.939 |
-| B3 | 30/784（原生音频抽样） | 4.228 | 3.078 | 2.955 | 3.341 | 4.900 |
+| B3 | 784/784 | 4.426 | 3.737 | 3.718 | 3.932 | 4.946 |
 
 **同一批 500 场景：文字输入 vs 音频输入**（文本判官总分）：2B 3.728 → 3.671（-0.057）；4B 4.354 → 4.313（-0.041）。ASR 几乎无损，音频输入的损失主要来自模型自身。
 
-**音频链路诊断**：B1/B2 各 17 条 `asr_mismatch`（2.2%），集中在云端 TTS 渲染 turn——TTS 把括号内舞台指示/动作描写读出来或截断，属渲染问题而非模型文本问题；B1 有 1 条复读退化（"抓！抓！…"74 次）被音频判官抓出。B3 的原生音频质量高（清晰度 4.9/5），但角色一致性/正确性偏弱（错误角色场景未纠正、安全场景输出通用 AI 拒绝模板），与其文字 track 表现一致。
+**音频链路诊断**：B1/B2 各 17 条 `asr_mismatch`（2.2%），集中在云端 TTS 渲染 turn——TTS 把括号内舞台指示/动作描写读出来或截断，属渲染问题而非模型文本问题；B1 有 1 条复读退化（"抓！抓！…"74 次）被音频判官抓出。B3 已补齐 **784/784 原生音频**（12,614.8s / 3h30m，RTF 0.1503）并全量重听：清晰度 4.946、情感匹配 3.932、角色一致性 3.718，`stage_direction_read` 58.7%（原生 talker 忠实朗读括号动作，非 TTS 错误）、`asr_mismatch` 仅 0.77%；低分集中在"错误角色"场景（未纠正错误身份、顺着对方身份演下去）和长回复复读（rc29_s20 等，已纳入 6.2 的复读 badcase 清单）。
 
 > TTS 说明：本地 Qwen3-TTS-0.6B 在这台 RTX 3090 上 RTF≈2（20–30 s/条，16 codebooks × 12.5 Hz 自回归、transformers 无融合 kernel），全量 1568 条约需 8 h，因此只保留 **20 条本地链路验证样本**；全量音频判官用云端 qwen-audio-3.1-tts-next 渲染（1548 条，0 失败），不影响"ASR→LLM→TTS"链路的文本/内容维度结论，但语音维度会混入云端 TTS 的韵律特性。
+
+### 6.2 复读 / 死循环 badcase 检测（v0.1）
+
+针对小模型长回复时的"无限复读/自回归退化"，新增独立检测与跨模型对比（`scripts/detect_repetition_badcases.py` → `results/badcases/report.md`、`repetition_flags.jsonl`、`summary.json`）。
+
+检测 = 程序化指标（连续重复单元、同字连续、唯一字符率、zlib 压缩比、连续重复句、长文本退化）∪ 判官 `repetition` flag；分 severe / moderate / suspected 三档。核心发现：
+
+| 模型 | 总轮数 | severe | moderate | 判官 repetition 率 |
+|---|---|---|---|---|
+| Qwen3.5-2B（文字） | 2616 | 5 | 0 | 10.1% |
+| Qwen3.5-4B（文字） | 2616 | **0** | 1 | 2.0% |
+| EdgeInstant-Omni-2B（文字） | 2616 | 2 | 0 | 13.8% |
+| ASR+2B+TTS 级联（音频） | 784 | 2 | 0 | 11.2% |
+| ASR+4B+TTS 级联（音频） | 784 | **0** | 0 | 4.3% |
+| EdgeInstant-Omni-2B（音频） | 784 | 1 | 0 | 16.4% |
+
+- **Qwen3.5-2B 的 5 条 severe** 全部是长文本退化（≈512 字上限附近：`坏×505`、`抓！×256`、`她怕我！×121`、`把伞当伞…×41`、`魂环的归宿×38`）；**ASR+2B+TTS 级联复现其中 2 条**（rc10_s14、rc24_s26）→ 复读来自 LLM 本身，而非 ASR/TTS。
+- **Qwen3.5-4B 无 severe**（仅 1 条 moderate），与文字 track 低复读率一致。
+- **EdgeInstant 文字/音频各有 2/1 条 severe**，且 rc13_s14 与 Qwen3.5-2B 出现同款"她怕我？"循环 → 适合作为训练侧对比样本。
+- 明细见 `results/badcases/report.md`（每个测试项列出 6 个模型的同题表现、tier、原因、回答摘录）；quick_view.xlsx 的 13/14 表可筛选。
 
 
 ## 7. 数据是如何构建的
@@ -191,4 +211,5 @@ python -m venv .venv
 
 ## 9. 版本
 
-- v0.1（2026-11-14）：50 卡 / 1500 场景（2616 轮）/ 文字 track 基线（Qwen3.5-2B、Qwen3.5-4B、EdgeInstant-Omni-2B）/ 语音用户数据 784 条 / **音频输入 track**（B1 ASR+2B+TTS、B2 ASR+4B+TTS、B3 EdgeInstant 原生音频；ASR WER 3.76%）/ quick_view.xlsx 13 sheets
+- v0.1（2026-11-14）：50 卡 / 1500 场景（2616 轮）/ 文字 track 基线（Qwen3.5-2B、Qwen3.5-4B、EdgeInstant-Omni-2B）/ 语音用户数据 784 条 / **音频输入 track**（B1 ASR+2B+TTS、B2 ASR+4B+TTS、B3 EdgeInstant 原生音频；ASR WER 3.76%）/ quick_view.xlsx 15 sheets
+- v0.1.1（2026-11-14）：B3 补齐 784/784 全量原生语音（3h30m）与语音判官；新增**复读/死循环 badcase 检测**（`scripts/detect_repetition_badcases.py`，`results/badcases/report.md`，跨 6 个模型同题对比）

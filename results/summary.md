@@ -34,7 +34,7 @@ ASR：Qwen3-ASR-0.6B，字符 WER 均值 **0.038**，中位数 0.0，完全一�
 |---|---|---|---|---|---|---|
 | ASR+Qwen3.5-2B+TTS | 784/784 | 4.356 | 3.829 | 3.949 | 4.175 | 4.927 |
 | ASR+Qwen3.5-4B+TTS | 784/784 | 4.758 | 4.398 | 4.497 | 4.597 | 4.939 |
-| EdgeInstant-Omni-2B | 30/784 | 4.228 | 3.078 | 2.955 | 3.341 | 4.9 |
+| EdgeInstant-Omni-2B | 784/784 | 4.426 | 3.737 | 3.718 | 3.932 | 4.946 |
 
 ### 2.3 同一批 500 场景：文字输入 vs 音频输入（文本判官总分）
 
@@ -46,5 +46,18 @@ ASR：Qwen3-ASR-0.6B，字符 WER 均值 **0.038**，中位数 0.0，完全一�
 ## 3. 说明
 
 - B1/B2 的回复音频：本地 Qwen3-TTS-0.6B 仅 20 条链路验证样本（RTF≈2-3，全量需 ~8h）；其余 1548 条用云端 qwen-audio-3.1-tts-next 渲染，仅用于语音维度评分。
-- B3 的语音维度仅 30 条原生音频抽样；其余 turn 按纯文本分支评分（audio_clarity=null）。
+- B3 已补齐 **784/784 原生音频**并全量重听（12,614.8s / 3h30m，RTF 0.1503）；注意 58.7% 回复文本含括号动作描述，原生 talker 会忠实朗读（`stage_direction_read` flag），不视为音频质量问题。
 - 两条 track 的 system prompt、人设卡、场景完全一致，可直接比较。
+
+## 4. 复读 / 死循环 badcase
+
+新增独立检测（程序化指标 ∪ 判官 repetition flag，分 severe/moderate/suspected），完整清单见 `results/badcases/report.md`、后台记录 `results/badcases/repetition_flags.jsonl`。摘要：
+
+| 模型 | 总轮数 | severe | moderate | 判官 repetition 率 |
+|---|---|---|---|---|
+| Qwen3.5-2B（文字） | 2616 | 5 | 0 | 10.1% |
+| Qwen3.5-4B（文字） | 2616 | 0 | 1 | 2.0% |
+| EdgeInstant-Omni-2B（文字） | 2616 | 2 | 0 | 13.8% |
+| ASR+2B+TTS 级联（音频） | 784 | 2 | 0 | 11.2% |
+| ASR+4B+TTS 级联（音频） | 784 | 0 | 0 | 4.3% |
+| EdgeInstant-Omni-2B（音频） | 784 | 1 | 0 | 16.4% |

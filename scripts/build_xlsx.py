@@ -57,6 +57,8 @@ def load_summaries():
     sums = {}
     for f in (RES).glob("*/summary.json"):
         s = json.loads(f.read_text(encoding="utf-8"))
+        if "model" not in s or "n_turns" not in s:
+            continue  # skip badcases / other auxiliary summaries
         sums[s["model"]] = s
     return sums
 
@@ -250,6 +252,39 @@ def main():
         df = pd.DataFrame(rows)
         ws = wb.create_sheet("12_ASR转写")
         style_sheet(ws, df, widths=[10, 16, 6, 60, 60, 8])
+
+    # 13 复读/死循环 badcase 汇总 + 明细
+    bp = RES / "badcases" / "summary.json"
+    bf = RES / "badcases" / "repetition_flags.jsonl"
+    if bp.exists():
+        bsum = json.loads(bp.read_text(encoding="utf-8"))
+        rows = []
+        for m, s in bsum.get("summary", {}).items():
+            rows.append({"模型": s.get("label", m), "Track": s.get("track"),
+                         "总轮数": s.get("n_turns"), "severe": s.get("severe"),
+                         "moderate": s.get("moderate"), "suspected": s.get("suspected"),
+                         "判官 repetition 数": s.get("judge_repetition"),
+                         "判官 repetition 率": s.get("judge_repetition_rate")})
+        df = pd.DataFrame(rows)
+        ws = wb.create_sheet("13_复读badcase汇总")
+        style_sheet(ws, df, widths=[28, 8, 8, 8, 9, 9, 14, 14])
+    if bf.exists():
+        rows = []
+        for line in bf.read_text(encoding="utf-8").splitlines():
+            if not line.strip():
+                continue
+            r = json.loads(line)
+            if r.get("tier") == "suspected":
+                continue
+            rows.append({"模型": r.get("model"), "Track": r.get("track"),
+                         "card_id": r.get("card_id"), "scene_id": r.get("scene_id"),
+                         "turn": r.get("idx"), "类别": r.get("category"), "Tier": r.get("tier"),
+                         "字数": r.get("char_len"), "原因": "；".join(r.get("reasons") or []),
+                         "判官 repetition": "Y" if r.get("judge_repetition") else "",
+                         "用户台词": r.get("user_text"), "回答摘录": r.get("excerpt")})
+        df = pd.DataFrame(rows)
+        ws = wb.create_sheet("14_复读badcase明细")
+        style_sheet(ws, df, widths=[30, 8, 10, 14, 6, 10, 8, 6, 44, 12, 40, 70])
 
     wb.save(OUT)
     print("saved", OUT, "sheets:", len(wb.sheetnames))
