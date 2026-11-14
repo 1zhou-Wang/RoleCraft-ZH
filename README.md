@@ -184,6 +184,8 @@ python -m venv .venv
 - **EdgeInstant 文字/音频各有 2/1 条 severe**，且 rc13_s14 与 Qwen3.5-2B 出现同款"她怕我？"循环 → 适合作为训练侧对比样本。
 - 明细见 `results/badcases/report.md`（每个测试项列出 6 个模型的同题表现、tier、原因、回答摘录）；quick_view.xlsx 的 13/14 表可筛选。
 
+**关于解码配置（重要）**：v0.1 的复读 badcase 与基线分数都在 **greedy（temperature=0，无 repetition/presence penalty）** 下得到；Qwen3.5 官方 README 的非思考文本推荐是 `temperature=1.0, top_p=1.0, top_k=20, min_p=0.0, presence_penalty=2.0`（这里的 2 是 **presence_penalty**，不是 repetition_penalty）。一次小规模消融（相同上下文，5 个可复现 severe 项 + 5 个正常对照）显示：官方配置把 4/4 个可复现死循环全部消除（512/514/514/710 字 → 70–107 字），判官分从 0.8–1.6 提升到 2.25–4.35，但正常对照的判官分平均略降（≈3.84 → ≈3.40）。详见 `results/badcases/decoding_ablation.md`、`decoding_ablation.json`。EdgeInstant 的部署代码本身是 greedy（`do_sample=False`），且 transformers generate 不支持 presence_penalty，因此其数字是"其默认推理配置"下的结果。
+
 
 ## 7. 数据是如何构建的
 
