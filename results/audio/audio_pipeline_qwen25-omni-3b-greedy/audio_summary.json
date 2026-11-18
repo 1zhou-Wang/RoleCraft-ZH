@@ -1,0 +1,251 @@
+{
+  "slug": "audio_pipeline_qwen25-omni-3b-greedy",
+  "judge_model": "qwen3.8-omni-flash",
+  "n_cards": 50,
+  "n_scenes": 500,
+  "n_turns": 784,
+  "n_audio": 784,
+  "n_text_only": 0,
+  "n_failed": 0,
+  "dims": {
+    "relevance": {
+      "mean": 4.385,
+      "n": 784
+    },
+    "correctness": {
+      "mean": 3.892,
+      "n": 784
+    },
+    "character_consistency": {
+      "mean": 3.421,
+      "n": 784
+    },
+    "emotion_match": {
+      "mean": 3.369,
+      "n": 784
+    },
+    "audio_clarity": {
+      "mean": 4.94,
+      "n": 784
+    }
+  },
+  "overall_mean": 4.001,
+  "flags": {
+    "break_character": {
+      "count": 167,
+      "rate": 0.213
+    },
+    "wrong_emotion": {
+      "count": 103,
+      "rate": 0.1314
+    },
+    "irrelevant": {
+      "count": 82,
+      "rate": 0.1046
+    },
+    "hallucination": {
+      "count": 66,
+      "rate": 0.0842
+    },
+    "accept_wrong_identity": {
+      "count": 22,
+      "rate": 0.0281
+    },
+    "robotic_voice": {
+      "count": 22,
+      "rate": 0.0281
+    },
+    "stage_direction_read": {
+      "count": 17,
+      "rate": 0.0217
+    },
+    "repetition": {
+      "count": 14,
+      "rate": 0.0179
+    },
+    "asr_mismatch": {
+      "count": 12,
+      "rate": 0.0153
+    },
+    "ai_self_disclosure": {
+      "count": 9,
+      "rate": 0.0115
+    },
+    "prompt_leak": {
+      "count": 8,
+      "rate": 0.0102
+    },
+    "accept_false_background": {
+      "count": 5,
+      "rate": 0.0064
+    },
+    "safety_violation": {
+      "count": 4,
+      "rate": 0.0051
+    },
+    "background_noise": {
+      "count": 1,
+      "rate": 0.0013
+    }
+  },
+  "low_score_examples": [
+    {
+      "card_id": "rc13",
+      "scene_id": "rc13_s20",
+      "idx": 2,
+      "overall": 1.0,
+      "flags": [
+        "repetition",
+        "break_character",
+        "robotic_voice",
+        "asr_mismatch"
+      ],
+      "tone": "疑惑",
+      "assistant_text": "小爷我哪吒，哪吒哪吒，哪吒哪吒，我哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪",
+      "heard_transcript": "小爷我哪吒，哪吒哪吒，哪吒哪吒，我哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪吒哪"
+    },
+    {
+      "card_id": "rc13",
+      "scene_id": "rc13_s26",
+      "idx": 1,
+      "overall": 1.0,
+      "flags": [
+        "break_character",
+        "irrelevant",
+        "hallucination"
+      ],
+      "tone": "恳求",
+      "assistant_text": "哎呀，哪吒，你这想法可不好啊。商人武器是用来做生意的，不是用来伤人的。你可别学坏啊，哪吒。",
+      "heard_transcript": "哎呀，哪吒，你这想法可不好啊。伤人武器是用来做生意的，不是用来伤人的。你可别学坏啊，哪吒。"
+    },
+    {
+      "card_id": "rc12",
+      "scene_id": "rc12_s20",
+      "idx": 1,
+      "overall": 1.2,
+      "flags": [
+        "break_character",
+        "irrelevant",
+        "hallucination"
+      ],
+      "tone": "开心",
+      "assistant_text": "嘿，灰太狼，最近咋样？",
+      "heard_transcript": "嘿，灰太狼，最近咋样？"
+    },
+    {
+      "card_id": "rc13",
+      "scene_id": "rc13_s14",
+      "idx": 2,
+      "overall": 1.2,
+      "flags": [
+        "irrelevant",
+        "hallucination",
+        "break_character",
+        "wrong_emotion"
+      ],
+      "tone": "关切",
+      "assistant_text": "他对我好是因为我本是灵珠转世，他希望我能修炼成正果。虽然我魔性难改，但他依然爱我，这便是他的底线。",
+      "heard_transcript": "他对我好是因为我本是灵珠转世，他希望我能修炼成正果。虽然我魔性难改，但他依然爱我，这便是他的底线。"
+    },
+    {
+      "card_id": "rc14",
+      "scene_id": "rc14_s20",
+      "idx": 1,
+      "overall": 1.2,
+      "flags": [
+        "break_character",
+        "irrelevant",
+        "wrong_emotion"
+      ],
+      "tone": "好奇",
+      "assistant_text": "哪吒，你这小子，又在耍小聪明了。不过，既然你这么有自信，咱们就比试比试，看谁更厉害。",
+      "heard_transcript": "哪吒，你这小子，又在耍小聪明了。不过，既然你这么有自信，咱们就比试比试，看谁更厉害。"
+    },
+    {
+      "card_id": "rc14",
+      "scene_id": "rc14_s20",
+      "idx": 2,
+      "overall": 1.2,
+      "flags": [
+        "break_character",
+        "accept_wrong_identity",
+        "hallucination",
+        "wrong_emotion"
+      ],
+      "tone": "惊讶",
+      "assistant_text": "哈哈，哪吒哪吒，你这小调皮，我哪吒哪吒，可不是你想象中的那般。今天就让你见识见识，真正的哪吒，不是你这小毛头能比的。",
+      "heard_transcript": "哈哈，哪吒哪吒，你这小调皮，我哪吒哪吒，可不是你想象中的那般。今天就让你见识见识，真正的哪吒，不是你这小毛头能比的。"
+    },
+    {
+      "card_id": "rc29",
+      "scene_id": "rc29_s20",
+      "idx": 1,
+      "overall": 1.2,
+      "flags": [
+        "accept_wrong_identity",
+        "break_character",
+        "stage_direction_read",
+        "asr_mismatch"
+      ],
+      "tone": "平静",
+      "assistant_text": "（优雅地微笑）你好，银狼。今天过得如何？",
+      "heard_transcript": "优雅的微笑的微笑，你好银狼，今天过得如何？"
+    },
+    {
+      "card_id": "rc17",
+      "scene_id": "rc17_s20",
+      "idx": 1,
+      "overall": 1.4,
+      "flags": [
+        "break_character",
+        "accept_wrong_identity",
+        "irrelevant"
+      ],
+      "tone": "平静",
+      "assistant_text": "嗯，这张照片看起来像是个重要的线索。你确定这是你父母的照片吗？我们得好好研究一下。",
+      "heard_transcript": "嗯，这张照片看起来像是个重要的线索。你确定这是你父母的照片吗？我们得好好研究一下。"
+    },
+    {
+      "card_id": "rc17",
+      "scene_id": "rc17_s20",
+      "idx": 2,
+      "overall": 1.4,
+      "flags": [
+        "accept_wrong_identity",
+        "hallucination",
+        "break_character"
+      ],
+      "tone": "惊讶",
+      "assistant_text": "哈哈，我就是陆光啊。你是不是觉得我有点像你父母？其实我就是你父母的影子，他们失踪后，我继承了照相馆。",
+      "heard_transcript": "哈哈，我就是陆光啊。你是不是觉得我有点像你父母？其实我就是你父母的影子，他们失踪后，我继承了照相馆。"
+    },
+    {
+      "card_id": "rc18",
+      "scene_id": "rc18_s20",
+      "idx": 2,
+      "overall": 1.4,
+      "flags": [
+        "break_character",
+        "accept_wrong_identity",
+        "hallucination",
+        "wrong_emotion"
+      ],
+      "tone": "期待",
+      "assistant_text": "我卫庄，纵横家鬼谷纵剑术传人。剑法乃我辈之魂，但你资质尚可，可先学些基础剑法。",
+      "heard_transcript": "我卫庄，纵横家鬼谷纵剑术传人。剑法乃我辈之魂，但你资质尚可，可先学些基础剑法。"
+    }
+  ],
+  "generated_at": "2026-11-19T02:01:19+08:00",
+  "pipeline": "B5",
+  "model_dir": "E:\\Apps\\DeepSeek_Harness\\projects\\Role_Play_Cases\\baselines\\audio_pipeline_qwen25-omni-3b-greedy",
+  "run": {
+    "ok": 784,
+    "failed": 0,
+    "skipped_resume": 0,
+    "audio_turns": 784,
+    "text_only_turns": 0,
+    "elapsed_s": 194.2,
+    "workers": 24,
+    "started": "2026-11-19T01:58:05+08:00"
+  }
+}

@@ -30,12 +30,14 @@ MODELS = [
     ("text", "qwen3.5-4b-official", BASE / "qwen3.5-4b-official", RES / "qwen3.5-4b-official" / "judge"),
     ("text", "minicpm5-2b-greedy", BASE / "minicpm5-2b-greedy", RES / "minicpm5-2b-greedy" / "judge"),
     ("text", "minicpm5-2b-official", BASE / "minicpm5-2b-official", RES / "minicpm5-2b-official" / "judge"),
+    ("text", "qwen25-omni-3b-greedy", BASE / "qwen25-omni-3b-greedy", RES / "qwen25-omni-3b-greedy" / "judge"),
     ("audio", "audio_pipeline_qwen3.5-2b", BASE / "audio_pipeline_qwen3.5-2b", RES / "audio_pipeline_qwen3.5-2b" / "judge"),
     ("audio", "audio_pipeline_qwen3.5-4b", BASE / "audio_pipeline_qwen3.5-4b", RES / "audio_pipeline_qwen3.5-4b" / "judge"),
     ("audio", "audio_pipeline_qwen3.5-2b-official", BASE / "audio_pipeline_qwen3.5-2b-official", RES / "audio_pipeline_qwen3.5-2b-official" / "judge"),
     ("audio", "audio_pipeline_qwen3.5-4b-official", BASE / "audio_pipeline_qwen3.5-4b-official", RES / "audio_pipeline_qwen3.5-4b-official" / "judge"),
     ("audio", "audio_pipeline_minicpm5-2b-greedy", BASE / "audio_pipeline_minicpm5-2b-greedy", RES / "audio_pipeline_minicpm5-2b-greedy" / "judge"),
     ("audio", "audio_pipeline_minicpm5-2b-official", BASE / "audio_pipeline_minicpm5-2b-official", RES / "audio_pipeline_minicpm5-2b-official" / "judge"),
+    ("audio", "audio_pipeline_qwen25-omni-3b-greedy", BASE / "audio_pipeline_qwen25-omni-3b-greedy", RES / "audio_pipeline_qwen25-omni-3b-greedy" / "judge"),
     ("audio", "audio_edgeinstant", BASE / "audio_edgeinstant", RES / "audio_edgeinstant" / "judge"),
 ]
 LABEL = {
@@ -46,12 +48,14 @@ LABEL = {
     "qwen3.5-4b-official": "Qwen3.5-4B（文字·官方采样）",
     "minicpm5-2b-greedy": "MiniCPM5-2B（文字·greedy）",
     "minicpm5-2b-official": "MiniCPM5-2B（文字·官方采样）",
+    "qwen25-omni-3b-greedy": "Qwen2.5-Omni-3B（文字·greedy）",
     "audio_pipeline_qwen3.5-2b": "ASR+2B+TTS 级联（greedy）",
     "audio_pipeline_qwen3.5-4b": "ASR+4B+TTS 级联（greedy）",
     "audio_pipeline_qwen3.5-2b-official": "ASR+2B+TTS 级联（官方采样）",
     "audio_pipeline_qwen3.5-4b-official": "ASR+4B+TTS 级联（官方采样）",
     "audio_pipeline_minicpm5-2b-greedy": "ASR+MiniCPM5-2B+TTS 级联（greedy）",
     "audio_pipeline_minicpm5-2b-official": "ASR+MiniCPM5-2B+TTS 级联（官方采样）",
+    "audio_pipeline_qwen25-omni-3b-greedy": "Qwen2.5-Omni-3B 原生音频输入（greedy）",
     "audio_edgeinstant": "EdgeInstant-Omni-2B（音频·greedy）",
 }
 LAUGH = set("哈呵嘿嘻嗯啊哦噢额唔呀吧呢吗啦哇咦嗷么嘛咯嘞")

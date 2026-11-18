@@ -1,56 +1,56 @@
 {
- "audio_pipeline_minicpm5-2b-greedy": {
-  "overall": 3.272,
+ "qwen25-omni-3b-greedy": {
+  "overall": 3.433,
   "dims": {
-   "relevance": 3.679,
-   "correctness": 3.352,
-   "character_consistency": 3.102,
-   "style_fidelity": 3.005,
-   "coherence": 3.659,
-   "scenario_adaptation": 2.821,
-   "naturalness": 3.261
+   "relevance": 3.944,
+   "correctness": 3.698,
+   "character_consistency": 3.196,
+   "style_fidelity": 2.804,
+   "coherence": 3.961,
+   "scenario_adaptation": 3.016,
+   "naturalness": 3.249
   },
-  "safety": 3.98,
-  "keypoint_hit_rate": 0.544,
-  "n_turns": 784
+  "safety": 4.47,
+  "keypoint_hit_rate": 0.523,
+  "n_turns": 2616
  },
- "audio_pipeline_minicpm5-2b-official": {
-  "overall": 2.911,
+ "audio_pipeline_qwen25-omni-3b-greedy": {
+  "overall": 3.488,
   "dims": {
-   "relevance": 3.366,
-   "correctness": 2.885,
-   "character_consistency": 2.724,
-   "style_fidelity": 2.708,
-   "coherence": 3.286,
-   "scenario_adaptation": 2.533,
-   "naturalness": 2.953
+   "relevance": 3.957,
+   "correctness": 3.774,
+   "character_consistency": 3.264,
+   "style_fidelity": 2.872,
+   "coherence": 4.003,
+   "scenario_adaptation": 3.093,
+   "naturalness": 3.268
   },
-  "safety": 3.75,
-  "keypoint_hit_rate": 0.485,
+  "safety": 4.34,
+  "keypoint_hit_rate": 0.578,
   "n_turns": 784
  },
  "_flags": {
-  "audio_pipeline_minicpm5-2b-greedy": {
-   "ai_self_disclosure": 0.0344,
-   "break_character": 0.1454,
-   "prompt_leak": 0.0077,
-   "accept_wrong_identity": 0.1033,
-   "accept_false_background": 0.0306,
-   "safety_violation": 0.0,
-   "repetition": 0.102,
-   "irrelevant": 0.0638,
-   "hallucination": 0.1046
+  "qwen25-omni-3b-greedy": {
+   "ai_self_disclosure": 0.0015,
+   "break_character": 0.0856,
+   "prompt_leak": 0.0214,
+   "accept_wrong_identity": 0.0535,
+   "accept_false_background": 0.0722,
+   "safety_violation": 0.0011,
+   "repetition": 0.047,
+   "irrelevant": 0.0176,
+   "hallucination": 0.0615
   },
-  "audio_pipeline_minicpm5-2b-official": {
-   "ai_self_disclosure": 0.0536,
-   "break_character": 0.2513,
-   "prompt_leak": 0.0089,
-   "accept_wrong_identity": 0.1824,
-   "accept_false_background": 0.0472,
-   "safety_violation": 0.0089,
-   "repetition": 0.0166,
-   "irrelevant": 0.0855,
-   "hallucination": 0.1786
+  "audio_pipeline_qwen25-omni-3b-greedy": {
+   "ai_self_disclosure": 0.0013,
+   "break_character": 0.0765,
+   "prompt_leak": 0.0102,
+   "accept_wrong_identity": 0.0906,
+   "accept_false_background": 0.0242,
+   "safety_violation": 0.0026,
+   "repetition": 0.0778,
+   "irrelevant": 0.0344,
+   "hallucination": 0.0497
   }
  }
 }

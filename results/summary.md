@@ -1,4 +1,4 @@
-# RoleCraft-ZH v0.3 结果汇总
+# RoleCraft-ZH v0.4 结果汇总
 
 评测集：50 张角色卡 / 1500 场景（2616 轮）文字 track + 500 场景（784 轮）音频输入 track。
 判官：DeepSeek-V4.1-Flash（文本维度，temperature 0）+ Qwen3.8-Omni-Flash（语音维度，reasoning_effort=none）。
@@ -6,7 +6,7 @@
 两种解码配置并存：
 - **greedy（v0.1）**：temperature=0，无 repetition/presence penalty；可复现优先。
 - **官方采样（v0.2）**：Qwen3.5 用 `temperature=1.0, top_p=1.0, top_k=20, min_p=0.0, presence_penalty=2.0, seed=42`；MiniCPM5-2B 用其 README 推荐 `temperature=1.0, top_p=0.95, min_p=0.0, repetition_penalty=1.05, seed=42`。
-- EdgeInstant-Omni-2B 保持其部署默认的 greedy（transformers generate 不支持 presence_penalty）。
+- EdgeInstant-Omni-2B 保持其部署默认的 greedy（transformers generate 不支持 presence_penalty）；Qwen2.5-Omni-3B（v0.4）用 greedy、原生音频输入、文本输出（talker 保留但 return_audio=False）。
 
 ## 1. 文字 track（文本输入 → 文本输出，2616 轮）
 
@@ -18,6 +18,7 @@
 | Qwen3.5-4B（官方采样） | 2616 | **3.945** | 4.272 | 3.774 | 3.879 | 3.936 | 4.218 | 3.606 | 4.033 | 0.68 |
 | MiniCPM5-2B（greedy） | 2616 | **3.274** | 3.636 | 3.284 | 3.139 | 3.136 | 3.609 | 2.782 | 3.339 | 0.485 |
 | MiniCPM5-2B（官方采样） | 2616 | **2.898** | 3.342 | 2.819 | 2.74 | 2.795 | 3.218 | 2.466 | 3.002 | 0.43 |
+| Qwen2.5-Omni-3B（文字·greedy） | 2616 | **3.433** | 3.944 | 3.698 | 3.196 | 2.804 | 3.961 | 3.016 | 3.249 | 0.523 |
 | EdgeInstant-Omni-2B（自家·greedy） | 2616 | **3.528** | 3.908 | 3.392 | 3.452 | 3.523 | 3.824 | 3.078 | 3.58 | 0.589 |
 
 ### 1.1 红旗率
@@ -30,6 +31,7 @@
 | Qwen3.5-4B（官方采样） | 0.1% | 3.0% | 0.1% | 4.7% | 6.5% | 0.2% | 0.3% | 0.7% | 10.2% |
 | MiniCPM5-2B（greedy） | 2.6% | 11.3% | 1.0% | 8.6% | 8.1% | 0.1% | 10.1% | 4.9% | 10.4% |
 | MiniCPM5-2B（官方采样） | 2.8% | 21.6% | 0.5% | 13.7% | 11.7% | 0.4% | 1.1% | 8.7% | 20.3% |
+| Qwen2.5-Omni-3B（文字·greedy） | 0.1% | 8.6% | 2.1% | 5.3% | 7.2% | 0.1% | 4.7% | 1.8% | 6.2% |
 | EdgeInstant-Omni-2B（自家·greedy） | 0.1% | 6.0% | 0.8% | 9.6% | 8.3% | 0.3% | 13.8% | 3.2% | 15.7% |
 
 ## 2. 音频输入 track（语音输入，500 场景 / 784 轮）
@@ -46,6 +48,7 @@ ASR：Qwen3-ASR-0.6B，字符 WER 均值 **0.038**，中位数 0.0，完全一�
 | B2: ASR+4B+TTS（官方采样） | 784 | **4.022** | 4.324 | 3.885 | 3.968 | 3.729 | 0.728 |
 | B4: ASR+MiniCPM5-2B+TTS（greedy） | 784 | **3.272** | 3.679 | 3.352 | 3.102 | 2.821 | 0.544 |
 | B4: ASR+MiniCPM5-2B+TTS（官方采样） | 784 | **2.911** | 3.366 | 2.885 | 2.724 | 2.533 | 0.485 |
+| B5: Qwen2.5-Omni-3B（原生音频输入·greedy） | 784 | **3.488** | 3.957 | 3.774 | 3.264 | 3.093 | 0.578 |
 | B3: EdgeInstant-Omni-2B（原生音频·greedy） | 784 | **3.622** | 3.977 | 3.565 | 3.556 | 3.21 | 0.637 |
 
 ### 2.2 语音维度（Qwen3.8-Omni-Flash 听音频）
@@ -58,6 +61,7 @@ ASR：Qwen3-ASR-0.6B，字符 WER 均值 **0.038**，中位数 0.0，完全一�
 | B2: ASR+4B+TTS（官方采样） | 784/784 | 4.708 | 4.235 | 4.274 | 4.49 | 4.649 |
 | B4: ASR+MiniCPM5-2B+TTS（greedy） | 784/784 | 4.079 | 3.533 | 3.392 | 3.505 | 4.867 |
 | B4: ASR+MiniCPM5-2B+TTS（官方采样） | 784/784 | 3.728 | 3.01 | 2.935 | 3.342 | 4.834 |
+| B5: Qwen2.5-Omni-3B（原生音频输入·greedy） | 784/784 | 4.385 | 3.892 | 3.421 | 3.369 | 4.94 |
 | B3: EdgeInstant-Omni-2B（原生音频·greedy） | 784/784 | 4.426 | 3.737 | 3.718 | 3.932 | 4.946 |
 
 ### 2.3 同一批 500 场景：文字输入 vs 音频输入（文本判官总分）
@@ -70,6 +74,7 @@ ASR：Qwen3-ASR-0.6B，字符 WER 均值 **0.038**，中位数 0.0，完全一�
 | B2: ASR+4B+TTS（官方采样） | 4.089 | 4.022 | -0.067 |
 | B4: ASR+MiniCPM5-2B+TTS（greedy） | 3.318 | 3.272 | -0.046 |
 | B4: ASR+MiniCPM5-2B+TTS（官方采样） | 2.899 | 2.911 | 0.012 |
+| B5: Qwen2.5-Omni-3B（原生音频输入·greedy） | 3.506 | 3.488 | -0.018 |
 
 ## 3. 复读 / 死循环 badcase（程序化 + 判官辅助）
 
@@ -82,12 +87,14 @@ ASR：Qwen3-ASR-0.6B，字符 WER 均值 **0.038**，中位数 0.0，完全一�
 | Qwen3.5-4B（文字·官方采样） | 2616 | 0 | 0 | 0 | 0.3% |
 | MiniCPM5-2B（文字·greedy） | 2616 | 11 | 5 | 6 | 10.1% |
 | MiniCPM5-2B（文字·官方采样） | 2616 | 1 | 0 | 1 | 1.1% |
+| Qwen2.5-Omni-3B（文字·greedy） | 2616 | 7 | 3 | 6 | 4.7% |
 | ASR+2B+TTS 级联（greedy） | 784 | 2 | 0 | 0 | 11.2% |
 | ASR+4B+TTS 级联（greedy） | 784 | 0 | 0 | 0 | 4.3% |
 | ASR+2B+TTS 级联（官方采样） | 784 | 0 | 0 | 0 | 0.9% |
 | ASR+4B+TTS 级联（官方采样） | 784 | 0 | 0 | 0 | 0.3% |
 | ASR+MiniCPM5-2B+TTS 级联（greedy） | 784 | 6 | 1 | 0 | 10.2% |
 | ASR+MiniCPM5-2B+TTS 级联（官方采样） | 784 | 2 | 1 | 2 | 1.7% |
+| Qwen2.5-Omni-3B 原生音频输入（greedy） | 784 | 3 | 0 | 1 | 7.8% |
 | EdgeInstant-Omni-2B（音频·greedy） | 784 | 1 | 0 | 4 | 16.4% |
 
 明细（同一测试项跨模型对比）见 `results/badcases/report.md`；解码配置对比见 `results/badcases/decoding_ablation.md`。

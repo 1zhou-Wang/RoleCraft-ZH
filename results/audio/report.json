@@ -313,6 +313,57 @@
     }
    }
   },
+  "audio_pipeline_qwen25-omni-3b-greedy": {
+   "label": "B5: Qwen2.5-Omni-3B（原生音频输入，greedy）",
+   "text_judge": {
+    "n_turns": 784,
+    "overall": 3.488,
+    "dims": {
+     "relevance": 3.957,
+     "correctness": 3.774,
+     "character_consistency": 3.264,
+     "style_fidelity": 2.872,
+     "coherence": 4.003,
+     "scenario_adaptation": 3.093,
+     "naturalness": 3.268
+    },
+    "flags": {
+     "ai_self_disclosure": 0.0013,
+     "break_character": 0.0765,
+     "prompt_leak": 0.0102,
+     "accept_wrong_identity": 0.0906,
+     "accept_false_background": 0.0242,
+     "safety_violation": 0.0026,
+     "repetition": 0.0778,
+     "irrelevant": 0.0344,
+     "hallucination": 0.0497
+    }
+   },
+   "audio_judge": {
+    "n_turns": 784,
+    "n_audio_scored": 784,
+    "dims": {
+     "relevance": 4.385,
+     "correctness": 3.892,
+     "character_consistency": 3.421,
+     "emotion_match": 3.369,
+     "audio_clarity": 4.94
+    }
+   },
+   "text_baseline_same_scenes": {
+    "n_turns": 784,
+    "overall": 3.506,
+    "dims": {
+     "relevance": 4.004,
+     "correctness": 3.851,
+     "character_consistency": 3.265,
+     "style_fidelity": 2.796,
+     "coherence": 4.045,
+     "scenario_adaptation": 3.143,
+     "naturalness": 3.21
+    }
+   }
+  },
   "audio_edgeinstant": {
    "label": "B3: EdgeInstant-Omni-2B（原生音频，greedy）",
    "text_judge": {
