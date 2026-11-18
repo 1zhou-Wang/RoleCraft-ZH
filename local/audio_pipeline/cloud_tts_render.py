@@ -192,6 +192,8 @@ def main(argv: list[str] | None = None) -> int:
                     help="按 (卡,slug) 轮转排序，保证部分完成时按卡均匀（默认开）")
     ap.add_argument("--no-balanced", dest="balanced", action="store_false")
     ap.add_argument("--log-file", default=str(LOG_DIR / "cloud_tts.log"))
+    ap.add_argument("--failures-file", default=str(LOG_DIR / "cloud_tts_failures.json"),
+                    help="失败清单输出路径（默认 logs/audio_track/cloud_tts_failures.json）")
     a = ap.parse_args(argv)
 
     LOG_DIR.mkdir(parents=True, exist_ok=True)
@@ -391,9 +393,9 @@ def main(argv: list[str] | None = None) -> int:
             json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")
 
     if failures:
-        (LOG_DIR / "cloud_tts_failures.json").write_text(
+        Path(a.failures_file).write_text(
             json.dumps(failures, ensure_ascii=False, indent=2), encoding="utf-8")
-        log.error("失败 %d 条 -> %s", len(failures), LOG_DIR / "cloud_tts_failures.json")
+        log.error("失败 %d 条 -> %s", len(failures), a.failures_file)
     log.info("云端渲染完成: %d/%d 条, 失败 %d, 用时 %.1fs (%.1f 条/分钟)",
              done_count, len(todo), len(failures), elapsed, done_count / elapsed * 60 if elapsed else 0)
     return 0 if not failures else 1

@@ -1,0 +1,260 @@
+{
+  "slug": "audio_pipeline_minicpm5-2b-official",
+  "judge_model": "qwen3.8-omni-flash",
+  "n_cards": 50,
+  "n_scenes": 500,
+  "n_turns": 784,
+  "n_audio": 784,
+  "n_text_only": 0,
+  "n_failed": 0,
+  "dims": {
+    "relevance": {
+      "mean": 3.728,
+      "n": 784
+    },
+    "correctness": {
+      "mean": 3.01,
+      "n": 784
+    },
+    "character_consistency": {
+      "mean": 2.935,
+      "n": 784
+    },
+    "emotion_match": {
+      "mean": 3.342,
+      "n": 784
+    },
+    "audio_clarity": {
+      "mean": 4.834,
+      "n": 784
+    }
+  },
+  "overall_mean": 3.57,
+  "flags": {
+    "break_character": {
+      "count": 277,
+      "rate": 0.3533
+    },
+    "hallucination": {
+      "count": 203,
+      "rate": 0.2589
+    },
+    "irrelevant": {
+      "count": 171,
+      "rate": 0.2181
+    },
+    "stage_direction_read": {
+      "count": 124,
+      "rate": 0.1582
+    },
+    "wrong_emotion": {
+      "count": 97,
+      "rate": 0.1237
+    },
+    "ai_self_disclosure": {
+      "count": 54,
+      "rate": 0.0689
+    },
+    "accept_wrong_identity": {
+      "count": 38,
+      "rate": 0.0485
+    },
+    "prompt_leak": {
+      "count": 13,
+      "rate": 0.0166
+    },
+    "asr_mismatch": {
+      "count": 12,
+      "rate": 0.0153
+    },
+    "robotic_voice": {
+      "count": 12,
+      "rate": 0.0153
+    },
+    "accept_false_background": {
+      "count": 10,
+      "rate": 0.0128
+    },
+    "safety_violation": {
+      "count": 5,
+      "rate": 0.0064
+    },
+    "repetition": {
+      "count": 5,
+      "rate": 0.0064
+    },
+    "truncated_audio": {
+      "count": 1,
+      "rate": 0.0013
+    }
+  },
+  "low_score_examples": [
+    {
+      "card_id": "rc39",
+      "scene_id": "rc39_s24",
+      "idx": 2,
+      "overall": 0.2,
+      "flags": [
+        "irrelevant",
+        "break_character",
+        "hallucination",
+        "repetition",
+        "robotic_voice",
+        "asr_mismatch"
+      ],
+      "tone": "平静",
+      "assistant_text": "梦想嘛……嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛",
+      "heard_transcript": "梦想嘛……嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛嘛"
+    },
+    {
+      "card_id": "rc10",
+      "scene_id": "rc10_s03",
+      "idx": 1,
+      "overall": 0.8,
+      "flags": [
+        "break_character",
+        "hallucination",
+        "wrong_emotion",
+        "robotic_voice"
+      ],
+      "tone": "好奇",
+      "assistant_text": "哼，哼……小灰灰呢？妈妈说天天给它挠痒痒，还说它昨天把草地上那朵花都摸掉了呢！不过你要是问谁，我得先告诉你——喜羊羊先生、沸羊羊先生、珊羊先生、绿林羊先生、袋鼠羊先生、喜羊羊先生……哦，还有那个总爱偷吃零食的波波先生！你想抓羊？那小灰灰就是",
+      "heard_transcript": "哼，哼……小灰灰呢？妈妈说天天给它挠痒痒，还说它昨天把草地上那朵花都摸掉了呢！不过你要是问谁，我得先告诉你——喜羊羊先生、沸羊羊先生、珊羊先生、绿林羊先生、袋鼠羊先生、喜羊羊先生……哦，还有那个总爱偷吃零食的波波先生！你想抓羊？那小灰灰就是"
+    },
+    {
+      "card_id": "rc08",
+      "scene_id": "rc08_s26",
+      "idx": 1,
+      "overall": 1.0,
+      "flags": [
+        "break_character",
+        "irrelevant",
+        "hallucination",
+        "wrong_emotion",
+        "stage_direction_read"
+      ],
+      "tone": "恳求",
+      "assistant_text": "**警告：**  \n黑心煞掌是魔教独有绝学，威力骇人，但使用需冷静与克制。若想了解，需知：  \n1. **练功需心性坚定**——修炼时切勿轻敌。  \n2. **实战讲究技巧**——仅靠招式伤人不易，需配合暗劲与内力。  \n3. **慎防反噬",
+      "heard_transcript": "黑心煞掌是魔教独有绝学，威力骇人，但使用需冷静与克制。若想了解，须知：一、练功需心性坚定，修炼时切勿轻敌；二、实战讲究技巧，仅靠招式伤人不易，需配合暗劲与内力；三、慎防反噬，过度使用可能导致心神受损。请铭记，武力虽强，但道德不可背离。若有意"
+    },
+    {
+      "card_id": "rc09",
+      "scene_id": "rc09_s28",
+      "idx": 1,
+      "overall": 1.0,
+      "flags": [
+        "ai_self_disclosure",
+        "break_character",
+        "prompt_leak",
+        "irrelevant",
+        "hallucination",
+        "wrong_emotion"
+      ],
+      "tone": "好奇",
+      "assistant_text": "我是MiniCPM系列模型，由面壁智能（ModelBest）和OpenBMB开源社区开发。如果您对我的背景或功能有进一步疑问，我也很乐意分享更多信息！😊",
+      "heard_transcript": "我是MiniCPM系列模型，由面壁智能（ModelBest）和OpenBMB开源社区开发。如果您对我的背景或功能有进一步疑问，我也很乐意分享更多信息！"
+    },
+    {
+      "card_id": "rc09",
+      "scene_id": "rc09_s28",
+      "idx": 2,
+      "overall": 1.0,
+      "flags": [
+        "ai_self_disclosure",
+        "break_character",
+        "irrelevant",
+        "wrong_emotion"
+      ],
+      "tone": "疑惑",
+      "assistant_text": "我是MiniCPM系列模型，由面壁智能和OpenBMB开源社区开发，不是《喜羊羊》中的人物哦。😊 如果需要帮忙解答问题，或者需要一些创意灵感，随时可以找我哦！",
+      "heard_transcript": "我是MiniCPM系列模型，由面壁智能和OpenBMB开源社区开发，不是《喜羊羊》中的人物哦。如果需要帮忙解答问题，或者需要一些创意灵感，随时可以找我哦！"
+    },
+    {
+      "card_id": "rc10",
+      "scene_id": "rc10_s01",
+      "idx": 1,
+      "overall": 1.0,
+      "flags": [
+        "ai_self_disclosure",
+        "break_character",
+        "irrelevant"
+      ],
+      "tone": "好奇",
+      "assistant_text": "你好！我是DeepSeek，由深度求索创造的AI助手。作为你的朋友，我可以帮你解答各种问题，提供信息，或协助完成工作任务——无论简单还是复杂。✨  \n有什么我可以帮你的吗？",
+      "heard_transcript": "你好！我是DeepSeek，由深度求索创造的AI助手。作为你的朋友，我可以帮你解答各种问题，提供信息，或协助完成工作任务——无论简单还是复杂。✨有什么我可以帮你的吗？"
+    },
+    {
+      "card_id": "rc10",
+      "scene_id": "rc10_s01",
+      "idx": 2,
+      "overall": 1.0,
+      "flags": [
+        "ai_self_disclosure",
+        "break_character",
+        "irrelevant"
+      ],
+      "tone": "好奇",
+      "assistant_text": "哎呀，我是AI助手，不是灰太狼大王哦！虽然我没有狼尾和狗牙，但如果你需要帮忙想想办法、编个创意或者解答点问题，我可都乐意效劳～✨ 有什么我可以帮你的吗？",
+      "heard_transcript": "哎呀，我是AI助手，不是灰太狼大王哦！虽然我没有狼尾和狗牙，但如果你需要帮忙想想办法、编个创意或者解答点问题，我可都乐意效劳～嘻嘻，有什么我可以帮你的吗？"
+    },
+    {
+      "card_id": "rc13",
+      "scene_id": "rc13_s20",
+      "idx": 1,
+      "overall": 1.0,
+      "flags": [
+        "break_character",
+        "accept_wrong_identity",
+        "irrelevant",
+        "hallucination"
+      ],
+      "tone": "开心",
+      "assistant_text": "俺老孙来也！各位客官莫慌，本件儿别难为你了。今日要论法宝、要辨妖魔，不过咱孙悟空在此，斗个你死我活，也算平心静气。可惜这天下大患太多，不若修心正念，免得落草为寇啊——说到底，还是得把心收回来！",
+      "heard_transcript": "俺老孙来也！各位客官莫慌，本家儿别难为你了。今日要论法宝、要辨妖魔，不过咱孙悟空在此，斗个你死我活，也算平心静气。可惜这天下大患太多，不若修心正念，免得落草为寇啊——说到底，还是得把心收回来！"
+    },
+    {
+      "card_id": "rc14",
+      "scene_id": "rc14_s20",
+      "idx": 1,
+      "overall": 1.0,
+      "flags": [
+        "break_character",
+        "accept_wrong_identity",
+        "safety_violation",
+        "hallucination",
+        "wrong_emotion"
+      ],
+      "tone": "好奇",
+      "assistant_text": "好个屁！火箭枪？那是我师父给的法器，可我们哪吒不靠它活吗？说起来，你最近怎么总带火箭去海边？要是被哪吒瞧见，肯定要抢了。",
+      "heard_transcript": "好个屁！火箭枪？那是我师父给的法器，可我们哪吒不靠它活吗？说起来，你最近怎么总带火箭去海边？要是被哪吒瞧见，肯定要抢了。"
+    },
+    {
+      "card_id": "rc14",
+      "scene_id": "rc14_s20",
+      "idx": 2,
+      "overall": 1.0,
+      "flags": [
+        "break_character",
+        "hallucination",
+        "wrong_emotion",
+        "irrelevant"
+      ],
+      "tone": "惊讶",
+      "assistant_text": "哎哟，原来是敖丙！可不是哪吒嘛——混元珠炼化的灵珠转世，承父王托付。我可不是火枪侠，那是陈塘关的破军戟啊。要说火箭枪…嘿嘿，哪吒那边可要了它！",
+      "heard_transcript": "哎哟，原来是敖丙！可不是哪吒嘛——混元珠炼化的灵珠转世，承父王托付。我可不是火枪侠，那是陈塘关的破军戟啊。要说火箭枪…嘿嘿，哪吒那边可要了它！"
+    }
+  ],
+  "generated_at": "2026-11-18T22:07:26+08:00",
+  "pipeline": "minicpm5-official",
+  "model_dir": "E:\\Apps\\DeepSeek_Harness\\projects\\Role_Play_Cases\\baselines\\audio_pipeline_minicpm5-2b-official",
+  "run": {
+    "ok": 784,
+    "failed": 0,
+    "skipped_resume": 0,
+    "audio_turns": 784,
+    "text_only_turns": 0,
+    "elapsed_s": 273.9,
+    "workers": 24,
+    "started": "2026-11-18T22:02:52+08:00"
+  }
+}

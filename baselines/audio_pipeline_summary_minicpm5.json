@@ -1,0 +1,207 @@
+{
+  "version": "minicpm5-2b-audio-link",
+  "model": "MiniCPM5-2B",
+  "deployment": {
+    "llama_cpp": "b11552",
+    "arch": "LlamaForCausalLM（标准 GGUF）",
+    "greedy": "http://127.0.0.1:8090（请求 temperature=0）",
+    "official": "http://127.0.0.1:8091（server flags: --temp 1.0 --top-p 0.95 --min-p 0.0 --seed 42；README 特别要求 --min-p 0.0，llama.cpp 默认 0.05 会加重读）",
+    "thinking": "关闭（--reasoning off + chat_template_kwargs enable_thinking=false，输出无 <think> 泄漏）"
+  },
+  "asr": {
+    "model": "E:\\RBM\\models\\Qwen3-ASR-0.6B",
+    "transcribed": 784,
+    "wer_mean": 0.0376,
+    "wer_median": 0.0,
+    "wer_p90": 0.1429,
+    "exact_match_rate": 0.8048,
+    "elapsed_s": 99.9,
+    "reused_from": "v0.1"
+  },
+  "text_track": [
+    {
+      "slug": "minicpm5-2b-greedy",
+      "files": 50,
+      "scenes": 1500,
+      "scenes_failed": 0,
+      "turns": 2616,
+      "turns_ok": 2616,
+      "turn_latency_s": {
+        "mean": 0.564,
+        "p50": 0.509,
+        "p95": 1.019
+      },
+      "elapsed_s": 376.31,
+      "sampling": "greedy",
+      "generation": {
+        "temperature": 0.0,
+        "max_tokens": 512
+      },
+      "reply_chars": {
+        "mean": 60.8,
+        "max": 954,
+        "gt_300": 22
+      },
+      "repetition_degenerate": 14,
+      "repetition_rate_pct": 0.54,
+      "errors": []
+    },
+    {
+      "slug": "minicpm5-2b-official",
+      "files": 50,
+      "scenes": 1500,
+      "scenes_failed": 0,
+      "turns": 2616,
+      "turns_ok": 2616,
+      "turn_latency_s": {
+        "mean": 0.739,
+        "p50": 0.701,
+        "p95": 1.266
+      },
+      "elapsed_s": 496.96,
+      "sampling": "minicpm-official",
+      "generation": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "min_p": 0.0,
+        "seed": 42,
+        "server_side": "llama-server flags: --temp 1.0 --top-p 0.95 --min-p 0.0 --seed 42; request only temperature/max_tokens",
+        "max_tokens": 512,
+        "request_params": [
+          "temperature",
+          "max_tokens"
+        ]
+      },
+      "reply_chars": {
+        "mean": 72.3,
+        "max": 514,
+        "gt_300": 1
+      },
+      "repetition_degenerate": 1,
+      "repetition_rate_pct": 0.04,
+      "errors": []
+    }
+  ],
+  "audio_pipelines": [
+    {
+      "pipeline": "minicpm5-greedy",
+      "slug": "audio_pipeline_minicpm5-2b-greedy",
+      "model": "minicpm5-2b-greedy",
+      "base_url": "http://127.0.0.1:8090",
+      "scenes": 500,
+      "scenes_failed": 0,
+      "turns": 784,
+      "turns_ok": 784,
+      "turn_latency_s": {
+        "mean": 0.625,
+        "p50": 0.533,
+        "p95": 1.21
+      },
+      "scene_latency_s": {
+        "mean": 0.979,
+        "p50": 0.799,
+        "p95": 2.198
+      },
+      "cascade_elapsed_s": 125.74,
+      "sampling": "greedy",
+      "generation": {
+        "temperature": 0.0,
+        "max_tokens": 512,
+        "mode": "greedy",
+        "server_side": "请求 temperature=0（greedy）；server :8090 无采样 flag"
+      },
+      "tts": {
+        "qwen-audio-3.1-tts-next": 784,
+        "qwen3-tts-0.6b": 0,
+        "none": 0,
+        "other": 0
+      },
+      "audio_files_ok": 784,
+      "audio_files_missing": 0,
+      "reply_chars": {
+        "mean": 64.1,
+        "gt_300": 8
+      },
+      "repetition_rate_pct": 0.51,
+      "errors": [],
+      "error_count": 0
+    },
+    {
+      "pipeline": "minicpm5-official",
+      "slug": "audio_pipeline_minicpm5-2b-official",
+      "model": "minicpm5-2b-official",
+      "base_url": "http://127.0.0.1:8091",
+      "scenes": 500,
+      "scenes_failed": 0,
+      "turns": 784,
+      "turns_ok": 784,
+      "turn_latency_s": {
+        "mean": 0.788,
+        "p50": 0.726,
+        "p95": 1.352
+      },
+      "scene_latency_s": {
+        "mean": 1.235,
+        "p50": 1.103,
+        "p95": 2.391
+      },
+      "cascade_elapsed_s": 157.53,
+      "sampling": "minicpm-official",
+      "generation": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "min_p": 0.0,
+        "seed": 42,
+        "max_tokens": 512,
+        "mode": "official",
+        "server_side": "server :8091 flags: --temp 1.0 --top-p 0.95 --min-p 0.0 --seed 42；请求只传 temperature=1.0/max_tokens"
+      },
+      "tts": {
+        "qwen-audio-3.1-tts-next": 784,
+        "qwen3-tts-0.6b": 0,
+        "none": 0,
+        "other": 0
+      },
+      "audio_files_ok": 784,
+      "audio_files_missing": 0,
+      "reply_chars": {
+        "mean": 78.3,
+        "gt_300": 3
+      },
+      "repetition_rate_pct": 0.26,
+      "errors": [],
+      "error_count": 0
+    }
+  ],
+  "tts_cloud": {
+    "render": "qwen-audio-3.1-tts-next",
+    "runs": [
+      {
+        "log": "cloud_tts.log",
+        "rendered": 1568,
+        "total": 1568,
+        "failures": 0,
+        "elapsed_s": 2476.7,
+        "per_min": 38.0
+      }
+    ],
+    "rendered_total": 1568,
+    "failure_runs": 0,
+    "unresolved_failures": [],
+    "elapsed_s": 2476.7,
+    "throughput_per_min": 38.0,
+    "workers": 24,
+    "rpm_limit": 180
+  },
+  "totals": {
+    "text_scenes": 3000,
+    "text_turns": 5232,
+    "text_elapsed_s": 873.3,
+    "audio_scenes": 1000,
+    "audio_turns": 1568,
+    "audio_turns_with_audio": 1568,
+    "audio_missing_audio": 0,
+    "tts_rendered": 1568
+  },
+  "generated_at": "2026-11-18T21:58:02"
+}

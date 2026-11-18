@@ -63,6 +63,17 @@ OFFICIAL_SAMPLING = {
     "seed": 42,
 }
 
+# MiniCPM5-2B 官方推荐采样（README）：temperature=1.0, top_p=0.95, min_p=0.0（llama.cpp 默认 min_p=0.05 会加重读）
+# 两个 MiniCPM server（:8090 greedy / :8091 official）在 server 端配置采样；请求只传 temperature/max_tokens，
+# 避免请求端采样字段兼容问题（greedy 请求 temperature=0，official 请求 temperature=1.0）。
+MINICPM_OFFICIAL_SAMPLING = {
+    "temperature": 1.0,
+    "top_p": 0.95,
+    "min_p": 0.0,
+    "seed": 42,
+    "server_side": "llama-server flags: --temp 1.0 --top-p 0.95 --min-p 0.0 --seed 42; request only temperature/max_tokens",
+}
+
 
 
 # --------------------------------------------------------------------------- #
@@ -356,9 +367,11 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--concurrency", type=int, default=4, help="并发角色卡数（≈ llama-server -np）")
     parser.add_argument("--max-tokens", type=int, default=512)
     parser.add_argument("--temperature", type=float, default=0.0)
-    parser.add_argument("--sampling", choices=["greedy", "official"], default="greedy",
+    parser.add_argument("--sampling", choices=["greedy", "official", "minicpm-official"], default="greedy",
                         help="解码配置：greedy=v0.1 贪心；official=Qwen3.5 官方非思考推荐"
-                             "(temperature=1.0/top_p=1.0/top_k=20/min_p=0.0/presence_penalty=2.0/seed=42)")
+                             "(temperature=1.0/top_p=1.0/top_k=20/min_p=0.0/presence_penalty=2.0/seed=42)；"
+                             "minicpm-official=MiniCPM5 官方推荐(temp=1.0/top_p=0.95/min_p=0.0/seed=42，"
+                             "由 server 端 flag 生效，请求只传 temperature/max_tokens)")
     parser.add_argument("--timeout", type=float, default=300.0, help="单请求超时秒")
     parser.add_argument("--retries", type=int, default=3, help="单请求失败重试次数")
     parser.add_argument("--wait-server", type=float, default=60.0, help="启动前等待 /health 的秒数（0=不等待）")
@@ -379,6 +392,12 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         # 显式带上官方采样字段（llama-server 支持这些 OAI 字段；server 端 flag 也设了同值兜底）
         args.sampling_payload = {k: v for k, v in OFFICIAL_SAMPLING.items() if k != "temperature"}
         args.generation = {**OFFICIAL_SAMPLING, "max_tokens": args.max_tokens}
+    elif args.sampling == "minicpm-official":
+        args.temperature = MINICPM_OFFICIAL_SAMPLING["temperature"]
+        # 采样全部由 :8091 server 端 flag 负责，请求只传 temperature/max_tokens
+        args.sampling_payload = None
+        args.generation = {**MINICPM_OFFICIAL_SAMPLING, "max_tokens": args.max_tokens,
+                           "request_params": ["temperature", "max_tokens"]}
     else:
         args.sampling_payload = None
         args.generation = {"temperature": args.temperature, "max_tokens": args.max_tokens}

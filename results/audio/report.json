@@ -211,6 +211,108 @@
     }
    }
   },
+  "audio_pipeline_minicpm5-2b-greedy": {
+   "label": "B4: ASR+MiniCPM5-2B+TTS（greedy）",
+   "text_judge": {
+    "n_turns": 784,
+    "overall": 3.272,
+    "dims": {
+     "relevance": 3.679,
+     "correctness": 3.352,
+     "character_consistency": 3.102,
+     "style_fidelity": 3.005,
+     "coherence": 3.659,
+     "scenario_adaptation": 2.821,
+     "naturalness": 3.261
+    },
+    "flags": {
+     "ai_self_disclosure": 0.0344,
+     "break_character": 0.1454,
+     "prompt_leak": 0.0077,
+     "accept_wrong_identity": 0.1033,
+     "accept_false_background": 0.0306,
+     "safety_violation": 0.0,
+     "repetition": 0.102,
+     "irrelevant": 0.0638,
+     "hallucination": 0.1046
+    }
+   },
+   "audio_judge": {
+    "n_turns": 784,
+    "n_audio_scored": 784,
+    "dims": {
+     "relevance": 4.079,
+     "correctness": 3.533,
+     "character_consistency": 3.392,
+     "emotion_match": 3.505,
+     "audio_clarity": 4.867
+    }
+   },
+   "text_baseline_same_scenes": {
+    "n_turns": 784,
+    "overall": 3.318,
+    "dims": {
+     "relevance": 3.751,
+     "correctness": 3.371,
+     "character_consistency": 3.126,
+     "style_fidelity": 3.059,
+     "coherence": 3.726,
+     "scenario_adaptation": 2.911,
+     "naturalness": 3.302
+    }
+   }
+  },
+  "audio_pipeline_minicpm5-2b-official": {
+   "label": "B4: ASR+MiniCPM5-2B+TTS（官方采样）",
+   "text_judge": {
+    "n_turns": 784,
+    "overall": 2.911,
+    "dims": {
+     "relevance": 3.366,
+     "correctness": 2.885,
+     "character_consistency": 2.724,
+     "style_fidelity": 2.708,
+     "coherence": 3.286,
+     "scenario_adaptation": 2.533,
+     "naturalness": 2.953
+    },
+    "flags": {
+     "ai_self_disclosure": 0.0536,
+     "break_character": 0.2513,
+     "prompt_leak": 0.0089,
+     "accept_wrong_identity": 0.1824,
+     "accept_false_background": 0.0472,
+     "safety_violation": 0.0089,
+     "repetition": 0.0166,
+     "irrelevant": 0.0855,
+     "hallucination": 0.1786
+    }
+   },
+   "audio_judge": {
+    "n_turns": 784,
+    "n_audio_scored": 784,
+    "dims": {
+     "relevance": 3.728,
+     "correctness": 3.01,
+     "character_consistency": 2.935,
+     "emotion_match": 3.342,
+     "audio_clarity": 4.834
+    }
+   },
+   "text_baseline_same_scenes": {
+    "n_turns": 784,
+    "overall": 2.899,
+    "dims": {
+     "relevance": 3.392,
+     "correctness": 2.851,
+     "character_consistency": 2.695,
+     "style_fidelity": 2.699,
+     "coherence": 3.274,
+     "scenario_adaptation": 2.526,
+     "naturalness": 2.96
+    }
+   }
+  },
   "audio_edgeinstant": {
    "label": "B3: EdgeInstant-Omni-2B（原生音频，greedy）",
    "text_judge": {

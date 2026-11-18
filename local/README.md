@@ -126,4 +126,52 @@ $env:PYTHONIOENCODING='utf-8'
 - 新增/复用脚本：`local/run_baseline.py --sampling official`、`local/audio_cascade.py --sampling official`、`local/compare_official_vs_greedy.py`、`local/audio_pipeline/update_audio_summary_official.py`、`local/audio_pipeline/local_tts_fallback.py`（云端审核拒绝时的本地兜底）
 - 服务保持运行：2B :8088 / 4B :8089（官方采样 flag），供判官/补跑使用
 
+## 8. MiniCPM5-2B 链路加测（ASR + MiniCPM5-2B + TTS，2026-11-18）
+
+新链路：`Qwen3-ASR-0.6B → MiniCPM5-2B → 云端 qwen-audio-3.1-tts-next`，同时补 MiniCPM5-2B 文字 track
+（与 Qwen3.5-2B/4B 同场景/同 system prompt/同口径）。**v0.1/v0.2 现有目录一律不动**。
+
+### 8.1 模型与部署
+- GGUF：ModelScope 镜像 `OpenBMB/MiniCPM5-2B-GGUF` → `E:\RBM\models\minicpm-gguf\MiniCPM5-2B-Q8_0.gguf`
+  （2,679,710,688 B ≈ 2.68 GB；`architecture=llama`，381 tensors，llama.cpp b11552 直接加载）
+- chat_template 9060 字符，含 `enable_thinking` 分支；role-play 统一关闭 thinking：
+  `--reasoning off` + 环境变量 `LLAMA_ARG_CHAT_TEMPLATE_KWARGS={"enable_thinking":false}`（避免 Start-Process 引号转义坑）
+- 两个 server（`local/serve_minicpm.ps1`）：
+  - **greedy :8090**：server 无采样 flag，请求 `temperature=0`
+  - **official :8091**：`--temp 1.0 --top-p 0.95 --min-p 0.0 --seed 42 --repeat-penalty 1.05`
+    （README 要求 `--min-p 0.0`：llama.cpp 默认 0.05 会加重读；实测不加 `repeat-penalty 1.05` 时 rc01 会"快快快…"复读 1/10，加上后 10/10 干净）
+- 验证：`local/audio_pipeline/minicpm_probe.py`（thinking 泄漏/采样生效/seed 复现）、`inspect_minicpm_gguf.py`（模板元数据）；
+  greedy 与 official 均无 `<think>` 泄漏、无 reasoning_content、同 prompt 3 次逐字一致
+- GGUF 下载说明：lead 的 HF 代理下载卡在 46.5MB，改用 ModelScope 直连（~18-25 MB/s）分段续传完成
+
+### 8.2 结果（2026-11-18）
+| track | slug | 场景 | turn | 失败 | 总耗时 | 每轮延迟 mean | 回复均长/max | 复读退化 |
+|---|---|---|---|---|---|---|---|---|
+| 文字 greedy | `baselines/minicpm5-2b-greedy/` | 1500/1500 | 2616/2616 | 0 | 376.3 s | 0.564 s | 60.8 / 954 | 0.54% |
+| 文字 official | `baselines/minicpm5-2b-official/` | 1500/1500 | 2616/2616 | 0 | 497.0 s | 0.739 s | 72.3 / 514 | 0.04% |
+| 级联 greedy | `baselines/audio_pipeline_minicpm5-2b-greedy/` | 500/500 | 784/784 | 0 | 125.7 s | 0.625 s | 64.1 / 954 | 0.51% |
+| 级联 official | `baselines/audio_pipeline_minicpm5-2b-official/` | 500/500 | 784/784 | 0 | 157.5 s | 0.788 s | 78.3 / 1021 | 0.26% |
+
+### 8.3 与 Qwen3.5-2B/4B 同口径对照（明细 `logs/minicpm5/minicpm_vs_qwen.json`）
+| 模型/配置 | 文字 track 回复均长 | 文字复读率 | 文字每轮延迟 | 级联回复均长 | 级联复读率 | 级联每轮延迟 |
+|---|---|---|---|---|---|---|
+| Qwen3.5-2B greedy（v0.1） | 65.9 | 0.19% | 0.725 s | 65.6 | 0.38% | 1.514 s |
+| Qwen3.5-2B official（v0.2） | 76.8 | 0% | 0.891 s | 73.9 | 0% | 0.901 s |
+| Qwen3.5-4B greedy（v0.1） | 70.5 | 0.04% | 1.341 s | 70.6 | 0% | 2.087 s |
+| Qwen3.5-4B official（v0.2） | 78.8 | 0% | 1.444 s | 77.9 | 0% | 1.643 s |
+| **MiniCPM5-2B greedy** | 60.8 | 0.54% | **0.564 s** | 64.1 | 0.51% | **0.625 s** |
+| **MiniCPM5-2B official** | 72.3 | 0.04% | 0.739 s | 78.3 | 0.26% | 0.788 s |
+
+- MiniCPM5-2B 速度最快（2B 级），greedy 复读率略高于 Qwen（0.54% vs 0.19%），official 配置可压到 0.04%
+- **云端 TTS**：两个 audio slug 共 **1568/1568 条**回复由 `qwen-audio-3.1-tts-next` 渲染为 mp3
+  （`audio_cloud/<scene_id>_<idx>.mp3`，24 kHz mono，`tts_render="qwen-audio-3.1-tts-next"`），
+  累计 **2476.7 s（41.3 min，38.0 条/分钟，24 workers/180 rpm），失败 0**；B1/B2 各 784/784 turn 有 `assistant_audio`，文件缺失 0
+- 汇总：`baselines/audio_pipeline_summary_minicpm5.json`（含 text/audio 成功数、耗时、TTS 条数/失败/速率、复读率、ASR 指标）；
+  失败清单：`logs/minicpm5/cloud_tts_failures.json`（空）
+
+### 8.4 新增脚本
+`local/serve_minicpm.ps1`、`local/audio_cascade_minicpm.py`、`local/audio_pipeline/{minicpm_probe,inspect_minicpm_gguf,update_audio_summary_minicpm5,local_tts_fallback}.py`、
+`local/compare_minicpm_vs_qwen.py`、`local/run_baseline.py --sampling minicpm-official`、`local/audio_pipeline/cloud_tts_render.py --failures-file`。
+
+
 

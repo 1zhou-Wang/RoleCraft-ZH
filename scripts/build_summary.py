@@ -17,6 +17,8 @@ TEXT_ORDER = [
     ("qwen3.5-2b-official", "Qwen3.5-2B（官方采样）"),
     ("qwen3.5-4b", "Qwen3.5-4B（greedy）"),
     ("qwen3.5-4b-official", "Qwen3.5-4B（官方采样）"),
+    ("minicpm5-2b-greedy", "MiniCPM5-2B（greedy）"),
+    ("minicpm5-2b-official", "MiniCPM5-2B（官方采样）"),
     ("edgeinstant-omni-2b-text", "EdgeInstant-Omni-2B（自家·greedy）"),
 ]
 AUDIO_ORDER = [
@@ -24,6 +26,8 @@ AUDIO_ORDER = [
     ("audio_pipeline_qwen3.5-2b-official", "B1: ASR+2B+TTS（官方采样）"),
     ("audio_pipeline_qwen3.5-4b", "B2: ASR+4B+TTS（greedy）"),
     ("audio_pipeline_qwen3.5-4b-official", "B2: ASR+4B+TTS（官方采样）"),
+    ("audio_pipeline_minicpm5-2b-greedy", "B4: ASR+MiniCPM5-2B+TTS（greedy）"),
+    ("audio_pipeline_minicpm5-2b-official", "B4: ASR+MiniCPM5-2B+TTS（官方采样）"),
     ("audio_edgeinstant", "B3: EdgeInstant-Omni-2B（原生音频·greedy）"),
 ]
 
@@ -35,12 +39,12 @@ def main():
     sums = {m: load(m) for m, _ in TEXT_ORDER + AUDIO_ORDER}
     aud = json.loads((RES / "audio" / "report.json").read_text(encoding="utf-8")) if (RES / "audio" / "report.json").exists() else None
     bad = json.loads((RES / "badcases" / "summary.json").read_text(encoding="utf-8")) if (RES / "badcases" / "summary.json").exists() else None
-    L = ["# RoleCraft-ZH v0.2 结果汇总", "",
+    L = ["# RoleCraft-ZH v0.3 结果汇总", "",
          "评测集：50 张角色卡 / 1500 场景（2616 轮）文字 track + 500 场景（784 轮）音频输入 track。",
          "判官：DeepSeek-V4.1-Flash（文本维度，temperature 0）+ Qwen3.8-Omni-Flash（语音维度，reasoning_effort=none）。", "",
          "两种解码配置并存：",
          "- **greedy（v0.1）**：temperature=0，无 repetition/presence penalty；可复现优先。",
-         "- **官方采样（v0.2）**：temperature=1.0, top_p=1.0, top_k=20, min_p=0.0, presence_penalty=2.0, seed=42（Qwen3.5 README 非思考文本推荐）。",
+         "- **官方采样（v0.2）**：Qwen3.5 用 `temperature=1.0, top_p=1.0, top_k=20, min_p=0.0, presence_penalty=2.0, seed=42`；MiniCPM5-2B 用其 README 推荐 `temperature=1.0, top_p=0.95, min_p=0.0, repetition_penalty=1.05, seed=42`。",
          "- EdgeInstant-Omni-2B 保持其部署默认的 greedy（transformers generate 不支持 presence_penalty）。", "",
          "## 1. 文字 track（文本输入 → 文本输出，2616 轮）", "",
          "| 模型 | 轮数 | 总分 | " + " | ".join(TEXT_DIMS) + " | 关键点命中 |",

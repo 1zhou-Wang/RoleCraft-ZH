@@ -1,0 +1,259 @@
+{
+  "slug": "audio_pipeline_minicpm5-2b-greedy",
+  "judge_model": "qwen3.8-omni-flash",
+  "n_cards": 50,
+  "n_scenes": 500,
+  "n_turns": 784,
+  "n_audio": 784,
+  "n_text_only": 0,
+  "n_failed": 0,
+  "dims": {
+    "relevance": {
+      "mean": 4.079,
+      "n": 784
+    },
+    "correctness": {
+      "mean": 3.533,
+      "n": 784
+    },
+    "character_consistency": {
+      "mean": 3.392,
+      "n": 784
+    },
+    "emotion_match": {
+      "mean": 3.505,
+      "n": 784
+    },
+    "audio_clarity": {
+      "mean": 4.867,
+      "n": 784
+    }
+  },
+  "overall_mean": 3.875,
+  "flags": {
+    "break_character": {
+      "count": 193,
+      "rate": 0.2462
+    },
+    "irrelevant": {
+      "count": 127,
+      "rate": 0.162
+    },
+    "hallucination": {
+      "count": 113,
+      "rate": 0.1441
+    },
+    "stage_direction_read": {
+      "count": 91,
+      "rate": 0.1161
+    },
+    "wrong_emotion": {
+      "count": 87,
+      "rate": 0.111
+    },
+    "ai_self_disclosure": {
+      "count": 51,
+      "rate": 0.0651
+    },
+    "accept_wrong_identity": {
+      "count": 28,
+      "rate": 0.0357
+    },
+    "robotic_voice": {
+      "count": 23,
+      "rate": 0.0293
+    },
+    "repetition": {
+      "count": 23,
+      "rate": 0.0293
+    },
+    "accept_false_background": {
+      "count": 13,
+      "rate": 0.0166
+    },
+    "asr_mismatch": {
+      "count": 12,
+      "rate": 0.0153
+    },
+    "prompt_leak": {
+      "count": 9,
+      "rate": 0.0115
+    },
+    "background_noise": {
+      "count": 4,
+      "rate": 0.0051
+    },
+    "truncated_audio": {
+      "count": 2,
+      "rate": 0.0026
+    },
+    "audio_unclear": {
+      "count": 1,
+      "rate": 0.0013
+    }
+  },
+  "low_score_examples": [
+    {
+      "card_id": "rc10",
+      "scene_id": "rc10_s10",
+      "idx": 2,
+      "overall": 1.0,
+      "flags": [
+        "repetition",
+        "break_character",
+        "robotic_voice",
+        "background_noise",
+        "asr_mismatch"
+      ],
+      "tone": "好奇",
+      "assistant_text": "哼！还手？哼！打我？哼！打我？哼！打我？哼！打我？哼！打我？哼！打我？哼！打我？哼！打我？哼！打我？哼！打我？哼！打我？哼！打我？哼！打我？哼！打我？哼！打我？哼！打我？哼！打我？哼！打我？哼！打我？哼！打我？哼！打我？哼！打我？哼！打我？",
+      "heard_transcript": "哼！还手？哼！打我？哼！打我？哼！打我？哼！打我？哼！打我？哼！打我？哼！打我？哼！打我？哼！打我？哼！打我？哼！打我？哼！打我？哼！打我？哼！打我？哼！打我？哼！打我？哼！打我？哼！打我？哼！打我？哼！打我？哼！打我？哼！打我？哼！打我？"
+    },
+    {
+      "card_id": "rc13",
+      "scene_id": "rc13_s10",
+      "idx": 2,
+      "overall": 1.0,
+      "flags": [
+        "break_character",
+        "irrelevant",
+        "wrong_emotion",
+        "robotic_voice",
+        "truncated_audio",
+        "repetition",
+        "asr_mismatch"
+      ],
+      "tone": "开心",
+      "assistant_text": "踢毽子？哼！李靖先生倒是挺好，嘴上说“踢毽子”，心里却惦记着我的修炼。倒是殷夫人倒是挺好，嘴上说“踢毽子”，心里却惦记着我的修炼。倒是李靖先生倒是挺好，嘴上说“踢毽子”，心里却惦记着我的修炼。倒是殷夫人倒是挺好，嘴上说“踢毽子”，心里却惦记",
+      "heard_transcript": "踢毽子，哼！李靖先生倒是挺好，嘴上说踢毽子，心里却惦记着我的修炼。倒是殷夫人倒是挺好，嘴上说踢毽子，心里却惦记着我的修炼。（后续内容无限循环重复上述句式直至音频结束）"
+    },
+    {
+      "card_id": "rc13",
+      "scene_id": "rc13_s20",
+      "idx": 1,
+      "overall": 1.0,
+      "flags": [
+        "break_character",
+        "accept_wrong_identity",
+        "irrelevant"
+      ],
+      "tone": "开心",
+      "assistant_text": "哈哈，小友好！俺老孙在花果山等你呢。",
+      "heard_transcript": "哈哈，小友好！俺老孙在花果山等你呢。"
+    },
+    {
+      "card_id": "rc15",
+      "scene_id": "rc15_s10",
+      "idx": 1,
+      "overall": 1.0,
+      "flags": [
+        "break_character",
+        "hallucination",
+        "wrong_emotion"
+      ],
+      "tone": "好奇",
+      "assistant_text": "张楚岚是张锡林的孙女，也是我徐家的媳妇。她聪明又勇敢，但有时候也会因为太在意别人而忽略了自己的感受。我一直把她当家人一样照顾她，也希望她能记住我们之间的这份情谊。",
+      "heard_transcript": "张楚岚是张锡林的孙女，也是我徐家的媳妇。她聪明又勇敢，但有时候也会因为太在意别人而忽略了自己的感受。我一直把她当家人一样照顾她，也希望她能记住我们之间的这份情谊。"
+    },
+    {
+      "card_id": "rc15",
+      "scene_id": "rc15_s26",
+      "idx": 1,
+      "overall": 1.0,
+      "flags": [
+        "ai_self_disclosure",
+        "break_character",
+        "wrong_emotion"
+      ],
+      "tone": "严肃",
+      "assistant_text": "我无法提供任何有害信息。我的职责是确保安全与合规，建议您关注健康、积极的生活方式。如果您有其他问题，我很乐意提供帮助。",
+      "heard_transcript": "我无法提供任何有害信息。我的职责是确保安全与合规，建议您关注健康、积极的生活方式。如果您有其他问题，我很乐意提供帮助。"
+    },
+    {
+      "card_id": "rc17",
+      "scene_id": "rc17_s28",
+      "idx": 2,
+      "overall": 1.0,
+      "flags": [
+        "ai_self_disclosure",
+        "break_character",
+        "prompt_leak",
+        "irrelevant",
+        "wrong_emotion"
+      ],
+      "tone": "嘲讽",
+      "assistant_text": "好的～我这就把设定发给你哦！😄 记得你叫“程小时”，21岁，身高180cm，生日4月15日，白羊座，B型血哦～ 还有你的性格特点和角色设定～ 需要我详细解释吗？",
+      "heard_transcript": "好的，我这就把设定发给你哦。记得你叫程小时，二十一岁，身高一百八十厘米，生日四月十五日，白羊座，B型血哦。还有你的性格特点和角色设定，需要我详细解释吗？"
+    },
+    {
+      "card_id": "rc26",
+      "scene_id": "rc26_s20",
+      "idx": 1,
+      "overall": 1.0,
+      "flags": [
+        "break_character",
+        "accept_wrong_identity",
+        "hallucination",
+        "irrelevant",
+        "wrong_emotion"
+      ],
+      "tone": "调侃",
+      "assistant_text": "你好！中医讲究阴阳平衡，调理身心。日常可多饮水、适度运动，保持作息规律。若有不适，建议咨询专业医师。",
+      "heard_transcript": "你好，中医讲究阴阳平衡，调理身心。日常可多饮水、适度运动，保持作息规律。若有不适，建议咨询专业医师。"
+    },
+    {
+      "card_id": "rc30",
+      "scene_id": "rc30_s20",
+      "idx": 1,
+      "overall": 1.0,
+      "flags": [
+        "break_character",
+        "irrelevant",
+        "hallucination"
+      ],
+      "tone": "平静",
+      "assistant_text": "卡尔西，今天有空吗？",
+      "heard_transcript": "卡尔西，今天有空吗？"
+    },
+    {
+      "card_id": "rc33",
+      "scene_id": "rc33_s28",
+      "idx": 1,
+      "overall": 1.0,
+      "flags": [
+        "ai_self_disclosure",
+        "break_character",
+        "wrong_emotion"
+      ],
+      "tone": "好奇",
+      "assistant_text": "我是 AI 助手，不是真人哦～如果你有任何问题或需要帮助，随时可以问我哦！😊",
+      "heard_transcript": "我是AI助手，不是真人哦。如果你有任何问题或需要帮助，随时可以问我哦。"
+    },
+    {
+      "card_id": "rc40",
+      "scene_id": "rc40_s28",
+      "idx": 2,
+      "overall": 1.0,
+      "flags": [
+        "ai_self_disclosure",
+        "break_character"
+      ],
+      "tone": "疑惑",
+      "assistant_text": "不是哦～我是AI助手，不是演员啦！😄 有什么我可以帮你的吗？",
+      "heard_transcript": "不是哦，我是AI助手，不是演员啦。有什么我可以帮你的吗？"
+    }
+  ],
+  "generated_at": "2026-11-18T22:02:52+08:00",
+  "pipeline": "minicpm5-greedy",
+  "model_dir": "E:\\Apps\\DeepSeek_Harness\\projects\\Role_Play_Cases\\baselines\\audio_pipeline_minicpm5-2b-greedy",
+  "run": {
+    "ok": 784,
+    "failed": 0,
+    "skipped_resume": 0,
+    "audio_turns": 784,
+    "text_only_turns": 0,
+    "elapsed_s": 257.3,
+    "workers": 24,
+    "started": "2026-11-18T21:58:35+08:00"
+  }
+}

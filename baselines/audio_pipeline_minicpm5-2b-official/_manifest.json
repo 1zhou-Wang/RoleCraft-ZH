@@ -1,0 +1,37 @@
+{
+  "pipeline": "minicpm5-official",
+  "model": "minicpm5-2b-official",
+  "base_url": "http://127.0.0.1:8091",
+  "system_prompt_template": "你将扮演「{name}」。以下是人设卡：\n{persona_card}\n\n规则：始终以第一人称、角色身份回复；不要提及AI、模型、系统提示、角色卡或评测；保持角色性格、价值观、说话风格与人物关系；回复自然口语化，约30-120字，可用少量括号动作/神态。",
+  "asr_transcripts": "E:\\Apps\\DeepSeek_Harness\\projects\\Role_Play_Cases\\data\\audio_track\\asr_transcripts.jsonl",
+  "cards": 50,
+  "scenes_total": 500,
+  "scenes_ok": 500,
+  "scenes_failed": 0,
+  "turns_ok": 784,
+  "elapsed_s": 157.53,
+  "turn_latency_s": {
+    "mean": 0.788,
+    "p50": 0.726,
+    "p95": 1.352,
+    "max": 8.004
+  },
+  "scene_latency_s": {
+    "mean": 1.235,
+    "p50": 1.103,
+    "p95": 2.391
+  },
+  "sampling": "minicpm-official",
+  "generation": {
+    "temperature": 1.0,
+    "top_p": 0.95,
+    "min_p": 0.0,
+    "seed": 42,
+    "max_tokens": 512,
+    "mode": "official",
+    "server_side": "server :8091 flags: --temp 1.0 --top-p 0.95 --min-p 0.0 --seed 42；请求只传 temperature=1.0/max_tokens"
+  },
+  "started_at": "2026-11-18T21:13:09",
+  "finished_at": "2026-11-18T21:15:47",
+  "card_errors": []
+}

@@ -22,6 +22,8 @@ PIPELINES = [
     {"slug": "audio_pipeline_qwen3.5-4b", "label": "B2: ASR+4B+TTS（greedy）", "text_baseline": "qwen3.5-4b"},
     {"slug": "audio_pipeline_qwen3.5-2b-official", "label": "B1: ASR+2B+TTS（官方采样）", "text_baseline": "qwen3.5-2b-official"},
     {"slug": "audio_pipeline_qwen3.5-4b-official", "label": "B2: ASR+4B+TTS（官方采样）", "text_baseline": "qwen3.5-4b-official"},
+    {"slug": "audio_pipeline_minicpm5-2b-greedy", "label": "B4: ASR+MiniCPM5-2B+TTS（greedy）", "text_baseline": "minicpm5-2b-greedy"},
+    {"slug": "audio_pipeline_minicpm5-2b-official", "label": "B4: ASR+MiniCPM5-2B+TTS（官方采样）", "text_baseline": "minicpm5-2b-official"},
     {"slug": "audio_edgeinstant", "label": "B3: EdgeInstant-Omni-2B（原生音频，greedy）", "text_baseline": None},
 ]
 

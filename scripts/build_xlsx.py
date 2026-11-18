@@ -293,8 +293,10 @@ def main():
         bad_sums = json.loads(bsp.read_text(encoding="utf-8")).get("summary", {})
     pairs = [("qwen3.5-2b", "qwen3.5-2b-official", "文字 track · Qwen3.5-2B"),
              ("qwen3.5-4b", "qwen3.5-4b-official", "文字 track · Qwen3.5-4B"),
+             ("minicpm5-2b-greedy", "minicpm5-2b-official", "文字 track · MiniCPM5-2B"),
              ("audio_pipeline_qwen3.5-2b", "audio_pipeline_qwen3.5-2b-official", "音频级联 · ASR+2B+TTS"),
-             ("audio_pipeline_qwen3.5-4b", "audio_pipeline_qwen3.5-4b-official", "音频级联 · ASR+4B+TTS")]
+             ("audio_pipeline_qwen3.5-4b", "audio_pipeline_qwen3.5-4b-official", "音频级联 · ASR+4B+TTS"),
+             ("audio_pipeline_minicpm5-2b-greedy", "audio_pipeline_minicpm5-2b-official", "音频级联 · ASR+MiniCPM5-2B+TTS")]
     rows = []
     for greedy, official, label in pairs:
         if greedy not in sums_all or official not in sums_all:

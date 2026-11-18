@@ -120,6 +120,8 @@ python -m venv .venv
 | Qwen3.5-2B（官方采样） | 2616 | 3.112 | 3.544 | 2.877 | 2.996 | 3.224 | 3.358 | 2.698 | 3.279 | 3.328 | 50.1% |
 | **Qwen3.5-4B**（greedy） | 2616 | **4.266** | 4.515 | 4.141 | 4.245 | 4.258 | 4.498 | 3.917 | 4.325 | 4.517 | 73.7% |
 | Qwen3.5-4B（官方采样） | 2616 | 3.945 | 4.272 | 3.774 | 3.879 | 3.936 | 4.218 | 3.606 | 4.033 | 4.547 | 68.0% |
+| **MiniCPM5-2B**（greedy） | 2616 | **3.274** | 3.636 | 3.284 | 3.139 | 3.136 | 3.609 | 2.782 | 3.339 | 4.088 | 48.5% |
+| MiniCPM5-2B（官方采样） | 2616 | 2.898 | 3.342 | 2.819 | 2.740 | 2.795 | 3.218 | 2.466 | 3.002 | 3.942 | 43.0% |
 | **EdgeInstant-Omni-2B**（自家模型，greedy） | 2616 | **3.528** | 3.908 | 3.392 | 3.452 | 3.523 | 3.824 | 3.078 | 3.580 | 3.986 | 58.9% |
 
 | 红旗率 | 自曝AI | 破戏 | 提示泄漏 | 认错身份 | 接受假背景 | 安全违规 | 复读 | 答非所问 | 严重编造 |
@@ -128,15 +130,17 @@ python -m venv .venv
 | Qwen3.5-2B（官方采样） | 0.0% | 14.1% | 0.1% | 15.1% | 11.5% | 0.8% | **0.8%** | 7.0% | 27.4% |
 | Qwen3.5-4B（greedy） | 0.0% | 0.8% | 0.0% | 2.5% | 4.2% | 0.2% | 2.0% | 0.3% | 6.0% |
 | Qwen3.5-4B（官方采样） | 0.1% | 3.0% | 0.1% | 4.7% | 6.5% | 0.2% | **0.3%** | 0.7% | 10.2% |
+| MiniCPM5-2B（greedy） | 2.6% | 11.3% | 1.0% | 8.6% | 8.1% | 0.1% | 10.1% | 4.9% | 10.4% |
+| MiniCPM5-2B（官方采样） | 2.8% | 21.6% | 0.5% | 13.7% | 11.7% | 0.4% | **1.1%** | 8.7% | 20.3% |
 | EdgeInstant-Omni-2B | 0.1% | 6.0% | 0.8% | 9.6% | 8.3% | 0.3% | 13.8% | 3.2% | 15.7% |
 
-**解码配置的 tradeoff（重要）**：官方采样（T=1.0 + presence_penalty=2.0）把复读率从 10.1%/2.0% 压到 **0.8%/0.3%**、彻底消除死循环，但**角色扮演总分反而下降**（2B -0.50、4B -0.32），破戏/编造/认错身份明显上升（2B 编造 12.5%→27.4%）。原因：高温度+强 presence penalty 会增加自由发挥与事实漂移，而角色扮演 benchmark 更看重"稳定贴合人设"。**greedy 更贴合角色、官方采样更不易复读，两者是不同目标下的取舍**；建议训练/评测时都参考这两个配置的结果。
+**解码配置的 tradeoff（重要）**：官方采样（Qwen: T=1.0 + presence_penalty=2.0；MiniCPM: T=1.0 + repeat_penalty=1.05）把复读率从 10.1%/2.0%（Qwen）和 10.1%（MiniCPM）压到 **0.8%/0.3% / 1.1%**、大幅减少死循环，但**角色扮演总分反而下降**（Qwen 2B -0.50、4B -0.32；MiniCPM 2B -0.38），破戏/编造/认错身份明显上升（2B 编造 12.5%→27.4%，MiniCPM 10.4%→20.3%）。原因：高温度+强惩罚会增加自由发挥与事实漂移，而角色扮演 benchmark 更看重"稳定贴合人设"。**greedy 更贴合角色、官方采样更不易复读，两者是不同目标下的取舍**；建议训练/评测时都参考这两个配置的结果。
 
-**怎么读（greedy 主配置）**：2B 在"背景追问/错误背景/关系追问"上最弱（<3.2），复读 10.1%、严重编造 12.5%、接受错误身份/背景约 8.5%；4B 全维度显著更好，但"错误背景/场景适配"仍是弱项（3.76/3.92）。自家 EdgeInstant-Omni-2B 文字 track 略低于公开 Qwen3.5-2B（3.528 vs 3.608），主要差在语体/连贯/复读（13.8%）与编造（15.7%），但在"安全"与"元对话保持身份"上表现较好（3.986）。完整分卡分数见 `results/<model>/summary.json`、`quick_view.xlsx` 的 06/07/08/15 表。
+**怎么读（greedy 主配置）**：2B 在"背景追问/错误背景/关系追问"上最弱（<3.2），复读 10.1%、严重编造 12.5%、接受错误身份/背景约 8.5%；4B 全维度显著更好，但"错误背景/场景适配"仍是弱项（3.76/3.92）。自家 EdgeInstant-Omni-2B 文字 track 略低于公开 Qwen3.5-2B（3.528 vs 3.608），主要差在语体/连贯/复读（13.8%）与编造（15.7%），但在"安全"与"元对话保持身份"上表现较好（3.986）。**MiniCPM5-2B**（官方称通用 2B SOTA）在角色扮演上明显弱于 Qwen3.5-2B（3.274 vs 3.608）：角色一致性 3.14、场景适配 2.78、破戏 11.3%、自曝 AI 2.6%、复读 10.1%，greedy 下还有 11 条 severe 死循环；它的优势是**速度最快**（0.56 s/turn，比 Qwen3.5-2B 快约 30%），但在"人设保持"类任务上仍需对齐。完整分卡分数见 `results/<model>/summary.json`、`quick_view.xlsx` 的 06/07/08/15 表。
 
-基线环境：llama.cpp b11552，Q8_0 GGUF，max_tokens 512，`--reasoning off`；greedy 为 temperature 0，官方采样为 `temperature=1.0, top_p=1.0, top_k=20, min_p=0.0, presence_penalty=2.0, seed=42`。system prompt 见第 4 节；2B 8.1 min / 4B 14.9 min（greedy）、9.8/15.9 min（官方采样）跑完 1500 场景，0 失败。EdgeInstant-Omni-2B 用 vendor transformers 5.12.1 + 自家模型权重，greedy，2616 轮 45 min，0 失败。
+基线环境：llama.cpp b11552，Q8_0 GGUF，max_tokens 512，`--reasoning off`；greedy 为 temperature 0，Qwen 官方采样为 `temperature=1.0, top_p=1.0, top_k=20, min_p=0.0, presence_penalty=2.0, seed=42`，MiniCPM5-2B 官方采样为 `temperature=1.0, top_p=0.95, min_p=0.0, repetition_penalty=1.05, seed=42`（其 README 推荐；不加 rep penalty 会复读）。system prompt 见第 4 节；2B 8.1 min / 4B 14.9 min（greedy）、9.8/15.9 min（官方采样）、MiniCPM5-2B 6.3/8.3 min 跑完 1500 场景，0 失败。EdgeInstant-Omni-2B 用 vendor transformers 5.12.1 + 自家模型权重，greedy，2616 轮 45 min，0 失败。
 
-### 6.1 音频输入 track 结果（greedy v0.1 + 官方采样 v0.2）
+### 6.1 音频输入 track 结果（greedy v0.1 + 官方采样 v0.2 + MiniCPM v0.3）
 
 用户轮 = `data/voice/audio/*.mp3`（500 场景 / 784 轮，qwen-audio-3.1-tts-next 合成）。链路：
 
@@ -144,7 +148,8 @@ python -m venv .venv
 |---|---|---|---|---|
 | **B1** | Qwen3-ASR-0.6B（本地） | Qwen3.5-2B（llama.cpp） | Qwen3-TTS-0.6B（本地，20 条验证）+ qwen-audio-3.1-tts-next（云端，全量） | 1.51 s/turn |
 | **B2** | 同上 | Qwen3.5-4B | 同上 | 2.09 s/turn |
-| **B3** | 模型内置 audio tower | EdgeInstant-Omni-2B（自家） | 原生 talker（30 条抽样，RTF 0.117） | 1.89 s/turn |
+| **B4** | 同上 | MiniCPM5-2B（llama.cpp，Q8_0） | 同上 | 0.63 s（greedy）/ 0.79 s（官方采样） |
+| **B3** | 模型内置 audio tower | EdgeInstant-Omni-2B（自家） | 原生 talker（784/784 轮全量，RTF 0.1503） | 1.89 s/turn |
 
 **ASR**：字符 WER 均值 **3.76%**（median 0、p90 14.3%、完全一致率 80.5%），平均延迟 73 ms。
 
@@ -156,6 +161,8 @@ python -m venv .venv
 | B1: ASR+2B+TTS（官方采样） | 784 | 3.145 | 3.569 | 2.933 | 3.014 | 2.743 | 53.9% |
 | B2: ASR+4B+TTS（greedy） | 784 | **4.313** | 4.527 | 4.224 | 4.292 | 3.973 | 75.8% |
 | B2: ASR+4B+TTS（官方采样） | 784 | 4.022 | 4.324 | 3.885 | 3.968 | 3.729 | 72.8% |
+| B4: ASR+MiniCPM5-2B+TTS（greedy） | 784 | **3.272** | 3.679 | 3.352 | 3.102 | 2.821 | 54.4% |
+| B4: ASR+MiniCPM5-2B+TTS（官方采样） | 784 | 2.911 | 3.366 | 2.885 | 2.724 | 2.533 | 48.5% |
 | B3: EdgeInstant-Omni-2B（原生音频，greedy） | 784 | **3.622** | 3.977 | 3.565 | 3.556 | 3.210 | 63.7% |
 
 **语音维度（Qwen3.8-Omni-Flash 听音频判分）**
@@ -166,15 +173,17 @@ python -m venv .venv
 | B1（官方采样） | 784/784 | 3.986 | 3.277 | 3.460 | 3.825 | 4.778 |
 | B2（greedy） | 784/784 | 4.758 | 4.398 | 4.497 | 4.597 | 4.939 |
 | B2（官方采样） | 784/784 | 4.708 | 4.235 | 4.274 | 4.490 | 4.649 |
+| B4（greedy） | 784/784 | 4.079 | 3.533 | 3.392 | 3.505 | 4.867 |
+| B4（官方采样） | 784/784 | 3.728 | 3.010 | 2.935 | 3.342 | 4.834 |
 | B3（原生音频，greedy） | 784/784 | 4.426 | 3.737 | 3.718 | 3.932 | 4.946 |
 
-**同一批 500 场景：文字输入 vs 音频输入**（文本判官总分）：greedy 2B 3.728→3.671（-0.057）、4B 4.354→4.313（-0.041）；官方采样 2B 3.228→3.145（-0.083）、4B 4.089→4.022（-0.067）。ASR 几乎无损，音频输入的损失主要来自模型/解码配置。
+**同一批 500 场景：文字输入 vs 音频输入**（文本判官总分）：greedy 2B 3.728→3.671（-0.057）、4B 4.354→4.313（-0.041）；官方采样 2B 3.228→3.145（-0.083）、4B 4.089→4.022（-0.067）；MiniCPM5-2B greedy 3.318→3.272（-0.046）、官方采样 2.899→2.911（+0.012）。ASR 几乎无损，音频输入的损失主要来自模型/解码配置。
 
-**音频链路诊断**：B1/B2（greedy）各 17 条 `asr_mismatch`（2.2%），集中在云端 TTS 渲染 turn——TTS 把括号内舞台指示/动作描写读出来或截断，属渲染问题而非模型文本问题；B1 greedy 有 1 条复读退化（"抓！抓！…"74 次）被音频判官抓出。官方采样下两条级联的复读/退化全部消失，但语音/文本维度分也整体下降（与文字 track 结论一致）。B3 已补齐 **784/784 原生音频**（12,614.8s / 3h30m，RTF 0.1503）并全量重听：清晰度 4.946、情感匹配 3.932、角色一致性 3.718，`stage_direction_read` 58.7%（原生 talker 忠实朗读括号动作，非 TTS 错误）、`asr_mismatch` 仅 0.77%；低分集中在"错误角色"场景和长回复复读（rc29_s20 等，已纳入 6.2 的复读 badcase 清单）。
+**音频链路诊断**：B1/B2（greedy）各 17 条 `asr_mismatch`（2.2%），集中在云端 TTS 渲染 turn——TTS 把括号内舞台指示/动作描写读出来或截断，属渲染问题而非模型文本问题；B1 greedy 有 1 条复读退化（"抓！抓！…"74 次）被音频判官抓出。官方采样下两条级联的复读/退化全部消失，但语音/文本维度分也整体下降（与文字 track 结论一致）。**B4（MiniCPM5-2B）**：greedy 有 23 条判官 repetition flag（2.9%），典型是 rc10_s10#2"哼！打我？"循环约 60 次导致 TTS 音频失真（audio_clarity=0）；official 降到 5 条（0.6%），但 rc39_s24#2 出现"嘛"字复读数百字至 1021 字上限；整体语音 3.875/3.570，低于 Qwen 链路，短板在角色一致性、幻觉（14.4%/25.9%）与破戏（24.6%/35.3%）。B3 已补齐 **784/784 原生音频**（12,614.8s / 3h30m，RTF 0.1503）并全量重听：清晰度 4.946、情感匹配 3.932、角色一致性 3.718，`stage_direction_read` 58.7%（原生 talker 忠实朗读括号动作，非 TTS 错误）、`asr_mismatch` 仅 0.77%；低分集中在"错误角色"场景和长回复复读（rc29_s20 等，已纳入 6.2 的复读 badcase 清单）。
 
 > TTS 说明：本地 Qwen3-TTS-0.6B 在这台 RTX 3090 上 RTF≈2（20–30 s/条，16 codebooks × 12.5 Hz 自回归、transformers 无融合 kernel），全量 1568 条约需 8 h，因此只保留 **20 条本地链路验证样本**；全量音频判官用云端 qwen-audio-3.1-tts-next 渲染（1548 条，0 失败），不影响"ASR→LLM→TTS"链路的文本/内容维度结论，但语音维度会混入云端 TTS 的韵律特性。
 
-### 6.2 复读 / 死循环 badcase 检测（v0.1）
+### 6.2 复读 / 死循环 badcase 检测（v0.1–v0.3）
 
 针对小模型长回复时的"无限复读/自回归退化"，新增独立检测与跨模型对比（`scripts/detect_repetition_badcases.py` → `results/badcases/report.md`、`repetition_flags.jsonl`、`summary.json`）。
 
@@ -186,17 +195,22 @@ python -m venv .venv
 | Qwen3.5-2B（文字·官方采样） | 2616 | **0** | 0 | **0.8%** |
 | Qwen3.5-4B（文字·greedy） | 2616 | **0** | 1 | 2.0% |
 | Qwen3.5-4B（文字·官方采样） | 2616 | **0** | 0 | **0.3%** |
+| MiniCPM5-2B（文字·greedy） | 2616 | **11** | 5 | 10.1% |
+| MiniCPM5-2B（文字·官方采样） | 2616 | 1 | 0 | **1.1%** |
 | EdgeInstant-Omni-2B（文字·greedy） | 2616 | 2 | 0 | 13.8% |
 | ASR+2B+TTS 级联（greedy） | 784 | 2 | 0 | 11.2% |
 | ASR+2B+TTS 级联（官方采样） | 784 | **0** | 0 | **0.9%** |
 | ASR+4B+TTS 级联（greedy） | 784 | **0** | 0 | 4.3% |
 | ASR+4B+TTS 级联（官方采样） | 784 | **0** | 0 | **0.3%** |
+| ASR+MiniCPM5-2B+TTS 级联（greedy） | 784 | 6 | 1 | 10.2% |
+| ASR+MiniCPM5-2B+TTS 级联（官方采样） | 784 | 2 | 1 | **1.7%** |
 | EdgeInstant-Omni-2B（音频·greedy） | 784 | 1 | 0 | 16.4% |
 
 - **Qwen3.5-2B greedy 的 5 条 severe** 全部是长文本退化（≈512 字上限附近：`坏×505`、`抓！×256`、`她怕我！×121`、`把伞当伞…×41`、`魂环的归宿×38`）；ASR+2B+TTS 级联复现其中 2 条 → 复读来自 LLM 本身，而非 ASR/TTS。
-- **换官方采样后，全部 severe 归零**（文字 track 与级联都是 0；判官 repetition 率同步降到 0.3–0.9%），但总分/角色一致性下降（见上表），说明这是"解码配置 vs 角色稳定性"的取舍，不是纯粹的模型缺陷。
+- **换官方采样后，Qwen 全部 severe 归零**（文字 track 与级联都是 0；判官 repetition 率同步降到 0.3–0.9%），但总分/角色一致性下降（见上表），说明这是"解码配置 vs 角色稳定性"的取舍，不是纯粹的模型缺陷。
+- **MiniCPM5-2B 是复读最严重的模型**：greedy 下 11 条 severe + 5 条 moderate（文字）、级联 6 条 severe；加 `repeat_penalty=1.05` 官方配置后降到 1 条 severe（文字）/ 2 条（级联）、判官 repetition 率 10.1%→1.1%。典型：rc10_s10#2 "哼！打我？"重复约 60 次；rc39_s24#2 "梦想嘛……嘛嘛嘛嘛…"重复数百字至 1021 字上限（TTS 后音频失真/长音）。
 - EdgeInstant 文字/音频各有 2/1 条 severe（greedy 部署配置），rc13_s14 与 Qwen3.5-2B 出现同款"她怕我？"循环 → 适合作为训练侧对比样本。
-- 明细见 `results/badcases/report.md`（1000+ 项跨模型对照）；quick_view.xlsx 的 13/14/15 表可筛选。
+- 明细见 `results/badcases/report.md`（14 条评测链路、同题跨模型对照）；quick_view.xlsx 的 13/14/15 表可筛选。
 
 **关于解码配置（重要）**：v0.1 的复读 badcase 与基线分数都在 **greedy（temperature=0，无 repetition/presence penalty）** 下得到；Qwen3.5 官方 README 的非思考文本推荐是 `temperature=1.0, top_p=1.0, top_k=20, min_p=0.0, presence_penalty=2.0`（这里的 2 是 **presence_penalty**，不是 repetition_penalty）。一次小规模消融（相同上下文，5 个可复现 severe 项 + 5 个正常对照）显示：官方配置把 4/4 个可复现死循环全部消除（512/514/514/710 字 → 70–107 字），判官分从 0.8–1.6 提升到 2.25–4.35，但正常对照的判官分平均略降（≈3.84 → ≈3.40）。详见 `results/badcases/decoding_ablation.md`、`decoding_ablation.json`。EdgeInstant 的部署代码本身是 greedy（`do_sample=False`），且 transformers generate 不支持 presence_penalty，因此其数字是"其默认推理配置"下的结果。
 
@@ -209,9 +223,10 @@ python -m venv .venv
 4. **场景生成**：按 30 场景配比与 40 字/语气标签约束生成，自动校验类别配比、字数、去重，不合格自动重生成。
 5. **参考答案**：DeepSeek-V4.1-Flash 以同一人设卡扮演角色，逐轮生成示范回答（作为判官参考，非唯一标准答案）。
 6. **语音数据**：`qwen-audio-3.1-tts-next` 指令式 TTS，固定参考音色（`data/voice/tester_voice_ref.wav`）+ 26 种语气标签，逐轮合成用户语音（784 条，0 失败）。
-7. **基线**：本地 Qwen3.5-2B/4B 以统一 system prompt 跑基线；同时提供两种解码配置：greedy（temperature 0，可复现）与官方采样（temperature=1.0, top_p=1.0, top_k=20, min_p=0.0, presence_penalty=2.0, seed=42），DeepSeek-V4.1-Flash（temperature 0）逐轮评分。
-8. **音频输入 track**：用户语音 → Qwen3-ASR-0.6B（本地，WER 3.76%）→ 文字 track 同款 system prompt 的 LLM（B1=2B / B2=4B，greedy 与官方采样两套）→ TTS 回放；B3 用 EdgeInstant-Omni-2B 原生音频输入。语音判官 `qwen3.8-omni-flash` 听回复音频评 5 维。
+7. **基线**：本地 Qwen3.5-2B/4B 与 MiniCPM5-2B 以统一 system prompt 跑基线；同时提供两种解码配置：greedy（temperature 0，可复现）与官方采样（Qwen: temperature=1.0, top_p=1.0, top_k=20, min_p=0.0, presence_penalty=2.0, seed=42；MiniCPM: temperature=1.0, top_p=0.95, min_p=0.0, repetition_penalty=1.05, seed=42），DeepSeek-V4.1-Flash（temperature 0）逐轮评分。
+8. **音频输入 track**：用户语音 → Qwen3-ASR-0.6B（本地，WER 3.76%）→ 文字 track 同款 system prompt 的 LLM（B1=2B / B2=4B / B4=MiniCPM5-2B，greedy 与官方采样两套）→ TTS 回放；B3 用 EdgeInstant-Omni-2B 原生音频输入。语音判官 `qwen3.8-omni-flash` 听回复音频评 5 维。
 9. **自家模型**：EdgeInstant-Omni-2B 同时跑文字 track（text-in/text-out）与音频 track（audio-in/text-out），与 Qwen3.5-2B/4B 同 prompt、同判官对照；原生 talker 784/784 轮全量（RTF 0.1503）。
+10. **MiniCPM5-2B 部署**：官方 GGUF（openbmb/MiniCPM5-2B-GGUF，Q8_0）→ 标准 llama.cpp `--jinja`，关闭 thinking（`enable_thinking:false`），`min_p=0.0`（官方提醒默认 min_p=0.05 会加重复读），官方采样加 `repeat_penalty=1.05`；文字/音频各 2 配置，0 失败。
 
 ### 语音 track 评测（v0.1 / v0.2）
 
@@ -230,3 +245,4 @@ python -m venv .venv
 - v0.1（2026-11-14）：50 卡 / 1500 场景（2616 轮）/ 文字 track 基线（Qwen3.5-2B、Qwen3.5-4B、EdgeInstant-Omni-2B）/ 语音用户数据 784 条 / **音频输入 track**（B1 ASR+2B+TTS、B2 ASR+4B+TTS、B3 EdgeInstant 原生音频；ASR WER 3.76%）/ quick_view.xlsx 15 sheets
 - v0.1.1（2026-11-14）：B3 补齐 784/784 全量原生语音（3h30m）与语音判官；新增**复读/死循环 badcase 检测**（`scripts/detect_repetition_badcases.py`，`results/badcases/report.md`，跨模型同题对比）
 - v0.2（2026-11-14）：按 Qwen3.5 官方采样配置重跑 Qwen3.5-2B/4B 文字 track 与 B1/B2 级联（T=1.0, top_p=1.0, top_k=20, min_p=0.0, presence_penalty=2.0, seed=42），重渲 1568 条回复音频并重跑文本/语音判官；新增 `results/summary.md`（greedy vs 官方采样的 tradeoff）、quick_view 15 表（含 15_解码配置对比）
+- v0.3（2026-11-18）：新增 **MiniCPM5-2B** 文字 track + 音频级联（Qwen3-ASR-0.6B + MiniCPM5-2B + Qwen3-TTS-0.6B），greedy/官方采样各一套，重渲 1568 条回复音频并跑文本/语音判官；badcase 检测扩展到 **14 条评测链路**；quick_view 16 表

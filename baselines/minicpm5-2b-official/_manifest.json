@@ -1,0 +1,46 @@
+{
+  "model": "minicpm5-2b-official",
+  "model_name": "minicpm5-2b",
+  "base_url": "http://127.0.0.1:8091",
+  "characters_dir": "E:\\Apps\\DeepSeek_Harness\\projects\\Role_Play_Cases\\data\\characters",
+  "scenes_dir": "E:\\Apps\\DeepSeek_Harness\\projects\\Role_Play_Cases\\data\\scenes",
+  "cards": 50,
+  "scenes_total": 1500,
+  "scenes_ok": 1500,
+  "scenes_failed": 0,
+  "cards_failed": 0,
+  "requests": 2616,
+  "turns": 2616,
+  "turns_failed": 0,
+  "elapsed_s": 496.96,
+  "scene_latency_s": {
+    "mean": 1.288,
+    "p50": 1.192,
+    "p95": 2.415,
+    "max": 7.734
+  },
+  "turn_latency_s": {
+    "mean": 0.739,
+    "p50": 0.701,
+    "p95": 1.266,
+    "max": 7.114
+  },
+  "avg_turn_latency_s": 0.739,
+  "manifest": "baselines\\minicpm5-2b-official\\_manifest.json",
+  "sampling": "minicpm-official",
+  "generation": {
+    "temperature": 1.0,
+    "top_p": 0.95,
+    "min_p": 0.0,
+    "seed": 42,
+    "server_side": "llama-server flags: --temp 1.0 --top-p 0.95 --min-p 0.0 --seed 42; request only temperature/max_tokens",
+    "max_tokens": 512,
+    "request_params": [
+      "temperature",
+      "max_tokens"
+    ]
+  },
+  "started_at": "2026-11-18T21:02:35",
+  "finished_at": "2026-11-18T21:10:52",
+  "cards_errors": []
+}
